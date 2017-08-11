@@ -314,7 +314,7 @@ def analyzeSentimentProList(posProbility,windowSize,posBounder,negBounder,strang
     negRatioList=[]
     sentimentValueList=[]
     strangeWordPos=[]
-    if posProbility>windowSize:
+    if posProbilityLen>windowSize:
         upBounder=posProbilityLen-windowSize
         posNum = 0
         negNum = 0
@@ -525,7 +525,8 @@ def sentiAnalyzeBaseDict(reviewDataSetName,reviewDataSetFileType,windowSize,posB
 	end=time.clock()
 	print 'sentiment Analyze based dict running time:',end-begin,'handle review num:',len(review)
 
-sentiAnalyzeBaseDict('lsj','.log',100,0.6,0.4,-8)
+if __name__=='__main__':
+    sentiAnalyzeBaseDict('lsj','.log',100,0.6,0.4,-8)
 #testLabelDataAcc()
 
 

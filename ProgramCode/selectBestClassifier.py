@@ -423,21 +423,21 @@ def get_best_parm_of_classifier():
     curAccuracy = 0.0
     bestParm=0.0
     #dimention = ['500',700, '1000','1300', '1500','1700', '2000','2200', '2500', '3000']
-    dimention=range(500,3000,200)
-    classifierMethod='KNeighborsClassifier()'
+    dimention=range(400,1000,100)
+    classifierMethod='MLPClassifier()'
     for d in dimention:
         train_set_pos, train_set_neg, test_fea, test_tag=get_trainset_testset_testtag(int(d))
         trainset,test,tag_test=get_dev_train_test_data(train_set_pos,train_set_neg)
         classifierAccList=[]
         classifierMethodList=[]
-        for alphaValue in range(1,3):
+        for alphaValue in range(90,110):
             #alphaValue=float(alphaValue)/10
-            accuracyScore=get_accuracy_score(KNeighborsClassifier(n_neighbors=6,p=alphaValue),trainset,test,tag_test)
-            classifierMethodList.append(KNeighborsClassifier(n_neighbors=6,p=alphaValue))
+            accuracyScore=get_accuracy_score(MLPClassifier(hidden_layer_sizes=alphaValue),trainset,test,tag_test)
+            classifierMethodList.append(MLPClassifier(hidden_layer_sizes=alphaValue))
             classifierAccList.append(accuracyScore)
             if accuracyScore>curAccuracy:
                 curAccuracy=accuracyScore
-                bestClassfier=KNeighborsClassifier(n_neighbors=6,p=alphaValue)
+                bestClassfier=MLPClassifier(hidden_layer_sizes=alphaValue)
                 bestDimention=d
                 bestParm=alphaValue
         f = open('D:/ReviewHelpfulnessPrediction\BuildedClassifier/' +classifierMethod+ 'classifierDimenAcc.txt', 'a')
@@ -450,17 +450,12 @@ def get_best_parm_of_classifier():
     print 'best parm is',bestParm
     return bestClassfier,bestDimention,curAccuracy
 
-
-bestClassfier,bestDimention,bestAccuracy=get_best_classfier_and_dimention_2()
-print str(bestClassfier),bestDimention,bestAccuracy
 '''存储最佳分类器 最优维度 相应精度'''
 '''D:/ReviewHelpfulnessPrediction\BuildedClassifier/'+'bestClassifierDimenAcc.txt'''
 def storeClassifierDimenAcc(classifier,dimen,acc):
     f=open('D:/ReviewHelpfulnessPrediction\BuildedClassifier/'+'bestClassifierDimenAcc.txt','w')
     f.write(classifier+'$'+dimen+'$'+acc+'\n');
     f.close()
-
-storeClassifierDimenAcc(str(bestClassfier).decode('utf-8'),str(bestDimention).decode('utf-8'),str(bestAccuracy).decode('utf-8'))
 
 '''存储分类器'''
 def store_classifier(clf, trainset, filepath):
@@ -469,9 +464,6 @@ def store_classifier(clf, trainset, filepath):
     # use pickle to store classifier
     pickle.dump(classifier, open(filepath,'w'))
 
-
-trainSet=get_trainset(int(bestDimention)) #将所有数据作为训练数据
-store_classifier(bestClassfier,trainSet,'D:/ReviewHelpfulnessPrediction\BuildedClassifier/'+str(bestClassfier)[0:15]+'.pkl')
 '''根据测试集测试在最佳分类器以及最优特征维度下的分类精度'''
 def getFinalClassifyAccuration(classifier,dimension):
     train_set_pos, train_set_neg, test_fea, test_tag = get_trainset_testset_testtag(int(dimension))
@@ -479,7 +471,19 @@ def getFinalClassifyAccuration(classifier,dimension):
     shuffle(train_set)
     print 'final classify accuracy is:',get_accuracy_score(classifier,train_set,test_fea,test_tag)
 
-getFinalClassifyAccuration(bestClassfier,bestDimention)
+'''完成 挑选分类器 存储分类器'''
+def handleSelectClfWork():
+    bestClassfier, bestDimention, bestAccuracy = get_best_classfier_and_dimention_2()
+    print str(bestClassfier), bestDimention, bestAccuracy
+    storeClassifierDimenAcc(str(bestClassfier).decode('utf-8'), str(bestDimention).decode('utf-8'),
+                            str(bestAccuracy).decode('utf-8'))
+    trainSet = get_trainset(int(bestDimention))  # 将所有数据作为训练数据
+    store_classifier(bestClassfier, trainSet,
+                     'D:/ReviewHelpfulnessPrediction\BuildedClassifier/' + str(bestClassfier)[0:15] + '.pkl')
+    getFinalClassifyAccuration(bestClassfier, bestDimention)
+
+if __name__=='__main__':
+    handleSelectClfWork()
 
 
 

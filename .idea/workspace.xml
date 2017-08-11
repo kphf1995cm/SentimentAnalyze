@@ -1,0 +1,1385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="aa013ae1-0122-4562-a533-0a342404f4e7" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestModule/web.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ProgramCode/createDict.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ProgramCode/testModule.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestModule/a.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestModule/commandTest.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestModule/pyqtTest.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestModule/pyqtTest2.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestModule/pyqtTest3.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestModule/pyqtTest4.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestModule/removeFile.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestModule/sizeTest.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestModule/test.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestModule/test__main__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestModule/timeTest.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ProgramCode/CreateDict.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProgramCode/predictDataPosNegProbility.py" afterPath="$PROJECT_DIR$/ProgramCode/predictDataPosNegProbility.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProgramCode/selectBestClassifier.py" afterPath="$PROJECT_DIR$/ProgramCode/selectBestClassifier.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProgramCode/sentimentAnalyzeBasedDict.py" afterPath="$PROJECT_DIR$/ProgramCode/sentimentAnalyzeBasedDict.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProgramCode/textProcessing.py" afterPath="$PROJECT_DIR$/ProgramCode/textProcessing.py" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$sentimentAnalyzeBasedDict.coverage" NAME="sentimentAnalyzeBasedDict Coverage Results" MODIFIED="1502359386260" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ProgramCode" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$commandTest.coverage" NAME="commandTest Coverage Results" MODIFIED="1502431953095" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TestModule" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$pyqtTest4.coverage" NAME="pyqtTest4 Coverage Results" MODIFIED="1502439587820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TestModule" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$timeTest.coverage" NAME="timeTest Coverage Results" MODIFIED="1502419725087" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TestModule" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$selectBestClassifier.coverage" NAME="selectBestClassifier Coverage Results" MODIFIED="1502435634486" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ProgramCode" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$unlabelDataProcessToLabel.coverage" NAME="unlabelDataProcessToLabel Coverage Results" MODIFIED="1502178625436" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ProgramCode" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$pyqtTest3.coverage" NAME="pyqtTest3 Coverage Results" MODIFIED="1502439020412" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TestModule" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$predictDataPosNegProbility.coverage" NAME="predictDataPosNegProbility Coverage Results" MODIFIED="1502445625883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ProgramCode" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$testModule.coverage" NAME="testModule Coverage Results" MODIFIED="1502436226360" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ProgramCode" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$snowNLP.coverage" NAME="snowNLP Coverage Results" MODIFIED="1502350379602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ProgramCode" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$test.coverage" NAME="test Coverage Results" MODIFIED="1502435236246" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TestModule" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$removeFile.coverage" NAME="removeFile Coverage Results" MODIFIED="1502448347410" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TestModule" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$Unittests_in_testModule_py.coverage" NAME="Unittests in testModule.py Coverage Results" MODIFIED="1502436207747" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ProgramCode" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$test__main__.coverage" NAME="test__main__ Coverage Results" MODIFIED="1502435108420" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TestModule" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$sizeTest.coverage" NAME="sizeTest Coverage Results" MODIFIED="1502447386371" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TestModule" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$pyqtTest2.coverage" NAME="pyqtTest2 Coverage Results" MODIFIED="1502438516626" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TestModule" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$textProcessing.coverage" NAME="textProcessing Coverage Results" MODIFIED="1502178599012" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ProgramCode" />
+    <SUITE FILE_PATH="coverage/SentimentAnalyze$pyqtTest.coverage" NAME="pyqtTest Coverage Results" MODIFIED="1502436676996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TestModule" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="predictDataPosNegProbility.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ProgramCode/predictDataPosNegProbility.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1140">
+              <caret line="356" column="37" lean-forward="false" selection-start-line="356" selection-start-column="37" selection-end-line="356" selection-end-column="37" />
+              <folding>
+                <element signature="e#41#137#1" expanded="false" />
+                <element signature="e#563#671#1" expanded="false" />
+                <element signature="e#729#821#0" expanded="false" />
+                <element signature="e#1087#2740#0" expanded="false" />
+                <element signature="e#2818#2976#0" expanded="false" />
+                <element signature="e#3070#3137#0" expanded="false" />
+                <element signature="e#3188#3375#0" expanded="false" />
+                <element signature="e#3496#3601#0" expanded="false" />
+                <element signature="e#3679#4025#0" expanded="false" />
+                <element signature="e#4498#6801#0" expanded="false" />
+                <element signature="e#6934#8247#0" expanded="false" />
+                <element signature="e#8341#10453#0" expanded="false" />
+                <element signature="e#10454#10523#0" expanded="false" />
+                <element signature="e#11009#12877#0" expanded="false" />
+                <element signature="e#13026#15233#0" expanded="false" />
+                <element signature="e#13026#13114#0" expanded="false" />
+                <element signature="e#15336#15424#0" expanded="false" />
+                <element signature="e#17772#20098#0" expanded="false" />
+                <element signature="e#20099#20166#0" expanded="false" />
+                <element signature="e#20543#21403#0" expanded="false" />
+                <element signature="e#21564#22456#0" expanded="false" />
+                <element signature="e#22542#22763#0" expanded="false" />
+                <element signature="e#22840#23276#0" expanded="false" />
+                <element signature="e#23700#25942#0" expanded="false" />
+                <element signature="e#25961#26837#0" expanded="false" />
+                <element signature="e#26981#27200#0" expanded="false" />
+                <element signature="e#27269#27502#0" expanded="false" />
+                <element signature="e#27571#27804#0" expanded="false" />
+                <element signature="e#27863#28515#0" expanded="false" />
+                <element signature="e#28620#29138#0" expanded="false" />
+                <element signature="e#29239#29535#0" expanded="false" />
+                <element signature="e#29861#30239#0" expanded="false" />
+                <element signature="e#30537#32728#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="removeFile.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/TestModule/removeFile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="232">
+              <caret line="28" column="13" lean-forward="true" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+              <folding>
+                <element signature="e#296#356#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test__main__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TestModule/test__main__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="38">
+              <caret line="2" column="12" lean-forward="false" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="a.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TestModule/a.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="textProcessing.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ProgramCode/textProcessing.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1121">
+              <caret line="74" column="56" lean-forward="false" selection-start-line="74" selection-start-column="56" selection-end-line="74" selection-end-column="56" />
+              <folding>
+                <element signature="e#1519#1796#0" expanded="false" />
+                <element signature="e#1830#1995#0" expanded="false" />
+                <element signature="e#6668#7393#0" expanded="false" />
+                <element signature="e#7990#8726#0" expanded="false" />
+                <element signature="e#9483#10031#0" expanded="false" />
+                <element signature="e#10309#10930#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sizeTest.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TestModule/sizeTest.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="utf_8.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/ProgramFiles/python-2.7.12/Lib/encodings/utf_8.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sentimentAnalyzeBasedDict.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ProgramCode/sentimentAnalyzeBasedDict.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1482">
+              <caret line="313" column="19" lean-forward="false" selection-start-line="313" selection-start-column="19" selection-end-line="313" selection-end-column="19" />
+              <folding>
+                <element signature="e#63#276#1" expanded="false" />
+                <element signature="e#1227#1567#0" expanded="false" />
+                <element signature="e#1684#2126#0" expanded="false" />
+                <element signature="e#2292#2745#0" expanded="false" />
+                <element signature="e#2747#2783#0" expanded="false" />
+                <element signature="e#3008#4297#0" expanded="false" />
+                <element signature="e#4401#6051#0" expanded="false" />
+                <element signature="e#6156#6369#0" expanded="false" />
+                <element signature="e#6464#6749#0" expanded="false" />
+                <element signature="e#6985#7678#0" expanded="false" />
+                <element signature="e#7795#8655#0" expanded="false" />
+                <element signature="e#8816#9708#0" expanded="false" />
+                <element signature="e#9778#9999#0" expanded="false" />
+                <element signature="e#10076#10512#0" expanded="false" />
+                <element signature="e#14320#14551#0" expanded="false" />
+                <element signature="e#14620#14853#0" expanded="false" />
+                <element signature="e#14922#15155#0" expanded="false" />
+                <element signature="e#15214#15866#0" expanded="false" />
+                <element signature="e#15967#16263#0" expanded="false" />
+                <element signature="e#16336#16460#0" expanded="false" />
+                <element signature="e#16529#16780#0" expanded="false" />
+                <element signature="e#16822#17957#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pyqtTest4.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TestModule/pyqtTest4.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="532">
+              <caret line="29" column="19" lean-forward="false" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
+              <folding>
+                <element signature="e#250#260#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TestModule/test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/ProgramCode/snowNLP.py" />
+        <option value="$PROJECT_DIR$/ProgramCode/CreateDict.py" />
+        <option value="$PROJECT_DIR$/ProgramCode/createDict.py" />
+        <option value="$PROJECT_DIR$/TestModule/commandTest.py" />
+        <option value="$PROJECT_DIR$/TestModule/pyqtTest.py" />
+        <option value="$PROJECT_DIR$/TestModule/timeTest.py" />
+        <option value="$PROJECT_DIR$/TestModule/test__main__.py" />
+        <option value="$PROJECT_DIR$/TestModule/test.py" />
+        <option value="$PROJECT_DIR$/ProgramCode/selectBestClassifier.py" />
+        <option value="$PROJECT_DIR$/ProgramCode/testModule.py" />
+        <option value="$PROJECT_DIR$/TestModule/pyqtTest2.py" />
+        <option value="$PROJECT_DIR$/TestModule/pyqtTest3.py" />
+        <option value="$PROJECT_DIR$/TestModule/pyqtTest4.py" />
+        <option value="$PROJECT_DIR$/ProgramCode/sentimentAnalyzeBasedDict.py" />
+        <option value="$PROJECT_DIR$/ProgramCode/predictDataPosNegProbility.py" />
+        <option value="$PROJECT_DIR$/ProgramCode/textProcessing.py" />
+        <option value="$PROJECT_DIR$/TestModule/a.txt" />
+        <option value="$PROJECT_DIR$/TestModule/sizeTest.py" />
+        <option value="$PROJECT_DIR$/TestModule/removeFile.py" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentimentAnalyze" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentimentAnalyze" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentimentAnalyze" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentimentAnalyze" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestModule" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentimentAnalyze" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentimentAnalyze" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ProgramCode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="D:/ProgramFiles/python-3.6.2-embed-amd64/python3.dll" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\kuangp@wangsu.com\PycharmProjects\SentimentAnalyze\TestModule" />
+      <recent name="C:\Users\kuangp@wangsu.com\PycharmProjects\SentimentAnalyze\ProgramCode" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.removeFile">
+    <configuration default="false" name="pyqtTest3" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TestModule" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SentimentAnalyze" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestModule/pyqtTest3.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="pyqtTest4" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TestModule" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SentimentAnalyze" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestModule/pyqtTest4.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="predictDataPosNegProbility" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ProgramCode" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SentimentAnalyze" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ProgramCode/predictDataPosNegProbility.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="removeFile" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TestModule" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SentimentAnalyze" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestModule/removeFile.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="sizeTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TestModule" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SentimentAnalyze" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestModule/sizeTest.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SentimentAnalyze" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
+      <node-interpreter value="project" />
+      <working-dir value="" />
+      <envs />
+      <scope-kind value="ALL" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SentimentAnalyze" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SentimentAnalyze" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SentimentAnalyze" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <module name="SentimentAnalyze" />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SentimentAnalyze" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SentimentAnalyze" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method />
+    </configuration>
+    <list size="5">
+      <item index="0" class="java.lang.String" itemvalue="Python.pyqtTest3" />
+      <item index="1" class="java.lang.String" itemvalue="Python.pyqtTest4" />
+      <item index="2" class="java.lang.String" itemvalue="Python.predictDataPosNegProbility" />
+      <item index="3" class="java.lang.String" itemvalue="Python.removeFile" />
+      <item index="4" class="java.lang.String" itemvalue="Python.sizeTest" />
+    </list>
+    <recent_temporary>
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python.removeFile" />
+        <item index="1" class="java.lang.String" itemvalue="Python.sizeTest" />
+        <item index="2" class="java.lang.String" itemvalue="Python.predictDataPosNegProbility" />
+        <item index="3" class="java.lang.String" itemvalue="Python.pyqtTest4" />
+        <item index="4" class="java.lang.String" itemvalue="Python.pyqtTest3" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="aa013ae1-0122-4562-a533-0a342404f4e7" name="Default" comment="" />
+      <created>1502178126310</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1502178126310</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Unittests_in_testModule_py - 2017.08.11 at 15h 23m 36s.xml">
+      <configuration name="Unittests in testModule.py" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40261865" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2322239" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32744783" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/ProgramCode/predictDataPosNegProbility.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1140">
+          <caret line="356" column="37" lean-forward="false" selection-start-line="356" selection-start-column="37" selection-end-line="356" selection-end-column="37" />
+          <folding>
+            <element signature="e#41#137#1" expanded="false" />
+            <element signature="e#563#671#1" expanded="false" />
+            <element signature="e#729#821#0" expanded="false" />
+            <element signature="e#1087#2740#0" expanded="false" />
+            <element signature="e#2818#2976#0" expanded="false" />
+            <element signature="e#3070#3137#0" expanded="false" />
+            <element signature="e#3188#3375#0" expanded="false" />
+            <element signature="e#3496#3601#0" expanded="false" />
+            <element signature="e#3679#4025#0" expanded="false" />
+            <element signature="e#4498#6801#0" expanded="false" />
+            <element signature="e#6934#8247#0" expanded="false" />
+            <element signature="e#8341#10453#0" expanded="false" />
+            <element signature="e#10454#10523#0" expanded="false" />
+            <element signature="e#11009#12877#0" expanded="false" />
+            <element signature="e#13026#15233#0" expanded="false" />
+            <element signature="e#13026#13114#0" expanded="false" />
+            <element signature="e#15336#15424#0" expanded="false" />
+            <element signature="e#17772#20098#0" expanded="false" />
+            <element signature="e#20099#20166#0" expanded="false" />
+            <element signature="e#20543#21403#0" expanded="false" />
+            <element signature="e#21564#22456#0" expanded="false" />
+            <element signature="e#22542#22763#0" expanded="false" />
+            <element signature="e#22840#23276#0" expanded="false" />
+            <element signature="e#23700#25942#0" expanded="false" />
+            <element signature="e#25961#26837#0" expanded="false" />
+            <element signature="e#26981#27200#0" expanded="false" />
+            <element signature="e#27269#27502#0" expanded="false" />
+            <element signature="e#27571#27804#0" expanded="false" />
+            <element signature="e#27863#28515#0" expanded="false" />
+            <element signature="e#28620#29138#0" expanded="false" />
+            <element signature="e#29239#29535#0" expanded="false" />
+            <element signature="e#29861#30239#0" expanded="false" />
+            <element signature="e#30537#32728#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/removeFile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="32" column="15" lean-forward="true" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
+          <folding>
+            <element signature="e#296#356#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/test__main__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="12" lean-forward="true" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/a.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="5" lean-forward="true" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/textProcessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1121">
+          <caret line="74" column="56" lean-forward="true" selection-start-line="74" selection-start-column="56" selection-end-line="74" selection-end-column="56" />
+          <folding>
+            <element signature="e#1519#1796#0" expanded="false" />
+            <element signature="e#1830#1995#0" expanded="false" />
+            <element signature="e#6668#7393#0" expanded="false" />
+            <element signature="e#7990#8726#0" expanded="false" />
+            <element signature="e#9483#10031#0" expanded="false" />
+            <element signature="e#10309#10930#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/ProgramFiles/python-2.7.12/Lib/encodings/utf_8.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/sentimentAnalyzeBasedDict.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1482">
+          <caret line="313" column="19" lean-forward="true" selection-start-line="313" selection-start-column="19" selection-end-line="313" selection-end-column="19" />
+          <folding>
+            <element signature="e#63#276#1" expanded="false" />
+            <element signature="e#1227#1567#0" expanded="false" />
+            <element signature="e#1684#2126#0" expanded="false" />
+            <element signature="e#2292#2745#0" expanded="false" />
+            <element signature="e#2747#2783#0" expanded="false" />
+            <element signature="e#3008#4297#0" expanded="false" />
+            <element signature="e#4401#6051#0" expanded="false" />
+            <element signature="e#6156#6369#0" expanded="false" />
+            <element signature="e#6464#6749#0" expanded="false" />
+            <element signature="e#6985#7678#0" expanded="false" />
+            <element signature="e#7795#8655#0" expanded="false" />
+            <element signature="e#8816#9708#0" expanded="false" />
+            <element signature="e#9778#9999#0" expanded="false" />
+            <element signature="e#10076#10512#0" expanded="false" />
+            <element signature="e#14320#14551#0" expanded="false" />
+            <element signature="e#14620#14853#0" expanded="false" />
+            <element signature="e#14922#15155#0" expanded="false" />
+            <element signature="e#15214#15866#0" expanded="false" />
+            <element signature="e#15967#16263#0" expanded="false" />
+            <element signature="e#16336#16460#0" expanded="false" />
+            <element signature="e#16529#16780#0" expanded="false" />
+            <element signature="e#16822#17957#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/pyqtTest4.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="29" column="19" lean-forward="true" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
+          <folding>
+            <element signature="e#250#260#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/sizeTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="10" lean-forward="true" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/predictDataPosNegProbility.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1824">
+          <caret line="658" column="48" lean-forward="true" selection-start-line="658" selection-start-column="48" selection-end-line="658" selection-end-column="48" />
+          <folding>
+            <element signature="e#41#137#1" expanded="false" />
+            <element signature="e#563#671#1" expanded="false" />
+            <element signature="e#729#821#0" expanded="false" />
+            <element signature="e#1087#2740#0" expanded="false" />
+            <element signature="e#2818#2976#0" expanded="false" />
+            <element signature="e#3070#3137#0" expanded="false" />
+            <element signature="e#3188#3375#0" expanded="false" />
+            <element signature="e#3496#3601#0" expanded="false" />
+            <element signature="e#3679#4025#0" expanded="false" />
+            <element signature="e#4498#6801#0" expanded="false" />
+            <element signature="e#6934#8247#0" expanded="false" />
+            <element signature="e#8341#10453#0" expanded="false" />
+            <element signature="e#10454#10523#0" expanded="false" />
+            <element signature="e#11009#12877#0" expanded="false" />
+            <element signature="e#13026#15233#0" expanded="false" />
+            <element signature="e#13026#13114#0" expanded="false" />
+            <element signature="e#15336#15424#0" expanded="false" />
+            <element signature="e#17772#20098#0" expanded="false" />
+            <element signature="e#20099#20166#0" expanded="false" />
+            <element signature="e#20543#21403#0" expanded="false" />
+            <element signature="e#21564#22456#0" expanded="false" />
+            <element signature="e#22542#22763#0" expanded="false" />
+            <element signature="e#22840#23276#0" expanded="false" />
+            <element signature="e#23700#25942#0" expanded="false" />
+            <element signature="e#25961#26837#0" expanded="false" />
+            <element signature="e#26981#27200#0" expanded="false" />
+            <element signature="e#27269#27502#0" expanded="false" />
+            <element signature="e#27571#27804#0" expanded="false" />
+            <element signature="e#27863#28515#0" expanded="false" />
+            <element signature="e#28620#29138#0" expanded="false" />
+            <element signature="e#29239#29535#0" expanded="false" />
+            <element signature="e#29861#30239#0" expanded="false" />
+            <element signature="e#30537#32728#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/snowNLP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/selectBestClassifier.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2147">
+          <caret line="481" column="55" lean-forward="true" selection-start-line="481" selection-start-column="55" selection-end-line="481" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/textProcessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <element signature="e#1519#1796#0" expanded="false" />
+            <element signature="e#1830#1995#0" expanded="false" />
+            <element signature="e#6668#7393#0" expanded="false" />
+            <element signature="e#7990#8726#0" expanded="false" />
+            <element signature="e#9483#10031#0" expanded="false" />
+            <element signature="e#10309#10930#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/unlabelDataProcessToLabel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="931">
+          <caret line="183" column="15" lean-forward="false" selection-start-line="183" selection-start-column="4" selection-end-line="183" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/sentimentAnalyzeBasedDict.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1843">
+          <caret line="527" column="49" lean-forward="true" selection-start-line="527" selection-start-column="49" selection-end-line="527" selection-end-column="49" />
+          <folding>
+            <element signature="e#63#276#1" expanded="false" />
+            <element signature="e#1227#1567#0" expanded="false" />
+            <element signature="e#1684#2126#0" expanded="false" />
+            <element signature="e#2292#2745#0" expanded="false" />
+            <element signature="e#2747#2783#0" expanded="false" />
+            <element signature="e#3008#4297#0" expanded="false" />
+            <element signature="e#4401#6051#0" expanded="false" />
+            <element signature="e#6156#6369#0" expanded="false" />
+            <element signature="e#6464#6749#0" expanded="false" />
+            <element signature="e#6985#7678#0" expanded="false" />
+            <element signature="e#7795#8655#0" expanded="false" />
+            <element signature="e#8816#9708#0" expanded="false" />
+            <element signature="e#9778#9999#0" expanded="false" />
+            <element signature="e#10076#10512#0" expanded="false" />
+            <element signature="e#14320#14551#0" expanded="false" />
+            <element signature="e#14620#14853#0" expanded="false" />
+            <element signature="e#14922#15155#0" expanded="false" />
+            <element signature="e#15214#15866#0" expanded="false" />
+            <element signature="e#15967#16263#0" expanded="false" />
+            <element signature="e#16336#16460#0" expanded="false" />
+            <element signature="e#16529#16780#0" expanded="false" />
+            <element signature="e#16822#17957#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/predictDataPosNegProbility.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="24" column="6" lean-forward="false" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
+          <folding>
+            <element signature="e#41#137#1" expanded="false" />
+            <element signature="e#563#671#1" expanded="false" />
+            <element signature="e#729#821#0" expanded="false" />
+            <element signature="e#1087#2740#0" expanded="false" />
+            <element signature="e#2818#2976#0" expanded="false" />
+            <element signature="e#3070#3137#0" expanded="false" />
+            <element signature="e#3188#3375#0" expanded="false" />
+            <element signature="e#3496#3601#0" expanded="false" />
+            <element signature="e#3679#4025#0" expanded="false" />
+            <element signature="e#4498#6801#0" expanded="false" />
+            <element signature="e#6934#8247#0" expanded="false" />
+            <element signature="e#8341#10453#0" expanded="false" />
+            <element signature="e#10454#10523#0" expanded="false" />
+            <element signature="e#11009#12877#0" expanded="false" />
+            <element signature="e#13026#15233#0" expanded="false" />
+            <element signature="e#13026#13114#0" expanded="false" />
+            <element signature="e#15336#15424#0" expanded="false" />
+            <element signature="e#17772#20098#0" expanded="false" />
+            <element signature="e#20099#20166#0" expanded="false" />
+            <element signature="e#20543#21403#0" expanded="false" />
+            <element signature="e#21564#22456#0" expanded="false" />
+            <element signature="e#22542#22763#0" expanded="false" />
+            <element signature="e#22840#23276#0" expanded="false" />
+            <element signature="e#23700#25942#0" expanded="false" />
+            <element signature="e#25961#26837#0" expanded="false" />
+            <element signature="e#26981#27200#0" expanded="false" />
+            <element signature="e#27269#27502#0" expanded="false" />
+            <element signature="e#27571#27804#0" expanded="false" />
+            <element signature="e#27863#28515#0" expanded="false" />
+            <element signature="e#28620#29138#0" expanded="false" />
+            <element signature="e#29239#29535#0" expanded="false" />
+            <element signature="e#29861#30239#0" expanded="false" />
+            <element signature="e#30537#32728#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/snowNLP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/textProcessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="e#1519#1796#0" expanded="false" />
+            <element signature="e#1830#1995#0" expanded="false" />
+            <element signature="e#6668#7393#0" expanded="false" />
+            <element signature="e#7990#8726#0" expanded="false" />
+            <element signature="e#9483#10031#0" expanded="false" />
+            <element signature="e#10309#10930#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/unlabelDataProcessToLabel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="931">
+          <caret line="183" column="15" lean-forward="false" selection-start-line="183" selection-start-column="4" selection-end-line="183" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/sentimentAnalyzeBasedDict.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1938">
+          <caret line="532" column="0" lean-forward="true" selection-start-line="532" selection-start-column="0" selection-end-line="532" selection-end-column="0" />
+          <folding>
+            <element signature="e#63#276#1" expanded="false" />
+            <element signature="e#1227#1567#0" expanded="false" />
+            <element signature="e#1684#2126#0" expanded="false" />
+            <element signature="e#2292#2745#0" expanded="false" />
+            <element signature="e#2747#2783#0" expanded="false" />
+            <element signature="e#3008#4297#0" expanded="false" />
+            <element signature="e#4401#6051#0" expanded="false" />
+            <element signature="e#6156#6369#0" expanded="false" />
+            <element signature="e#6464#6749#0" expanded="false" />
+            <element signature="e#6985#7678#0" expanded="false" />
+            <element signature="e#7795#8655#0" expanded="false" />
+            <element signature="e#8816#9708#0" expanded="false" />
+            <element signature="e#9778#9999#0" expanded="false" />
+            <element signature="e#10076#10512#0" expanded="false" />
+            <element signature="e#14320#14551#0" expanded="false" />
+            <element signature="e#14620#14853#0" expanded="false" />
+            <element signature="e#14922#15155#0" expanded="false" />
+            <element signature="e#15214#15866#0" expanded="false" />
+            <element signature="e#15967#16263#0" expanded="false" />
+            <element signature="e#16336#16460#0" expanded="false" />
+            <element signature="e#16529#16780#0" expanded="false" />
+            <element signature="e#16822#17957#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/selectBestClassifier.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2698">
+          <caret line="200" column="22" lean-forward="true" selection-start-line="200" selection-start-column="22" selection-end-line="200" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/predictDataPosNegProbility.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="24" column="6" lean-forward="true" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
+          <folding>
+            <element signature="e#41#137#1" expanded="false" />
+            <element signature="e#563#671#1" expanded="false" />
+            <element signature="e#729#821#0" expanded="false" />
+            <element signature="e#1087#2740#0" expanded="false" />
+            <element signature="e#2818#2976#0" expanded="false" />
+            <element signature="e#3070#3137#0" expanded="false" />
+            <element signature="e#3188#3375#0" expanded="false" />
+            <element signature="e#3496#3601#0" expanded="false" />
+            <element signature="e#3679#4025#0" expanded="false" />
+            <element signature="e#4498#6801#0" expanded="false" />
+            <element signature="e#6934#8247#0" expanded="false" />
+            <element signature="e#8341#10453#0" expanded="false" />
+            <element signature="e#10454#10523#0" expanded="false" />
+            <element signature="e#11009#12877#0" expanded="false" />
+            <element signature="e#13026#15233#0" expanded="false" />
+            <element signature="e#13026#13114#0" expanded="false" />
+            <element signature="e#15336#15424#0" expanded="false" />
+            <element signature="e#17772#20098#0" expanded="false" />
+            <element signature="e#20099#20166#0" expanded="false" />
+            <element signature="e#20543#21403#0" expanded="false" />
+            <element signature="e#21564#22456#0" expanded="false" />
+            <element signature="e#22542#22763#0" expanded="false" />
+            <element signature="e#22840#23276#0" expanded="false" />
+            <element signature="e#23700#25942#0" expanded="false" />
+            <element signature="e#25961#26837#0" expanded="false" />
+            <element signature="e#26981#27200#0" expanded="false" />
+            <element signature="e#27269#27502#0" expanded="false" />
+            <element signature="e#27571#27804#0" expanded="false" />
+            <element signature="e#27863#28515#0" expanded="false" />
+            <element signature="e#28620#29138#0" expanded="false" />
+            <element signature="e#29239#29535#0" expanded="false" />
+            <element signature="e#29861#30239#0" expanded="false" />
+            <element signature="e#30537#32728#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/snowNLP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/selectBestClassifier.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/textProcessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="e#1519#1796#0" expanded="false" />
+            <element signature="e#1830#1995#0" expanded="false" />
+            <element signature="e#6668#7393#0" expanded="false" />
+            <element signature="e#7990#8726#0" expanded="false" />
+            <element signature="e#9483#10031#0" expanded="false" />
+            <element signature="e#10309#10930#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/unlabelDataProcessToLabel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="931">
+          <caret line="183" column="15" lean-forward="false" selection-start-line="183" selection-start-column="4" selection-end-line="183" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/sentimentAnalyzeBasedDict.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1862">
+          <caret line="528" column="1" lean-forward="false" selection-start-line="528" selection-start-column="1" selection-end-line="528" selection-end-column="1" />
+          <folding>
+            <element signature="e#63#276#1" expanded="false" />
+            <element signature="e#1227#1567#0" expanded="false" />
+            <element signature="e#1684#2126#0" expanded="false" />
+            <element signature="e#2292#2745#0" expanded="false" />
+            <element signature="e#2747#2783#0" expanded="false" />
+            <element signature="e#3008#4297#0" expanded="false" />
+            <element signature="e#4401#6051#0" expanded="false" />
+            <element signature="e#6156#6369#0" expanded="false" />
+            <element signature="e#6464#6749#0" expanded="false" />
+            <element signature="e#6985#7678#0" expanded="false" />
+            <element signature="e#7795#8655#0" expanded="false" />
+            <element signature="e#8816#9708#0" expanded="false" />
+            <element signature="e#9778#9999#0" expanded="false" />
+            <element signature="e#10076#10512#0" expanded="false" />
+            <element signature="e#14320#14551#0" expanded="false" />
+            <element signature="e#14620#14853#0" expanded="false" />
+            <element signature="e#14922#15155#0" expanded="false" />
+            <element signature="e#15214#15866#0" expanded="false" />
+            <element signature="e#15967#16263#0" expanded="false" />
+            <element signature="e#16336#16460#0" expanded="false" />
+            <element signature="e#16529#16780#0" expanded="false" />
+            <element signature="e#16822#17957#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="13" column="28" lean-forward="true" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/timeTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/createDict.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="15" column="15" lean-forward="false" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/selectBestClassifier.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="488" column="0" lean-forward="true" selection-start-line="488" selection-start-column="0" selection-end-line="488" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/unlabelDataProcessToLabel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="177" column="5" lean-forward="true" selection-start-line="177" selection-start-column="0" selection-end-line="180" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/snowNLP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/testModule.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="41" lean-forward="true" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/commandTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/pyqtTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/pyqtTest2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/pyqtTest3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="32" column="24" lean-forward="true" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/pyqtTest4.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="29" column="19" lean-forward="false" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
+          <folding>
+            <element signature="e#250#260#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/sentimentAnalyzeBasedDict.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1482">
+          <caret line="313" column="19" lean-forward="false" selection-start-line="313" selection-start-column="19" selection-end-line="313" selection-end-column="19" />
+          <folding>
+            <element signature="e#63#276#1" expanded="false" />
+            <element signature="e#1227#1567#0" expanded="false" />
+            <element signature="e#1684#2126#0" expanded="false" />
+            <element signature="e#2292#2745#0" expanded="false" />
+            <element signature="e#2747#2783#0" expanded="false" />
+            <element signature="e#3008#4297#0" expanded="false" />
+            <element signature="e#4401#6051#0" expanded="false" />
+            <element signature="e#6156#6369#0" expanded="false" />
+            <element signature="e#6464#6749#0" expanded="false" />
+            <element signature="e#6985#7678#0" expanded="false" />
+            <element signature="e#7795#8655#0" expanded="false" />
+            <element signature="e#8816#9708#0" expanded="false" />
+            <element signature="e#9778#9999#0" expanded="false" />
+            <element signature="e#10076#10512#0" expanded="false" />
+            <element signature="e#14320#14551#0" expanded="false" />
+            <element signature="e#14620#14853#0" expanded="false" />
+            <element signature="e#14922#15155#0" expanded="false" />
+            <element signature="e#15214#15866#0" expanded="false" />
+            <element signature="e#15967#16263#0" expanded="false" />
+            <element signature="e#16336#16460#0" expanded="false" />
+            <element signature="e#16529#16780#0" expanded="false" />
+            <element signature="e#16822#17957#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/ProgramFiles/python-2.7.12/Lib/encodings/utf_8.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/predictDataPosNegProbility.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1140">
+          <caret line="356" column="37" lean-forward="false" selection-start-line="356" selection-start-column="37" selection-end-line="356" selection-end-column="37" />
+          <folding>
+            <element signature="e#41#137#1" expanded="false" />
+            <element signature="e#563#671#1" expanded="false" />
+            <element signature="e#729#821#0" expanded="false" />
+            <element signature="e#1087#2740#0" expanded="false" />
+            <element signature="e#2818#2976#0" expanded="false" />
+            <element signature="e#3070#3137#0" expanded="false" />
+            <element signature="e#3188#3375#0" expanded="false" />
+            <element signature="e#3496#3601#0" expanded="false" />
+            <element signature="e#3679#4025#0" expanded="false" />
+            <element signature="e#4498#6801#0" expanded="false" />
+            <element signature="e#6934#8247#0" expanded="false" />
+            <element signature="e#8341#10453#0" expanded="false" />
+            <element signature="e#10454#10523#0" expanded="false" />
+            <element signature="e#11009#12877#0" expanded="false" />
+            <element signature="e#13026#15233#0" expanded="false" />
+            <element signature="e#13026#13114#0" expanded="false" />
+            <element signature="e#15336#15424#0" expanded="false" />
+            <element signature="e#17772#20098#0" expanded="false" />
+            <element signature="e#20099#20166#0" expanded="false" />
+            <element signature="e#20543#21403#0" expanded="false" />
+            <element signature="e#21564#22456#0" expanded="false" />
+            <element signature="e#22542#22763#0" expanded="false" />
+            <element signature="e#22840#23276#0" expanded="false" />
+            <element signature="e#23700#25942#0" expanded="false" />
+            <element signature="e#25961#26837#0" expanded="false" />
+            <element signature="e#26981#27200#0" expanded="false" />
+            <element signature="e#27269#27502#0" expanded="false" />
+            <element signature="e#27571#27804#0" expanded="false" />
+            <element signature="e#27863#28515#0" expanded="false" />
+            <element signature="e#28620#29138#0" expanded="false" />
+            <element signature="e#29239#29535#0" expanded="false" />
+            <element signature="e#29861#30239#0" expanded="false" />
+            <element signature="e#30537#32728#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/test__main__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="12" lean-forward="false" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/a.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramCode/textProcessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1121">
+          <caret line="74" column="56" lean-forward="false" selection-start-line="74" selection-start-column="56" selection-end-line="74" selection-end-column="56" />
+          <folding>
+            <element signature="e#1519#1796#0" expanded="false" />
+            <element signature="e#1830#1995#0" expanded="false" />
+            <element signature="e#6668#7393#0" expanded="false" />
+            <element signature="e#7990#8726#0" expanded="false" />
+            <element signature="e#9483#10031#0" expanded="false" />
+            <element signature="e#10309#10930#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/sizeTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestModule/removeFile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="28" column="13" lean-forward="true" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+          <folding>
+            <element signature="e#296#356#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

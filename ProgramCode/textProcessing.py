@@ -65,6 +65,28 @@ def get_txt_data(filepath, para):
         txt_data2 = txt_tmp.decode('utf-8')
         txt_file2.close()
         return txt_data2
+'''读完文件后清空文件'''
+def get_txt_data_from_pos(windowSize,filepath, para,pos):
+    if para == 'lines':
+        txt_file1 = open(filepath, 'r')
+        txt_file1.seek(pos,0)
+        txt_tmp1 = txt_file1.readlines()
+        txt_tmp2 = ''.join(txt_tmp1)
+        txt_data1 = txt_tmp2.decode('utf-8').split('\n')
+        txt_data1.pop(len(txt_data1)-1) #去掉最后一行，因为最后一行有可能为空
+        cur_pos=txt_file1.tell()
+        txt_file1.close()
+        return txt_data1,cur_pos
+    elif para == 'line':
+        txt_file2 = open(filepath, 'r')
+        txt_file2.seek(pos, 0)
+        txt_tmp = txt_file2.readline()
+        txt_data2 = txt_tmp.decode('utf-8')
+        cur_pos = txt_file2.tell()
+        txt_file2.close()
+        return txt_data2,cur_pos
+
+
 
 
 """
@@ -269,6 +291,24 @@ def seg_fil_txt(filepath,para):
 
     # Return filtered segment reviews
     return seg_fil_result
+
+def seg_fil_sentences(raw_data):
+    review_data = []
+    for single_data in raw_data:
+        review_data.append(segmentation(single_data, 'list'))
+        # Read txt file contain stopwords
+    stopwords = get_txt_data('D:/ReviewHelpfulnessPrediction/PreprocessingModule/stopword.txt', 'lines')
+
+    # Filter stopwords from reviews
+    seg_fil_result = []
+    for review in review_data:
+        fil = [word for word in review if word not in stopwords and word != ' ']
+        seg_fil_result.append(fil)
+        fil = []
+
+    # Return filtered segment reviews
+    return seg_fil_result
+
 '''
 中文分词并去停用词
 将txt文件里所有数据当做一条记录处理
