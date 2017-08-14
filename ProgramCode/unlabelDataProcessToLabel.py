@@ -53,7 +53,7 @@ def filt_objective_sentence(srcpath,para,dstpath):
 	end=time.clock()
 	print 'filt objective reviews time:',end-begin,'handle review num:',len(raw_data),'subjective review num:',count
 	return count
-#filt_objective_sentence('D:/ReviewHelpfulnessPrediction\BulletData/lsj.log','lines','D:/ReviewHelpfulnessPrediction\BulletData/lsjFiltObj.txt')
+#filt_objective_sentence('D:/ReviewHelpfulnessPrediction\BulletData/763137.txt','lines','D:/ReviewHelpfulnessPrediction\BulletData/763137FiltObj.txt')
 
 '''删除已过滤的重复评论'''
 '''源数据格式为txt文件，将评论保存在excel文件中 格式为 评论：出现次数'''
@@ -93,8 +93,36 @@ def remove_duplicate_comment(srcpath,para,excelpath):
 	end=time.clock()
 	print 'remove same reviews time:', end - begin, 'handle review num:',pre_count,'different review num:',cur_count
 	return pre_count,cur_count
-#remove_duplicate_comment('D:/ReviewHelpfulnessPrediction\BulletData/lsjFiltObj.txt','lines','D:/ReviewHelpfulnessPrediction\LabelReviewData/lsj_test_data.xls')
+#remove_duplicate_comment('D:/ReviewHelpfulnessPrediction\BulletData/763137FiltObj.txt','lines','D:/ReviewHelpfulnessPrediction\LabelReviewData/763137.xls')
 
+'''txt 转 excel'''
+def change_txt_to_excel(srcpath,para,excelpath):
+	begin = time.clock()
+	raw_data = tp.get_txt_data(srcpath, para)
+	excel_file = xlwt.Workbook(encoding='utf-8')
+	sheet_name = 'label_data'
+	sheet_pos = 1
+	excel_sheet = excel_file.add_sheet(sheet_name + str(sheet_pos))
+	row_pos = 0
+	excel_sheet.write(row_pos, 0, 'review_data')
+	excel_sheet.write(row_pos, 1, 'review_count')
+	row_pos += 1
+	for w in raw_data:
+		if row_pos == 65536:
+			sheet_pos += 1
+			excel_sheet = excel_file.add_sheet(sheet_name + str(sheet_pos))
+			row_pos = 0
+			excel_sheet.write(row_pos, 0, 'review_data')
+			excel_sheet.write(row_pos, 1, 'review_count')
+			row_pos += 1
+		excel_sheet.write(row_pos, 0, w)
+		excel_sheet.write(row_pos, 1, str(1))
+		row_pos += 1
+	excel_file.save(excelpath)
+	end = time.clock()
+	print 'remove same reviews time:', end - begin, 'handle review num:', len(raw_data)
+
+#change_txt_to_excel('D:/crambData\crambData7/output3.txt','lines','D:/ReviewHelpfulnessPrediction\LabelReviewData/wms.xls')
 
 '''检查标记数据 看看是否出现格式错误，如出现，显示出现错误的行数,并返回正确标记的数据'''
 '''参数 labelRowNum为已标记的行数量'''
@@ -174,9 +202,8 @@ def save_label_data_to_spe_name(labelDataPath, labelRowNum, labelDataDir,speName
 	eroNorFile.save(labelDataDir + '/' +speName+  'eroNorLabelData.xls')
 	end=time.clock()
 	print 'insepect label data is:',end-begin,'handle data num is:',labelDataNum
-
-# save_label_data_to_spe_name('D:/ReviewHelpfulnessPrediction\LabelReviewData/label_review_count_data.xls', 1400,
-# 				 'D:/ReviewHelpfulnessPrediction\LabelReviewData','lsj')
+#save_label_data_to_spe_name('D:/ReviewHelpfulnessPrediction\LabelReviewData/wms.xls', 1000,
+# 				 'D:/ReviewHelpfulnessPrediction\LabelReviewData','wms')
 # save_label_data_to_spe_name('D:/ReviewHelpfulnessPrediction\LabelReviewData/pdd_label_data.xls', 200,
 # 				 'D:/ReviewHelpfulnessPrediction\LabelReviewData','pdd')
 '''将多个主播房间标记数据合并在一起 按照主客观 积消极 鉴黄 分类合并'''
@@ -210,7 +237,7 @@ def unionFewLabelData(labelDataDir,speNameList):
 	end=time.clock()
 	print 'union label data time is:',end-begin
 
-# unionFewLabelData('D:/ReviewHelpfulnessPrediction\LabelReviewData',['lsj','pdd'])
+#unionFewLabelData('D:/ReviewHelpfulnessPrediction\LabelReviewData',['lsj','pdd','763137Label','wms'])
 
 
 

@@ -65,8 +65,8 @@ def get_txt_data(filepath, para):
         txt_data2 = txt_tmp.decode('utf-8')
         txt_file2.close()
         return txt_data2
-'''读完文件后清空文件'''
-def get_txt_data_from_pos(windowSize,filepath, para,pos):
+'''从指定位置处读取文件内容'''
+def get_txt_data_from_pos(filepath, para,pos):
     if para == 'lines':
         txt_file1 = open(filepath, 'r')
         txt_file1.seek(pos,0)
@@ -87,8 +87,32 @@ def get_txt_data_from_pos(windowSize,filepath, para,pos):
         return txt_data2,cur_pos
 
 
-
-
+'''读完文件后返回windowSize-1行位置'''
+def get_txt_data_from_window_pos(windowSize,filepath, para,pos):
+    if para == 'lines':
+        f = open(filepath, 'r')
+        f.seek(pos,0)
+        row_pos=[]
+        row_data=[]
+        row_count=0
+        while True:
+            line=f.readline()
+            if line:
+                row_data.append(line)
+                row_count+=1
+                row_pos.append(len(line))
+            else:
+                break
+        data_str=''.join(row_data)
+        data_list=data_str.decode('utf-8').split('\n')
+        f.close()
+        if row_count<windowSize:
+            return data_list,pos
+        else:
+            pos_sum=0
+            for pos in range(row_count-windowSize+1):
+                pos_sum+=row_pos[pos]
+            return data_list,pos_sum
 """
 分词操作
 input: 这款手机大小合适。
