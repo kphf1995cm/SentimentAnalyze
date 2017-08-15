@@ -256,6 +256,10 @@ def neg_features(feature_extraction_method,best_words):
 '''
 def get_trainset_testset_testtag(dimension):
     best_words=find_best_words(dimension)
+    #增加标注的关键词
+    select_key_words = tp.get_txt_data('D:/ReviewHelpfulnessPrediction\KeyWords/PosNegKeyWords.txt', 'lines')
+    for x in select_key_words:
+        best_words.add(x)
     posFeatures = pos_features(best_word_features_com,best_words) #提取积极文本里面的数据
     negFeatures = neg_features(best_word_features_com,best_words) #提取消极文本里面的数据
     # shuffle(posFeatures)  # 将序列的所有元素随机排列
@@ -286,6 +290,10 @@ def get_dev_train_test_data(train_set_pos,train_set_neg):
 '''
 def get_trainset(dimension):
     best_words=find_best_words(dimension) #排序 挑前dimension个
+    # 增加标注的关键词
+    select_key_words=tp.get_txt_data('D:/ReviewHelpfulnessPrediction\KeyWords/PosNegKeyWords.txt','lines')
+    for x in select_key_words:
+        best_words.add(x)
     posFeatures = pos_features(best_word_features_com,best_words) #提取积极文本里面的数据
     negFeatures = neg_features(best_word_features_com,best_words) #提取消极文本里面的数据
     shuffle(posFeatures)  # 将序列的所有元素随机排列
@@ -298,24 +306,6 @@ def get_trainset(dimension):
 
 '''4 训练分类器，并且评估分类效果'''
 
-# train_set,test,tag_test=get_trainset_testset_testtag(1500)
-# def clf_score(classifier):
-#     classifier = SklearnClassifier(classifier)
-#     classifier.train(train_set)
-#     predict = classifier.batch_classify(test)
-#     return accuracy_score(tag_test, predict)
-#
-# print 'BernoulliNB`s accuracy is %f' %clf_score(BernoulliNB())
-# #print 'GaussianNB`s accuracy is %f' %clf_score(GaussianNB())
-# print 'MultinomiaNB`s accuracy is %f' %clf_score(MultinomialNB())
-# print 'LogisticRegression`s accuracy is %f' %clf_score(LogisticRegression())
-# print 'SVC`s accuracy is %f' %clf_score(SVC(gamma=0.001, C=100., kernel='linear'))
-# print 'LinearSVC`s accuracy is %f' %clf_score(LinearSVC())
-# print 'NuSVC`s accuracy is %f' %clf_score(NuSVC())
-
-
-
-# 5. After finding the best classifier, then check different dimension classification accuracy
 
 '''获取分类器精度'''
 def get_accuracy_score(classifier,train_set,test,tag_test):
@@ -333,7 +323,7 @@ def get_best_classfier_and_dimention():
     bestClassfier = ''
     bestDimention = '0'
     curAccuracy = 0.0
-    dimention = range(500, 3100, 200)
+    dimention = range(500, 3500, 200)
     for d in dimention:
         train_set_pos, train_set_neg, test_fea, test_tag=get_trainset_testset_testtag(int(d))
         trainset,test,tag_test=get_dev_train_test_data(train_set_pos,train_set_neg)
@@ -395,7 +385,7 @@ def get_best_classfier_and_dimention_2():
     bestDimention = '0'
     curAccuracy = 0.0
     dimention = range(500,3100,200)
-    classifierMethodList=[BernoulliNB(alpha=0.1),MultinomialNB(alpha=0.1),LogisticRegression(intercept_scaling=0.1),NuSVC(probability=True),KNeighborsClassifier(n_neighbors=6,p=1)]#,MLPClassifier()
+    classifierMethodList=[BernoulliNB(alpha=0.1),MultinomialNB(alpha=0.1),LogisticRegression(intercept_scaling=0.1),NuSVC(probability=True)]#,KNeighborsClassifier(n_neighbors=6,p=1),MLPClassifier()
     for d in dimention:
         train_set_pos, train_set_neg, test_fea, test_tag=get_trainset_testset_testtag(int(d))
         trainset,test,tag_test=get_dev_train_test_data(train_set_pos,train_set_neg)
@@ -407,7 +397,7 @@ def get_best_classfier_and_dimention_2():
                 curAccuracy=accuracyScore
                 bestClassfier=classifierMethod
                 bestDimention=d
-        classifierNameList=['BernoulliNB()','MultinomialNB()','LogisticRegression()','NuSVC()','KNeighborsClassifier()']#,'MLPClassifier()
+        classifierNameList=['BernoulliNB()','MultinomialNB()','LogisticRegression()','NuSVC()']#,,'KNeighborsClassifier()''MLPClassifier()
         f = open('D:/ReviewHelpfulnessPrediction\BuildedClassifier/' + 'classifierDimenAcc.txt', 'a')
         for pos in range(len(classifierAccList)):
             f.write(str(classifierNameList[pos])+'\t'+str(d)+'\t'+str(classifierAccList[pos])+'\n')

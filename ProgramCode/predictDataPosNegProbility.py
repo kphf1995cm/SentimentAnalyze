@@ -316,37 +316,40 @@ def predictTxtDataSentTagProToExcel(reviewDataSetPath,preDataResPath):
     # 装载分类器
     clf = pickle.load(open(classifierPath))
     dataItemCount = len(sentiment_review)
-    # 分类之预测数据类标签
-    data_tag = clf.batch_classify(review_feature)
-    # 分类之预测数据积极、消极可能性
-    res_pro = clf.batch_prob_classify(review_feature)
-    preResFile = xlwt.Workbook(encoding='utf-8')
-    sheetName='RawDataTagProFea'
-    sheetPos=0
-    preResSheet = preResFile.add_sheet(sheetName+str(sheetPos))
-    posProbility = []
-    excelRowPos=0
-    for rowPos in range(dataItemCount):
-        if excelRowPos==65536:
-            sheetPos+=1
-            preResSheet=preResFile.add_sheet(sheetName+str(sheetPos))
-            excelRowPos=0
-        preResSheet.write(excelRowPos, 0, review[rowPos])  # 原始数据
-        preResSheet.write(excelRowPos, 1, data_tag[rowPos])  # 类标签
-        preResSheet.write(excelRowPos, 2, str(res_pro[rowPos].prob('pos')))  # 积极概率
-        posProbility.append(res_pro[rowPos].prob('pos'))
-        preResSheet.write(excelRowPos, 3, str(res_pro[rowPos].prob('neg')))  # 消极概率
-        feature = ''
-        # 特征里面可能出现二元词的情况
-        for x in review_feature[rowPos].keys():
-            if type(x) is not nltk.types.TupleType:
-                feature += x
-            else:
-                feature += '_'.join(x)
-            feature += ' '
-        preResSheet.write(excelRowPos, 4, feature)  # 特征
-        excelRowPos+=1
-    preResFile.save(preDataResPath)
+    if dataItemCount>0:
+        # 分类之预测数据类标签
+        data_tag = clf.batch_classify(review_feature)
+        # 分类之预测数据积极、消极可能性
+        res_pro = clf.batch_prob_classify(review_feature)
+        preResFile = xlwt.Workbook(encoding='utf-8')
+        sheetName = 'RawDataTagProFea'
+        sheetPos = 0
+        preResSheet = preResFile.add_sheet(sheetName + str(sheetPos))
+        posProbility = []
+        excelRowPos = 0
+        for rowPos in range(dataItemCount):
+            if excelRowPos == 65536:
+                sheetPos += 1
+                preResSheet = preResFile.add_sheet(sheetName + str(sheetPos))
+                excelRowPos = 0
+            preResSheet.write(excelRowPos, 0, review[rowPos])  # 原始数据
+            preResSheet.write(excelRowPos, 1, data_tag[rowPos])  # 类标签
+            preResSheet.write(excelRowPos, 2, str(res_pro[rowPos].prob('pos')))  # 积极概率
+            posProbility.append(res_pro[rowPos].prob('pos'))
+            preResSheet.write(excelRowPos, 3, str(res_pro[rowPos].prob('neg')))  # 消极概率
+            feature = ''
+            # 特征里面可能出现二元词的情况
+            for x in review_feature[rowPos].keys():
+                if type(x) is not nltk.types.TupleType:
+                    feature += x
+                else:
+                    feature += '_'.join(x)
+                feature += ' '
+            preResSheet.write(excelRowPos, 4, feature)  # 特征
+            excelRowPos += 1
+        preResFile.save(preDataResPath)
+    else:
+        posProbility=[]
     end = time.clock()
     print 'handle sentences num:', dataItemCount, ' classify time:', end - start
     return posProbility,preDataResPath,review
@@ -706,11 +709,11 @@ def saveStrangeWordsToTxt(finalStrangeWordPos,rawReview,savePath):
 
 '''基于机器学习的情感分析 sentiment Analyze based machine learning running time: 17.5400478691 handle review num: 87642'''
 '''参数：原始数据名称 原始数据文件格式 窗口大小 积极边界 消极边界 情感得分边界'''
-'''读取整个txt文件'''
+'''读取整个txt文件   程序内部限定了txt文件所在目录'''
 def sentiAnalyzeBaseML(reviewDataSetName,reviewDataSetFileType,windowSize,posBounder,negBounder,sentScoreBounder,timeInterval=20):
     begin=time.clock()
-    #reviewDataSetDir = 'D:/ReviewHelpfulnessPrediction\BulletData'
-    reviewDataSetDir = 'D:/crambData\crambData2'
+    reviewDataSetDir = 'D:/ReviewHelpfulnessPrediction\BulletData'
+    #reviewDataSetDir = 'D:/crambData\crambData2'
     #reviewDataSetName = 'lsj'
     #reviewDataSetFileType = '.log'
     desDir = 'D:/ReviewHelpfulnessPrediction\PredictClassRes'
@@ -722,27 +725,28 @@ def sentiAnalyzeBaseML(reviewDataSetName,reviewDataSetFileType,windowSize,posBou
     classifyResPath=desDir + '/' + reviewDataSetName+str(curTime) + 'ML.xls'
 
     posProbility, resSavePath, rawReview = predictTxtDataSentTagProToExcel(rawDataSetPath,classifyResPath)
-    sentimentValueList, posRatioList, negRatioList, strangeWordPos = analyzeSentimentProList(posProbility, windowSize,
-                                                                                             posBounder, negBounder,
-                                                                                             sentScoreBounder)
-    meanSentPosPro = getMeanSentimentValue(posProbility)
-    overallPosRatio = getOverallPosRatio(posProbility, posBounder)
-    overallNegRatio = getOverallNegRatio(posProbility, negBounder)
-    print 'mean sentiment postive probility', meanSentPosPro
-    finalStrangeWordPos = unionStrangeWordPos(strangeWordPos)
-    #outputStrangeWordPosInExcel(finalStrangeWordPos, resSavePath)
-    sentimentLinePath=figDir + '/' + reviewDataSetName +str(curTime)+ 'SCML.png'
-    drawSentimentLine(sentimentValueList, sentimentLinePath)
-    posNegRatioPath=figDir + '/' + reviewDataSetName+str(curTime) + 'PNRML.png'
-    drawPosNegRatioPie(overallPosRatio, overallNegRatio, posNegRatioPath)
-    #outputStrangeWords(finalStrangeWordPos, rawReview)
-    saveStrangeWordsToTxt(finalStrangeWordPos,rawReview,strangeWordPath)
+    if len(posProbility)!=0:
+        sentimentValueList, posRatioList, negRatioList, strangeWordPos = analyzeSentimentProList(posProbility,
+                                                                                                 windowSize,
+                                                                                                 posBounder, negBounder,
+                                                                                                 sentScoreBounder)
+        meanSentPosPro = getMeanSentimentValue(posProbility)
+        overallPosRatio = getOverallPosRatio(posProbility, posBounder)
+        overallNegRatio = getOverallNegRatio(posProbility, negBounder)
+        print 'mean sentiment postive probility', meanSentPosPro
+        finalStrangeWordPos = unionStrangeWordPos(strangeWordPos)
+        # outputStrangeWordPosInExcel(finalStrangeWordPos, resSavePath)
+        sentimentLinePath = figDir + '/' + reviewDataSetName + str(curTime) + 'SCML.png'
+        drawSentimentLine(sentimentValueList, sentimentLinePath)
+        posNegRatioPath = figDir + '/' + reviewDataSetName + str(curTime) + 'PNRML.png'
+        drawPosNegRatioPie(overallPosRatio, overallNegRatio, posNegRatioPath)
+        # outputStrangeWords(finalStrangeWordPos, rawReview)
+        saveStrangeWordsToTxt(finalStrangeWordPos, rawReview, strangeWordPath)
 
-    #drawSentimentChangeLine(sentimentValueList, timeInterval, windowSize, -60, 60)
+        # drawSentimentChangeLine(sentimentValueList, timeInterval, windowSize, -60, 60)
     end=time.clock()
     print 'sentiment Analyze based machine learning running time:',end-begin,'handle review num:',len(rawReview)
 '''从指定位置开始读取txt文件'''
-
 def sentiAnalyzeBaseMLFromPos(lastPos,childDir,reviewDataSetName,reviewDataSetFileType,windowSize,posBounder,negBounder,sentScoreBounder,timeInterval=20):
     begin=time.clock()
     #reviewDataSetDir = 'D:/ReviewHelpfulnessPrediction\BulletData'
@@ -798,10 +802,10 @@ def handleMutiRoomInfo(timeSize,childDirList,reviewDataSetNameList,reviewDataSet
         while time.clock()-begin<timeSize:
             pass
 
-#sentiAnalyzeBaseML('lsj','.log',100,0.6,0.4,-60)
 
 if __name__=='__main__':
-    handleMutiRoomInfo(300,['crambData6','crambData5'],['output3','output3'],'.txt',30,0.6,0.4,-12)
+    sentiAnalyzeBaseML('tttt', '.txt', 100, 0.6, 0.4, -60)
+    #handleMutiRoomInfo(300,['crambData6','crambData5'],['output3','output3'],'.txt',30,0.6,0.4,-12)
 '''整体评价 正确率较高 运行速度较快 handle sentences num: 87642  classify time: 18.191449251'''
 
 

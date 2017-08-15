@@ -17,6 +17,8 @@ import numpy as np
 import time
 import xlwt
 import xlrd
+import chardet
+import os
 
 '''导入情感词典'''
 dictDir='D:/ReviewHelpfulnessPrediction\SentimentDict'
@@ -53,7 +55,7 @@ def filt_objective_sentence(srcpath,para,dstpath):
 	end=time.clock()
 	print 'filt objective reviews time:',end-begin,'handle review num:',len(raw_data),'subjective review num:',count
 	return count
-#filt_objective_sentence('D:/ReviewHelpfulnessPrediction\BulletData/763137.txt','lines','D:/ReviewHelpfulnessPrediction\BulletData/763137FiltObj.txt')
+#filt_objective_sentence('D:/crambData\crambData3/430909.txt','lines','D:/ReviewHelpfulnessPrediction\BulletData/430909.txt')
 
 '''删除已过滤的重复评论'''
 '''源数据格式为txt文件，将评论保存在excel文件中 格式为 评论：出现次数'''
@@ -93,7 +95,7 @@ def remove_duplicate_comment(srcpath,para,excelpath):
 	end=time.clock()
 	print 'remove same reviews time:', end - begin, 'handle review num:',pre_count,'different review num:',cur_count
 	return pre_count,cur_count
-#remove_duplicate_comment('D:/ReviewHelpfulnessPrediction\BulletData/763137FiltObj.txt','lines','D:/ReviewHelpfulnessPrediction\LabelReviewData/763137.xls')
+#remove_duplicate_comment('D:/ReviewHelpfulnessPrediction\BulletData/430909.txt','lines','D:/ReviewHelpfulnessPrediction\LabelReviewData/430909.xls')
 
 '''txt 转 excel'''
 def change_txt_to_excel(srcpath,para,excelpath):
@@ -202,8 +204,251 @@ def save_label_data_to_spe_name(labelDataPath, labelRowNum, labelDataDir,speName
 	eroNorFile.save(labelDataDir + '/' +speName+  'eroNorLabelData.xls')
 	end=time.clock()
 	print 'insepect label data is:',end-begin,'handle data num is:',labelDataNum
-#save_label_data_to_spe_name('D:/ReviewHelpfulnessPrediction\LabelReviewData/wms.xls', 1000,
-# 				 'D:/ReviewHelpfulnessPrediction\LabelReviewData','wms')
+'''存储关键字 关键字类型为;unicode'''
+def save_key_words(subObjKeyWords,posNegKeyWords,eroNorKeyWords,savePath):
+	if len(subObjKeyWords)>0:
+		f=open(savePath+'SubObjKeyWords.txt','w')
+		for x in subObjKeyWords:
+			if isinstance(x,unicode)==True:
+				f.write(x.encode('utf-8')+'\n')
+			else:
+				f.write(str(int(x))+'\n')
+		f.close()
+	if len(posNegKeyWords)>0:
+		f=open(savePath+'PosNegKeyWords.txt','w')
+		for x in posNegKeyWords:
+			if isinstance(x,unicode)==True:
+				f.write(x.encode('utf-8')+'\n')
+			else:
+				f.write(str(int(x))+'\n')
+		f.close()
+	if len(eroNorKeyWords)>0:
+		f=open(savePath+'EroNorKeyWords.txt','w')
+		for x in eroNorKeyWords:
+			if isinstance(x,unicode)==True:
+				f.write(x.encode('utf-8')+'\n')
+			else:
+				f.write(str(int(x))+'\n')
+		f.close()
+'''提取标记数据中关键词'''
+def extract_keyword_from_spe_name_labeldata_2(labelDataPath, labelRowNum, labelDataDir,keyWordDir,speName):
+	begin=time.clock()
+	table = xlrd.open_workbook(labelDataPath)
+	sheet = table.sheets()[0]
+	labelDataNum=sheet.nrows
+	errorRow = []  # 错误行
+	subjectiveSubDataItem = []  # 主观数据项
+	subjectiveObjDataItem = []  # 客观数据项
+	sentimentPosDataItem = []  # 积极数据项
+	sentimentNegDataItem = []  # 消极数据项
+	eroticEroDataItem = []  # 鉴黄
+	eroticNorDataItem = []
+	subObjKeyWords=[]
+	posNegKeyWords=[]
+	eroNorKeyWords=[]
+	srcDataColPos = 0
+	subjectiveColPos = 2
+	sentimentColPos = 3
+	eroticColPos = 4
+	keyWordPos=5
+	excelData = []
+	for rowPos in range(1, labelRowNum):
+		excelData.append(sheet.row_values(rowPos))
+	for rowPos in range(0, labelRowNum - 1):
+		subErrorFlag=False
+		posErrorFlag=False
+		eroErrorFlag=False
+		if excelData[rowPos][subjectiveColPos] == 1:
+			if excelData[rowPos][sentimentColPos] == 0:
+				sentimentNegDataItem.append(excelData[rowPos][srcDataColPos])
+			elif excelData[rowPos][sentimentColPos] == 1:
+				sentimentPosDataItem.append(excelData[rowPos][srcDataColPos])
+			else:
+				posErrorFlag=True
+				errorRow.append([rowPos + 2, 'sentiment_tendency value error'])
+			subjectiveSubDataItem.append(excelData[rowPos][srcDataColPos])
+		elif excelData[rowPos][subjectiveColPos] == 0:
+			subjectiveObjDataItem.append(excelData[rowPos][srcDataColPos])
+		else:
+			subErrorFlag=True
+			errorRow.append([rowPos + 2, 'is_subjective value error'])
+		if excelData[rowPos][eroticColPos] == 1:
+			eroticEroDataItem.append(excelData[rowPos][srcDataColPos])
+		elif excelData[rowPos][eroticColPos] == 0:
+			eroticNorDataItem.append(excelData[rowPos][srcDataColPos])
+		else:
+			errorRow.append([rowPos + 2, 'is_erotic value error'])
+			eroErrorFlag=True
+		if excelData[rowPos][keyWordPos]!='':
+			print excelData[rowPos][keyWordPos]
+			keyWords=excelData[rowPos][keyWordPos]
+			if subErrorFlag==False:
+				subObjKeyWords.append(keyWords)
+			if excelData[rowPos][subjectiveColPos]==1 and posErrorFlag==False:
+				posNegKeyWords.append(keyWords)
+			if eroErrorFlag==False and excelData[rowPos][eroticColPos]==1:
+				eroNorKeyWords.append(keyWords)
+	for x in errorRow:
+		print x
+	print 'subjective and objective num:', len(subjectiveSubDataItem), len(subjectiveObjDataItem)
+	print 'postive and negtive num:', len(sentimentPosDataItem), len(sentimentNegDataItem)
+	print 'erotic and normal num:', len(eroticEroDataItem), len(eroticNorDataItem)
+	colPos = 0
+	'''存储主客观标注的数据'''
+	subObjFile = xlwt.Workbook(encoding='utf-8')
+	subjectiveSheet = subObjFile.add_sheet('subjective_data')
+	for rowPos in range(len(subjectiveSubDataItem)):
+		subjectiveSheet.write(rowPos, colPos, subjectiveSubDataItem[rowPos])
+	objectiveSheet = subObjFile.add_sheet('objective_data')
+	for rowPos in range(len(subjectiveObjDataItem)):
+		objectiveSheet.write(rowPos, colPos, subjectiveObjDataItem[rowPos])
+	subObjFile.save(labelDataDir + '/' +speName+ 'subObjLabelData.xls')
+
+	'''存储积消极标注的数据'''
+	posNegFile = xlwt.Workbook(encoding='utf-8')
+	postiveSheet = posNegFile.add_sheet('postive_data')
+	for rowPos in range(len(sentimentPosDataItem)):
+		postiveSheet.write(rowPos, colPos, sentimentPosDataItem[rowPos])
+	negtiveSheet = posNegFile.add_sheet('negtive_data')
+	for rowPos in range(len(sentimentNegDataItem)):
+		negtiveSheet.write(rowPos, colPos, sentimentNegDataItem[rowPos])
+	posNegFile.save(labelDataDir + '/' +speName+  'posNegLabelData.xls')
+
+	'''存储鉴黄标注数据'''
+	eroNorFile=xlwt.Workbook(encoding='utf-8')
+	eroticSheet=eroNorFile.add_sheet('erotic_data')
+	for rowPos in range(len(eroticEroDataItem)):
+		eroticSheet.write(rowPos,colPos,eroticEroDataItem[rowPos])
+	normalSheet=eroNorFile.add_sheet('normal_data')
+	for rowPos in range(len(eroticNorDataItem)):
+		normalSheet.write(rowPos,colPos,eroticNorDataItem[rowPos])
+	eroNorFile.save(labelDataDir + '/' +speName+  'eroNorLabelData.xls')
+	end=time.clock()
+	print 'insepect label data is:',end-begin,'handle data num is:',labelDataNum
+	save_key_words(subObjKeyWords,posNegKeyWords,eroNorKeyWords,keyWordDir+'/'+speName)
+
+def extract_keyword_from_spe_name_labeldata(labelDataPath, labelRowNum, labelDataDir,keyWordDir,speName):
+	begin=time.clock()
+	table = xlrd.open_workbook(labelDataPath)
+	sheet = table.sheets()[0]
+	labelDataNum=sheet.nrows
+	errorRow = []  # 错误行
+	subjectiveSubDataItem = []  # 主观数据项
+	subjectiveObjDataItem = []  # 客观数据项
+	sentimentPosDataItem = []  # 积极数据项
+	sentimentNegDataItem = []  # 消极数据项
+	eroticEroDataItem = []  # 鉴黄
+	eroticNorDataItem = []
+	subObjKeyWords=[]
+	posNegKeyWords=[]
+	eroNorKeyWords=[]
+	srcDataColPos = 0
+	subjectiveColPos = 2
+	sentimentColPos = 3
+	eroticColPos = 4
+	keyWordPos=5
+	excelData = []
+	for rowPos in range(1, labelRowNum):
+		excelData.append(sheet.row_values(rowPos))
+	for rowPos in range(0, labelRowNum - 1):
+		subErrorFlag=False
+		posErrorFlag=False
+		eroErrorFlag=False
+		if excelData[rowPos][subjectiveColPos] == 1:
+			if excelData[rowPos][sentimentColPos] == 0:
+				sentimentNegDataItem.append(excelData[rowPos][srcDataColPos])
+			elif excelData[rowPos][sentimentColPos] == 1:
+				sentimentPosDataItem.append(excelData[rowPos][srcDataColPos])
+			else:
+				posErrorFlag=True
+				errorRow.append([rowPos + 2, 'sentiment_tendency value error'])
+			subjectiveSubDataItem.append(excelData[rowPos][srcDataColPos])
+		elif excelData[rowPos][subjectiveColPos] == 0:
+			subjectiveObjDataItem.append(excelData[rowPos][srcDataColPos])
+		else:
+			subErrorFlag=True
+			errorRow.append([rowPos + 2, 'is_subjective value error'])
+		if excelData[rowPos][eroticColPos] == 1:
+			eroticEroDataItem.append(excelData[rowPos][srcDataColPos])
+		elif excelData[rowPos][eroticColPos] == 0:
+			eroticNorDataItem.append(excelData[rowPos][srcDataColPos])
+		else:
+			errorRow.append([rowPos + 2, 'is_erotic value error'])
+			eroErrorFlag=True
+		if excelData[rowPos][keyWordPos]!='':
+			print excelData[rowPos][keyWordPos]
+			keyWords=excelData[rowPos][keyWordPos]
+			if subErrorFlag==False:
+				if isinstance(keyWords,unicode)==True:
+					keyWordList=keyWords.split(' ')
+					for k in keyWordList:
+						subObjKeyWords.append(k)
+				else:
+					subObjKeyWords.append(str(int(keyWords)))
+			if excelData[rowPos][subjectiveColPos]==1 and posErrorFlag==False:
+				if isinstance(keyWords,unicode)==True:
+					keyWordList=keyWords.split(' ')
+					for k in keyWordList:
+						posNegKeyWords.append(k)
+				else:
+					posNegKeyWords.append(str(int(keyWords)))
+			if eroErrorFlag==False and excelData[rowPos][eroticColPos]==1:
+				if isinstance(keyWords,unicode)==True:
+					keyWordList=keyWords.split(' ')
+					for k in keyWordList:
+						eroNorKeyWords.append(k)
+				else:
+					eroNorKeyWords.append(str(int(keyWords)))
+	for x in errorRow:
+		print x
+	print 'subjective and objective num:', len(subjectiveSubDataItem), len(subjectiveObjDataItem)
+	print 'postive and negtive num:', len(sentimentPosDataItem), len(sentimentNegDataItem)
+	print 'erotic and normal num:', len(eroticEroDataItem), len(eroticNorDataItem)
+	colPos = 0
+	'''存储主客观标注的数据'''
+	subObjFile = xlwt.Workbook(encoding='utf-8')
+	subjectiveSheet = subObjFile.add_sheet('subjective_data')
+	for rowPos in range(len(subjectiveSubDataItem)):
+		subjectiveSheet.write(rowPos, colPos, subjectiveSubDataItem[rowPos])
+	objectiveSheet = subObjFile.add_sheet('objective_data')
+	for rowPos in range(len(subjectiveObjDataItem)):
+		objectiveSheet.write(rowPos, colPos, subjectiveObjDataItem[rowPos])
+	subObjFile.save(labelDataDir + '/' +speName+ 'subObjLabelData.xls')
+
+	'''存储积消极标注的数据'''
+	posNegFile = xlwt.Workbook(encoding='utf-8')
+	postiveSheet = posNegFile.add_sheet('postive_data')
+	for rowPos in range(len(sentimentPosDataItem)):
+		postiveSheet.write(rowPos, colPos, sentimentPosDataItem[rowPos])
+	negtiveSheet = posNegFile.add_sheet('negtive_data')
+	for rowPos in range(len(sentimentNegDataItem)):
+		negtiveSheet.write(rowPos, colPos, sentimentNegDataItem[rowPos])
+	posNegFile.save(labelDataDir + '/' +speName+  'posNegLabelData.xls')
+
+	'''存储鉴黄标注数据'''
+	eroNorFile=xlwt.Workbook(encoding='utf-8')
+	eroticSheet=eroNorFile.add_sheet('erotic_data')
+	for rowPos in range(len(eroticEroDataItem)):
+		eroticSheet.write(rowPos,colPos,eroticEroDataItem[rowPos])
+	normalSheet=eroNorFile.add_sheet('normal_data')
+	for rowPos in range(len(eroticNorDataItem)):
+		normalSheet.write(rowPos,colPos,eroticNorDataItem[rowPos])
+	eroNorFile.save(labelDataDir + '/' +speName+  'eroNorLabelData.xls')
+	end=time.clock()
+	print 'insepect label data is:',end-begin,'handle data num is:',labelDataNum
+	save_key_words(subObjKeyWords,posNegKeyWords,eroNorKeyWords,keyWordDir+'/'+speName)
+
+# extract_keyword_from_spe_name_labeldata('D:/ReviewHelpfulnessPrediction\LabelReviewData/470673.xls', 1000,
+#  				 'D:/ReviewHelpfulnessPrediction\LabelReviewData','D:/ReviewHelpfulnessPrediction\KeyWords','470673Label')
+# extract_keyword_from_spe_name_labeldata('D:/ReviewHelpfulnessPrediction\LabelReviewData/763137Raw.xls', 2000,
+#  				 'D:/ReviewHelpfulnessPrediction\LabelReviewData','D:/ReviewHelpfulnessPrediction\KeyWords','763137Label')
+# extract_keyword_from_spe_name_labeldata('D:/ReviewHelpfulnessPrediction\LabelReviewData/label_review_count_data.xls', 2000,
+#  				 'D:/ReviewHelpfulnessPrediction\LabelReviewData','D:/ReviewHelpfulnessPrediction\KeyWords','lsj')
+# extract_keyword_from_spe_name_labeldata('D:/ReviewHelpfulnessPrediction\LabelReviewData/pdd_label_data.xls', 1000,
+#  				 'D:/ReviewHelpfulnessPrediction\LabelReviewData','D:/ReviewHelpfulnessPrediction\KeyWords','pdd')
+# extract_keyword_from_spe_name_labeldata('D:/ReviewHelpfulnessPrediction\LabelReviewData/wms.xls', 1500,
+#  				 'D:/ReviewHelpfulnessPrediction\LabelReviewData','D:/ReviewHelpfulnessPrediction\KeyWords','wms')
+
 # save_label_data_to_spe_name('D:/ReviewHelpfulnessPrediction\LabelReviewData/pdd_label_data.xls', 200,
 # 				 'D:/ReviewHelpfulnessPrediction\LabelReviewData','pdd')
 '''将多个主播房间标记数据合并在一起 按照主客观 积消极 鉴黄 分类合并'''
@@ -237,7 +482,28 @@ def unionFewLabelData(labelDataDir,speNameList):
 	end=time.clock()
 	print 'union label data time is:',end-begin
 
-#unionFewLabelData('D:/ReviewHelpfulnessPrediction\LabelReviewData',['lsj','pdd','763137Label','wms'])
+'''合并所有关键字'''
+def unionKeyWords(keyWordDir,speNameList):
+	begin = time.clock()
+	dataTypeList = ['SubObjKeyWords.txt', 'PosNegKeyWords.txt', 'EroNorKeyWords.txt']
+	allKeyWord=[]
+	for dataTypePos in range(len(dataTypeList)):
+		keyWords=set([])
+		for name in speNameList:
+			keyWordPath=keyWordDir+'/'+name+dataTypeList[dataTypePos]
+			if os.path.exists(keyWordPath):
+				f=open(keyWordPath,'r')
+				rows=''.join(f.readlines()).split('\n')
+				rows.pop(len(rows)-1)
+				for x in rows:
+					keyWords.add(x.decode('utf-8'))
+		allKeyWord.append(keyWords)
+
+	save_key_words(allKeyWord[0],allKeyWord[1],allKeyWord[2],keyWordDir+'/')
+
+
+#unionFewLabelData('D:/ReviewHelpfulnessPrediction\LabelReviewData',['lsj','pdd','763137Label','wms','470673Label'])
+#unionKeyWords('D:/ReviewHelpfulnessPrediction\KeyWords',['lsj','pdd','763137Label','wms','470673Label'])
 
 
 
