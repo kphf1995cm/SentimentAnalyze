@@ -65,6 +65,23 @@ def get_txt_data(filepath, para):
         txt_data2 = txt_tmp.decode('utf-8')
         txt_file2.close()
         return txt_data2
+
+def get_txt_str_data(filepath, para):
+    if para == 'lines':
+        txt_file1 = open(filepath, 'r')
+        txt_tmp1 = txt_file1.readlines()
+        txt_tmp2 = ''.join(txt_tmp1)
+        txt_data1 = txt_tmp2.decode('utf-8')
+        txt_file1.close()
+        return txt_data1
+    elif para == 'line':
+        txt_file2 = open(filepath, 'r')
+        txt_tmp = txt_file2.readline()
+        txt_data2 = txt_tmp.decode('utf-8')
+        txt_file2.close()
+        return txt_data2
+
+
 '''从指定位置处读取文件内容'''
 def get_txt_data_from_pos(filepath, para,pos):
     if para == 'lines':

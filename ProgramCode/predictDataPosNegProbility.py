@@ -746,6 +746,44 @@ def sentiAnalyzeBaseML(reviewDataSetName,reviewDataSetFileType,windowSize,posBou
         # drawSentimentChangeLine(sentimentValueList, timeInterval, windowSize, -60, 60)
     end=time.clock()
     print 'sentiment Analyze based machine learning running time:',end-begin,'handle review num:',len(rawReview)
+def sentiAnalyzeBaseUIML(reviewDataSetDir,reviewDataSetName,reviewDataSetFileType,windowSize,posBounder,negBounder,sentScoreBounder,timeInterval=20):
+    begin=time.clock()
+    windowSize=int(windowSize)
+    #reviewDataSetDir = 'D:/ReviewHelpfulnessPrediction\BulletData'
+    #reviewDataSetDir = 'D:/crambData\crambData2'
+    #reviewDataSetName = 'lsj'
+    #reviewDataSetFileType = '.log'
+    desDir = 'D:/ReviewHelpfulnessPrediction\PredictClassRes'
+    figDir = 'D:/ReviewHelpfulnessPrediction\SentimentLineFig'
+    strangeWordDir='D:/ReviewHelpfulnessPrediction\StrangeWords'
+    curTime=time.strftime('%Y.%m.%d.%H.%M.%S',time.localtime(time.time()))
+    rawDataSetPath = reviewDataSetDir + '/' + reviewDataSetName + reviewDataSetFileType
+    strangeWordPath=strangeWordDir+'/'+reviewDataSetName+str(curTime)+'ML.txt'
+    classifyResPath=desDir + '/' + reviewDataSetName+str(curTime) + 'ML.xls'
+    sentimentLinePath = figDir + '/' + reviewDataSetName + str(curTime) + 'SCML.png'
+    posNegRatioPath = figDir + '/' + reviewDataSetName + str(curTime) + 'PNRML.png'
+
+    posProbility, resSavePath, rawReview = predictTxtDataSentTagProToExcel(rawDataSetPath,classifyResPath)
+    if len(posProbility)!=0:
+        sentimentValueList, posRatioList, negRatioList, strangeWordPos = analyzeSentimentProList(posProbility,
+                                                                                                 windowSize,
+                                                                                                 posBounder, negBounder,
+                                                                                                 sentScoreBounder)
+        meanSentPosPro = getMeanSentimentValue(posProbility)
+        overallPosRatio = getOverallPosRatio(posProbility, posBounder)
+        overallNegRatio = getOverallNegRatio(posProbility, negBounder)
+        print 'mean sentiment postive probility', meanSentPosPro
+        finalStrangeWordPos = unionStrangeWordPos(strangeWordPos)
+        # outputStrangeWordPosInExcel(finalStrangeWordPos, resSavePath)
+        drawSentimentLine(sentimentValueList, sentimentLinePath)
+        drawPosNegRatioPie(overallPosRatio, overallNegRatio, posNegRatioPath)
+        # outputStrangeWords(finalStrangeWordPos, rawReview)
+        saveStrangeWordsToTxt(finalStrangeWordPos, rawReview, strangeWordPath)
+
+        # drawSentimentChangeLine(sentimentValueList, timeInterval, windowSize, -60, 60)
+    end=time.clock()
+    print 'sentiment Analyze based machine learning running time:',end-begin,'handle review num:',len(rawReview)
+    return strangeWordPath,sentimentLinePath,classifyResPath
 '''从指定位置开始读取txt文件'''
 def sentiAnalyzeBaseMLFromPos(lastPos,childDir,reviewDataSetName,reviewDataSetFileType,windowSize,posBounder,negBounder,sentScoreBounder,timeInterval=20):
     begin=time.clock()

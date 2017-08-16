@@ -471,6 +471,7 @@ def handleSelectClfWork():
     store_classifier(bestClassfier, trainSet,
                      'D:/ReviewHelpfulnessPrediction\BuildedClassifier/' + str(bestClassfier)[0:15] + '.pkl')
     getFinalClassifyAccuration(bestClassfier, bestDimention)
+    return str(bestClassfier)+' '+str(bestDimention)+' '+str(bestAccuracy)
 
 if __name__=='__main__':
     handleSelectClfWork()
