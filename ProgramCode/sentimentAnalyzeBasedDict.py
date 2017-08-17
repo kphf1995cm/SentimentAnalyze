@@ -469,14 +469,25 @@ def getAccuracy(sentimentValueList,labelClass):
         if sentimentValueList[pos]<0.5 and labelClass[pos]!=0:
             diffNum+=1
     return 1-float(diffNum)/float(len(sentimentValueList))
+'''解析文件路径 获得文件目录文件名 文件类型'''
+def parseFilePath(path):
+        strs=path.split('/')
+        nameType=strs[len(strs)-1].split('.')
+        strs.pop(len(strs)-1)
+        fileDir='/'.join(strs)
+        fileName=nameType[0]
+        fileType='.'+nameType[1]
+        return fileDir,fileName,fileType
 '''测试下标记数据精度'''
 def testLabelDataAcc():
     begin=time.clock()
     '''获得原始数据路径'''
-    reviewDataSetDir = 'D:/ReviewHelpfulnessPrediction\LabelReviewData'
-    reviewDataSetName = 'posNegLabelData'
-    reviewDataSetFileType = '.xls'
-    dataSetPath = reviewDataSetDir + '/' + reviewDataSetName + reviewDataSetFileType
+    # reviewDataSetDir = 'D:/ReviewHelpfulnessPrediction\LabelReviewData'
+    # reviewDataSetName = 'posNegLabelData'
+    # reviewDataSetFileType = '.xls'
+    #dataSetPath = reviewDataSetDir + '/' + reviewDataSetName + reviewDataSetFileType
+    dataSetPath=tp.get_txt_data('D:/ReviewHelpfulnessPrediction/LabelDataPath.txt','line')
+    reviewDataSetDir,reviewDataSetName,reviewDataSetFileType=parseFilePath(dataSetPath)
     '''获得目标数据路径'''
     dstSavePath = reviewDataSetDir + '/' + reviewDataSetName + 'BasedDictSentimentScore.txt'
     '''获得原始数据'''
@@ -603,8 +614,9 @@ def handleMutiRoomInfo(timeSize,childDirList,reviewDataSetNameList,reviewDataSet
 
 
 if __name__=='__main__':
+    testLabelDataAcc()
     #sentiAnalyzeBaseDict('lsj','.log',100,0.6,0.4,-8)
-    handleMutiRoomInfo(30,['crambData5','crambData6'],['output3','output3'],'.txt',30,0.6,0.4,-12)
+    #handleMutiRoomInfo(30,['crambData5','crambData6'],['output3','output3'],'.txt',30,0.6,0.4,-12)
 #testLabelDataAcc()
 
 

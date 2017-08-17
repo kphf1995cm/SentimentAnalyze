@@ -37,10 +37,12 @@ from nltk.probability import FreqDist, ConditionalFreqDist
 '''计算 单个词语以及二元词语的信息增量得分'''
 '''注意 需要导入带标签的积极以及消极评论语料库(如果训练数据发生修改的话，里面的相应参数需要修改)'''
 def create_word_bigram_scores():
-    posNegDir = 'D:/ReviewHelpfulnessPrediction\LabelReviewData'
-    posdata = tp.seg_fil_senti_excel(posNegDir + '/posNegLabelData.xls', 1, 1,
+    # posNegDir = 'D:/ReviewHelpfulnessPrediction\LabelReviewData'
+    # posNegPath=posNegDir+'/posNegLabelData.xls'
+    posNegPath = tp.get_txt_data('D:/ReviewHelpfulnessPrediction/LabelDataPath.txt', 'line')
+    posdata = tp.seg_fil_senti_excel(posNegPath, 1, 1,
                                      'D:/ReviewHelpfulnessPrediction/PreprocessingModule/sentiment_stopword.txt')
-    negdata = tp.seg_fil_senti_excel(posNegDir + '/posNegLabelData.xls', 2, 1,
+    negdata = tp.seg_fil_senti_excel(posNegPath, 2, 1,
                                      'D:/ReviewHelpfulnessPrediction/PreprocessingModule/sentiment_stopword.txt')
 
     posWords = list(itertools.chain(*posdata))
@@ -704,6 +706,20 @@ def saveStrangeWordsToTxt(finalStrangeWordPos,rawReview,savePath):
             f.write(rawReview[pos].encode('utf-8')+'\n')
     f.close()
     return 1
+''' 添加异常话语到txt中'''
+'''保存路径格式：特定目录+直播房间（ID或NAME）+指定时间'''
+def appendStrangeWordsToTxt(curTime,finalStrangeWordPos,rawReview,savePath):
+    if len(finalStrangeWordPos)==0:
+        return 0
+    f = open(savePath, 'a')
+    f.write(str(curTime)+'\n')
+    f.write(str(len(finalStrangeWordPos))+'\n')
+    for x in finalStrangeWordPos:
+        f.write('...........................................................................\n')
+        for pos in range(x[0],x[1]+1):
+            f.write(rawReview[pos].encode('utf-8')+'\n')
+    f.close()
+    return 1
 
 
 
@@ -822,6 +838,93 @@ def sentiAnalyzeBaseMLFromPos(lastPos,childDir,reviewDataSetName,reviewDataSetFi
     end=time.clock()
     print 'sentiment Analyze based machine learning running time:',end-begin,'handle review num:',len(rawReview)
     return curPos
+'''从指定位置开始读取txt文件'''
+def sentiAnalyzeBaseUIMLFromPos(oldPosProbility,oldRawReview,lastPos,reviewDataSetDir,reviewDataSetName,reviewDataSetFileType,windowSize,posBounder,negBounder,sentScoreBounder,timeInterval=20):
+    begin=time.clock()
+    #reviewDataSetDir = 'D:/ReviewHelpfulnessPrediction\BulletData'
+    #reviewDataSetDir = 'D:/crambData/'+childDir
+    #reviewDataSetName = 'lsj'
+    #reviewDataSetFileType = '.log'
+    desDir = 'D:/ReviewHelpfulnessPrediction\PredictClassRes'
+    figDir = 'D:/ReviewHelpfulnessPrediction\SentimentLineFig'
+    strangeWordDir='D:/ReviewHelpfulnessPrediction\StrangeWords'
+    curTime=time.strftime('%Y.%m.%d.%H.%M.%S',time.localtime(time.time()))
+    rawDataSetPath = reviewDataSetDir + '/' + reviewDataSetName + reviewDataSetFileType
+    strangeWordPath=strangeWordDir+'/'+reviewDataSetName+'ML.txt'
+    classifyResPath=desDir + '/' +reviewDataSetName+'ML.xls'
+    sentimentLinePath = figDir + '/' + reviewDataSetName + 'SCML.png'
+    posNegRatioPath = figDir + '/' + reviewDataSetName + 'PNRML.png'
+    newPosProbility, resSavePath, newRawReview,curPos = predictFromPosTxtDataSentTagProToExcel(rawDataSetPath,classifyResPath,lastPos)
+    posProbility=oldPosProbility+newPosProbility
+    rawReview=oldRawReview+newRawReview
+    if len(posProbility)!=0:
+        sentimentValueList, posRatioList, negRatioList, strangeWordPos = analyzeSentimentProList(posProbility,
+                                                                                                 windowSize,
+                                                                                                 posBounder, negBounder,
+                                                                                                 sentScoreBounder)
+        meanSentPosPro = getMeanSentimentValue(posProbility)
+        overallPosRatio = getOverallPosRatio(posProbility, posBounder)
+        overallNegRatio = getOverallNegRatio(posProbility, negBounder)
+        print 'mean sentiment postive probility', meanSentPosPro
+        finalStrangeWordPos = unionStrangeWordPos(strangeWordPos)
+        # outputStrangeWordPosInExcel(finalStrangeWordPos, resSavePath)
+
+        drawSentimentLine(sentimentValueList, sentimentLinePath)
+
+        drawPosNegRatioPie(overallPosRatio, overallNegRatio, posNegRatioPath)
+        # outputStrangeWords(finalStrangeWordPos, rawReview)
+        saveStrangeWordsToTxt(finalStrangeWordPos, rawReview, strangeWordPath)
+
+        # drawSentimentChangeLine(sentimentValueList, timeInterval, windowSize, -60, 60)
+    end=time.clock()
+    print 'sentiment Analyze based machine learning running time:',end-begin,'handle review num:',len(rawReview)
+    return curPos,posProbility,rawReview,curTime,strangeWordPath,sentimentLinePath,classifyResPath
+'''从指定位置开始读取txt文件'''
+def sentiAnalyzeBaseUIMLFromLastPos(oldPosProbility,oldRawReview,lastPos,reviewDataSetDir,reviewDataSetName,reviewDataSetFileType,windowSize,posBounder,negBounder,sentScoreBounder,timeInterval=20):
+    begin=time.clock()
+    #reviewDataSetDir = 'D:/ReviewHelpfulnessPrediction\BulletData'
+    #reviewDataSetDir = 'D:/crambData/'+childDir
+    #reviewDataSetName = 'lsj'
+    #reviewDataSetFileType = '.log'
+    desDir = 'D:/ReviewHelpfulnessPrediction\PredictClassRes'
+    figDir = 'D:/ReviewHelpfulnessPrediction\SentimentLineFig'
+    strangeWordDir='D:/ReviewHelpfulnessPrediction\StrangeWords'
+    curTime=time.strftime('%Y.%m.%d.%H.%M.%S',time.localtime(time.time()))
+    rawDataSetPath = reviewDataSetDir + '/' + reviewDataSetName + reviewDataSetFileType
+    strangeWordPath=strangeWordDir+'/'+reviewDataSetName+'ML.txt'
+    classifyResPath=desDir + '/' +reviewDataSetName+str(curTime)+'ML.xls'
+    sentimentLinePath = figDir + '/' + reviewDataSetName + str(curTime)+'SCML.png'
+    posNegRatioPath = figDir + '/' + reviewDataSetName + str(curTime)+'PNRML.png'
+    newPosProbility, resSavePath, newRawReview,curPos = predictFromPosTxtDataSentTagProToExcel(rawDataSetPath,classifyResPath,lastPos)
+    posProbility=oldPosProbility+newPosProbility
+    rawReview=oldRawReview+newRawReview
+    strangeFlag=False
+    if len(posProbility)!=0:
+        sentimentValueList, posRatioList, negRatioList, strangeWordPos = analyzeSentimentProList(posProbility,
+                                                                                                 windowSize,
+                                                                                                 posBounder, negBounder,
+                                                                                                 sentScoreBounder)
+        meanSentPosPro = getMeanSentimentValue(posProbility)
+        overallPosRatio = getOverallPosRatio(posProbility, posBounder)
+        overallNegRatio = getOverallNegRatio(posProbility, negBounder)
+        print 'mean sentiment postive probility', meanSentPosPro
+        finalStrangeWordPos = unionStrangeWordPos(strangeWordPos)
+        # outputStrangeWordPosInExcel(finalStrangeWordPos, resSavePath)
+        if len(posProbility)>=windowSize:
+            drawSentimentLine(sentimentValueList, sentimentLinePath)
+            drawPosNegRatioPie(overallPosRatio, overallNegRatio, posNegRatioPath)
+        # outputStrangeWords(finalStrangeWordPos, rawReview)
+        if len(strangeWordPos)>0:
+            appendStrangeWordsToTxt(curTime,finalStrangeWordPos, rawReview, strangeWordPath)
+            strangeFlag=True
+        if len(posProbility) > windowSize - 1:
+            posProbility = posProbility[len(posProbility) - windowSize + 1:len(posProbility)]
+            rawReview = rawReview[len(rawReview) - windowSize + 1:len(rawReview)]
+
+        # drawSentimentChangeLine(sentimentValueList, timeInterval, windowSize, -60, 60)
+    end=time.clock()
+    print 'sentiment Analyze based machine learning running time:',end-begin,'handle review num:',len(rawReview)
+    return curPos,posProbility,rawReview,curTime,strangeFlag,strangeWordPath,sentimentLinePath,classifyResPath
 
 '''每隔多长时间处理一次 timeSize/s'''
 '''产生结果数据堆积 硬盘爆 适时删除'''
@@ -842,7 +945,7 @@ def handleMutiRoomInfo(timeSize,childDirList,reviewDataSetNameList,reviewDataSet
 
 
 if __name__=='__main__':
-    sentiAnalyzeBaseML('tttt', '.txt', 100, 0.6, 0.4, -60)
+    sentiAnalyzeBaseML('lsj', '.log', 100, 0.6, 0.4, -60)
     #handleMutiRoomInfo(300,['crambData6','crambData5'],['output3','output3'],'.txt',30,0.6,0.4,-12)
 '''整体评价 正确率较高 运行速度较快 handle sentences num: 87642  classify time: 18.191449251'''
 

@@ -23,8 +23,8 @@ class Example(QtGui.QWidget):
 
     def initUI(self):
 
-        self.pbar = QtGui.QProgressBar(self)
-        self.pbar.setGeometry(30, 40, 200, 25)
+        # self.pbar = QtGui.QProgressBar(self)
+        # self.pbar.setGeometry(30, 40, 200, 25)
 
         self.btn = QtGui.QPushButton('Start', self)
         self.btn.move(40, 80)
@@ -38,14 +38,15 @@ class Example(QtGui.QWidget):
         self.show()
 
     def timerEvent(self, e):
+        print self.step
 
-        if self.step >= 100:
+        if self.step >= 10:
             self.timer.stop()
             self.btn.setText('Finished')
             return
 
         self.step = self.step + 1
-        self.pbar.setValue(self.step)
+        #self.pbar.setValue(self.step)
 
     def doAction(self):
 
@@ -54,7 +55,7 @@ class Example(QtGui.QWidget):
             self.btn.setText('Start')
 
         else:
-            self.timer.start(100, self)
+            self.timer.start(1000, self)
             self.btn.setText('Stop')
 
 

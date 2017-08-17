@@ -37,10 +37,20 @@ class BasicParmSetDlg(QDialog):
         self.edit4.setText('0.4')
         hLayout4.addWidget(label4)
         hLayout4.addWidget(self.edit4)
+
+        hLayout5 = QHBoxLayout()
+        label5 = QLabel(u'时间间隔')
+        self.edit5 = QLineEdit()
+        self.edit5.setText('300')
+        hLayout5.addWidget(label5)
+        hLayout5.addWidget(self.edit5)
+
         verticalLayout.addLayout(hLayout1,0)
         verticalLayout.addLayout(hLayout2, 1)
         verticalLayout.addLayout(hLayout3, 2)
         verticalLayout.addLayout(hLayout4, 3)
+        verticalLayout.addLayout(hLayout5, 4)
+
 
         # self.applyButton = QPushButton(u"确定")
         # self.cancelButton = QPushButton(u"取消")
@@ -77,4 +87,5 @@ def getParmValue(parent=None):
     sentBounder = float(dialog.edit2.text())
     posBounder = float(dialog.edit3.text())
     negBounder = float(dialog.edit4.text())
-    return (windowSize,sentBounder,posBounder,negBounder,result == QDialog.Accepted)
+    timeSize=float(dialog.edit5.text())
+    return (windowSize,sentBounder,posBounder,negBounder,timeSize,result == QDialog.Accepted)

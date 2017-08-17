@@ -79,6 +79,10 @@ def remove_duplicate_comment(srcpath,para,excelpath):
 	row_pos = 0
 	excel_sheet.write(row_pos, 0, 'review_data')
 	excel_sheet.write(row_pos, 1, 'review_count')
+	excel_sheet.write(row_pos, 2, 'is_subjective')
+	excel_sheet.write(row_pos, 3, 'sentiment_tendency')
+	excel_sheet.write(row_pos, 4, 'is_erotic')
+	excel_sheet.write(row_pos, 5, 'key_words')
 	row_pos += 1
 	for w,c in review_diff_set.iteritems():
 		if row_pos == 65536:
@@ -108,6 +112,10 @@ def change_txt_to_excel(srcpath,para,excelpath):
 	row_pos = 0
 	excel_sheet.write(row_pos, 0, 'review_data')
 	excel_sheet.write(row_pos, 1, 'review_count')
+	excel_sheet.write(row_pos, 2, 'is_subjective')
+	excel_sheet.write(row_pos, 3, 'sentiment_tendency')
+	excel_sheet.write(row_pos, 4, 'is_erotic')
+	excel_sheet.write(row_pos, 5, 'key_words')
 	row_pos += 1
 	for w in raw_data:
 		if row_pos == 65536:
@@ -127,9 +135,9 @@ def change_txt_to_excel(srcpath,para,excelpath):
 #change_txt_to_excel('D:/crambData\crambData7/output3.txt','lines','D:/ReviewHelpfulnessPrediction\LabelReviewData/wms.xls')
 
 '''检查标记数据 看看是否出现格式错误，如出现，显示出现错误的行数,并返回正确标记的数据'''
-'''参数 labelRowNum为已标记的行数量'''
+''''''
 '''将标记数据按照主客观 积消极 鉴黄 分类存储在labelDataDir目录下speName下'''
-def save_label_data_to_spe_name(labelDataPath, labelRowNum, labelDataDir,speName):
+def save_label_data_to_spe_name(labelDataPath,labelDataDir,speName):
 	begin=time.clock()
 	table = xlrd.open_workbook(labelDataPath)
 	sheet = table.sheets()[0]
@@ -146,6 +154,7 @@ def save_label_data_to_spe_name(labelDataPath, labelRowNum, labelDataDir,speName
 	sentimentColPos = 3
 	eroticColPos = 4
 	excelData = []
+	labelRowNum=labelDataNum
 	for rowPos in range(1, labelRowNum):
 		excelData.append(sheet.row_values(rowPos))
 	for rowPos in range(0, labelRowNum - 1):
@@ -231,7 +240,7 @@ def save_key_words(subObjKeyWords,posNegKeyWords,eroNorKeyWords,savePath):
 				f.write(str(int(x))+'\n')
 		f.close()
 '''提取标记数据中关键词'''
-def extract_keyword_from_spe_name_labeldata_2(labelDataPath, labelRowNum, labelDataDir,keyWordDir,speName):
+def extract_keyword_from_spe_name_labeldata_2(labelDataPath, labelDataDir,keyWordDir,speName):
 	begin=time.clock()
 	table = xlrd.open_workbook(labelDataPath)
 	sheet = table.sheets()[0]
@@ -252,6 +261,7 @@ def extract_keyword_from_spe_name_labeldata_2(labelDataPath, labelRowNum, labelD
 	eroticColPos = 4
 	keyWordPos=5
 	excelData = []
+	labelRowNum=labelDataNum
 	for rowPos in range(1, labelRowNum):
 		excelData.append(sheet.row_values(rowPos))
 	for rowPos in range(0, labelRowNum - 1):
@@ -288,8 +298,6 @@ def extract_keyword_from_spe_name_labeldata_2(labelDataPath, labelRowNum, labelD
 				posNegKeyWords.append(keyWords)
 			if eroErrorFlag==False and excelData[rowPos][eroticColPos]==1:
 				eroNorKeyWords.append(keyWords)
-	for x in errorRow:
-		print x
 	print 'subjective and objective num:', len(subjectiveSubDataItem), len(subjectiveObjDataItem)
 	print 'postive and negtive num:', len(sentimentPosDataItem), len(sentimentNegDataItem)
 	print 'erotic and normal num:', len(eroticEroDataItem), len(eroticNorDataItem)
@@ -326,8 +334,9 @@ def extract_keyword_from_spe_name_labeldata_2(labelDataPath, labelRowNum, labelD
 	end=time.clock()
 	print 'insepect label data is:',end-begin,'handle data num is:',labelDataNum
 	save_key_words(subObjKeyWords,posNegKeyWords,eroNorKeyWords,keyWordDir+'/'+speName)
+	return errorRow
 
-def extract_keyword_from_spe_name_labeldata(labelDataPath, labelRowNum, labelDataDir,keyWordDir,speName):
+def extract_keyword_from_spe_name_labeldata(labelDataPath, labelDataDir,keyWordDir,speName):
 	begin=time.clock()
 	table = xlrd.open_workbook(labelDataPath)
 	sheet = table.sheets()[0]
@@ -348,6 +357,7 @@ def extract_keyword_from_spe_name_labeldata(labelDataPath, labelRowNum, labelDat
 	eroticColPos = 4
 	keyWordPos=5
 	excelData = []
+	labelRowNum = labelDataNum
 	for rowPos in range(1, labelRowNum):
 		excelData.append(sheet.row_values(rowPos))
 	for rowPos in range(0, labelRowNum - 1):
@@ -399,8 +409,6 @@ def extract_keyword_from_spe_name_labeldata(labelDataPath, labelRowNum, labelDat
 						eroNorKeyWords.append(k)
 				else:
 					eroNorKeyWords.append(str(int(keyWords)))
-	for x in errorRow:
-		print x
 	print 'subjective and objective num:', len(subjectiveSubDataItem), len(subjectiveObjDataItem)
 	print 'postive and negtive num:', len(sentimentPosDataItem), len(sentimentNegDataItem)
 	print 'erotic and normal num:', len(eroticEroDataItem), len(eroticNorDataItem)
@@ -437,6 +445,7 @@ def extract_keyword_from_spe_name_labeldata(labelDataPath, labelRowNum, labelDat
 	end=time.clock()
 	print 'insepect label data is:',end-begin,'handle data num is:',labelDataNum
 	save_key_words(subObjKeyWords,posNegKeyWords,eroNorKeyWords,keyWordDir+'/'+speName)
+	return errorRow
 
 # extract_keyword_from_spe_name_labeldata('D:/ReviewHelpfulnessPrediction\LabelReviewData/470673.xls', 1000,
 #  				 'D:/ReviewHelpfulnessPrediction\LabelReviewData','D:/ReviewHelpfulnessPrediction\KeyWords','470673Label')
@@ -453,7 +462,7 @@ def extract_keyword_from_spe_name_labeldata(labelDataPath, labelRowNum, labelDat
 # 				 'D:/ReviewHelpfulnessPrediction\LabelReviewData','pdd')
 '''将多个主播房间标记数据合并在一起 按照主客观 积消极 鉴黄 分类合并'''
 '''speNameList=['lsj','pdd']'''
-def unionFewLabelData(labelDataDir,speNameList):
+def unionFewLabelData(labelDataDir,speNameList,dstDataDir):
 	begin=time.clock()
 	dataTypeList=['subObjLabelData.xls','posNegLabelData.xls','eroNorLabelData.xls']
 	sheetNameList=[['subjective_data','objective_data'],['postive_data','negtive_data'],['erotic_data','normal_data']]
@@ -478,7 +487,7 @@ def unionFewLabelData(labelDataDir,speNameList):
 			sheetNameOne.write(rowPos,0,posDataList[rowPos])
 		for rowPos in range(len(negDataList)):
 			sheetNameTwo.write(rowPos,0,negDataList[rowPos])
-		workbook.save(labelDataDir+'/'+dataTypeList[dataTypePos])
+		workbook.save(dstDataDir+'/'+dataTypeList[dataTypePos])
 	end=time.clock()
 	print 'union label data time is:',end-begin
 

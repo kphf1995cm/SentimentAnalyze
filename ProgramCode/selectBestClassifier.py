@@ -35,9 +35,13 @@ from sklearn.neural_network import MLPClassifier
 
 '''1 导入数据模块'''
 
-posNegDir = 'D:/ReviewHelpfulnessPrediction\LabelReviewData'
-pos_review = tp.seg_fil_senti_excel(posNegDir + '/posNegLabelData.xls', 1, 1, 'D:/ReviewHelpfulnessPrediction/PreprocessingModule/sentiment_stopword.txt')
-neg_review = tp.seg_fil_senti_excel(posNegDir + '/posNegLabelData.xls', 2, 1, 'D:/ReviewHelpfulnessPrediction/PreprocessingModule/sentiment_stopword.txt')
+# posNegDir = 'D:/ReviewHelpfulnessPrediction\LabelReviewData'
+# posNegPath=posNegDir+'/posNegLabelData.xls'
+# 标记数据所在路径保存在D:/ReviewHelpfulnessPrediction/LabelDataPath.txt文件中
+posNegPath=tp.get_txt_data('D:/ReviewHelpfulnessPrediction/LabelDataPath.txt','line')
+print posNegPath
+pos_review = tp.seg_fil_senti_excel(posNegPath, 1, 1, 'D:/ReviewHelpfulnessPrediction/PreprocessingModule/sentiment_stopword.txt')
+neg_review = tp.seg_fil_senti_excel(posNegPath, 2, 1, 'D:/ReviewHelpfulnessPrediction/PreprocessingModule/sentiment_stopword.txt')
 print 'postive review num is:',len(pos_review),'negtive review num is:',len(neg_review)
 
 shuffle(pos_review)
@@ -380,12 +384,13 @@ def get_best_classfier_and_dimention():
   返回分类器 维度 精度
   分类结果保存在 'D:/ReviewHelpfulnessPrediction\BuildedClassifier/' + 'classifierDimenAcc.txt'
 '''
-def get_best_classfier_and_dimention_2():
+def get_best_classfier_and_dimention_ui():
     bestClassfier = ''
     bestDimention = '0'
     curAccuracy = 0.0
     dimention = range(500,3100,200)
     classifierMethodList=[BernoulliNB(alpha=0.1),MultinomialNB(alpha=0.1),LogisticRegression(intercept_scaling=0.1),NuSVC(probability=True)]#,KNeighborsClassifier(n_neighbors=6,p=1),MLPClassifier()
+    clfNameAcc=[]
     for d in dimention:
         train_set_pos, train_set_neg, test_fea, test_tag=get_trainset_testset_testtag(int(d))
         trainset,test,tag_test=get_dev_train_test_data(train_set_pos,train_set_neg)
@@ -398,14 +403,45 @@ def get_best_classfier_and_dimention_2():
                 bestClassfier=classifierMethod
                 bestDimention=d
         classifierNameList=['BernoulliNB()','MultinomialNB()','LogisticRegression()','NuSVC()']#,,'KNeighborsClassifier()''MLPClassifier()
-        f = open('D:/ReviewHelpfulnessPrediction\BuildedClassifier/' + 'classifierDimenAcc.txt', 'a')
-        for pos in range(len(classifierAccList)):
-            f.write(str(classifierNameList[pos])+'\t'+str(d)+'\t'+str(classifierAccList[pos])+'\n')
-        f.close()
+        # f = open('D:/ReviewHelpfulnessPrediction\BuildedClassifier/' + 'classifierDimenAcc.txt', 'a')
+        # for pos in range(len(classifierAccList)):
+        #     f.write(str(classifierNameList[pos])+'\t'+str(d)+'\t'+str(classifierAccList[pos])+'\n')
+        # f.close()
+        #print 'dimension is',int(d)
+        clfNameAcc.append('dimension is:'+str(d))
+        for pos in range(len(classifierNameList)):
+            clfNameAcc.append(classifierNameList[pos]+' '+str(classifierAccList[pos]))
+            #print classifierNameList[pos],'accuracy is:',classifierAccList[pos]
+    return bestClassfier,bestDimention,curAccuracy,clfNameAcc
+
+def get_best_classfier_and_dimention_2():
+    bestClassfier = ''
+    bestDimention = '0'
+    curAccuracy = 0.0
+    dimention = range(500,3100,200)
+    classifierMethodList=[BernoulliNB(alpha=0.1),MultinomialNB(alpha=0.1),LogisticRegression(intercept_scaling=0.1),NuSVC(probability=True)]#,KNeighborsClassifier(n_neighbors=6,p=1),MLPClassifier()
+    #clfNameAcc=[]
+    for d in dimention:
+        train_set_pos, train_set_neg, test_fea, test_tag=get_trainset_testset_testtag(int(d))
+        trainset,test,tag_test=get_dev_train_test_data(train_set_pos,train_set_neg)
+        classifierAccList=[]
+        for classifierMethod in classifierMethodList:
+            accuracyScore=get_accuracy_score(classifierMethod,trainset,test,tag_test)
+            classifierAccList.append(accuracyScore)
+            if accuracyScore>curAccuracy:
+                curAccuracy=accuracyScore
+                bestClassfier=classifierMethod
+                bestDimention=d
+        classifierNameList=['BernoulliNB()','MultinomialNB()','LogisticRegression()','NuSVC()']#,,'KNeighborsClassifier()''MLPClassifier()
+        # f = open('D:/ReviewHelpfulnessPrediction\BuildedClassifier/' + 'classifierDimenAcc.txt', 'a')
+        # for pos in range(len(classifierAccList)):
+        #     f.write(str(classifierNameList[pos])+'\t'+str(d)+'\t'+str(classifierAccList[pos])+'\n')
+        # f.close()
         print 'dimension is',int(d)
         for pos in range(len(classifierNameList)):
+            #clfNameAcc.append(classifierNameList[pos]+' '+str(classifierAccList[pos]))
             print classifierNameList[pos],'accuracy is:',classifierAccList[pos]
-    return bestClassfier,bestDimention,curAccuracy
+    return bestClassfier,bestDimention,curAccuracy,clfNameAcc
 
 def get_best_parm_of_classifier():
     bestClassfier = ''
@@ -463,7 +499,7 @@ def getFinalClassifyAccuration(classifier,dimension):
 
 '''完成 挑选分类器 存储分类器'''
 def handleSelectClfWork():
-    bestClassfier, bestDimention, bestAccuracy = get_best_classfier_and_dimention_2()
+    bestClassfier, bestDimention, bestAccuracy,clfNameAcc = get_best_classfier_and_dimention_ui()
     print str(bestClassfier), bestDimention, bestAccuracy
     storeClassifierDimenAcc(str(bestClassfier).decode('utf-8'), str(bestDimention).decode('utf-8'),
                             str(bestAccuracy).decode('utf-8'))
@@ -471,7 +507,7 @@ def handleSelectClfWork():
     store_classifier(bestClassfier, trainSet,
                      'D:/ReviewHelpfulnessPrediction\BuildedClassifier/' + str(bestClassfier)[0:15] + '.pkl')
     getFinalClassifyAccuration(bestClassfier, bestDimention)
-    return str(bestClassfier)+' '+str(bestDimention)+' '+str(bestAccuracy)
+    return str(bestClassfier)+' '+str(bestDimention)+' '+str(bestAccuracy),clfNameAcc
 
 if __name__=='__main__':
     handleSelectClfWork()
