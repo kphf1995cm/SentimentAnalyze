@@ -37,10 +37,10 @@ class Example(QtGui.QWidget):
         qp.setPen(QtCore.Qt.red)
         size = self.size()
 
-        for i in range(1000):
-            x = random.randint(1, size.width() - 1)
-            y = random.randint(1, size.height() - 1)
-            qp.drawPoint(x, y)
+        for x in range(100):
+            qp.drawPoint(x,100)
+        qp.drawLine(50,0,80,100)
+
 
 
 def main():
