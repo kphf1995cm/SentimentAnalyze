@@ -36,6 +36,13 @@ class Example(QtGui.QWidget):
     def drawPoints(self, qp):
         qp.setPen(QtCore.Qt.red)
         size = self.size()
+        x=range(100)
+        y=[]
+        for i in range(100):
+            y.append(random.randint(0,100))
+        path=QtGui.QPainterPath(self)
+
+        qp.drawPath(x,y)
 
         for x in range(100):
             qp.drawPoint(x,100)

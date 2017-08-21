@@ -39,7 +39,7 @@ class BasicParmSetDlg(QDialog):
         hLayout4.addWidget(self.edit4)
 
         hLayout5 = QHBoxLayout()
-        label5 = QLabel(u'时间间隔')
+        label5 = QLabel(u'更新时间间隔')
         self.edit5 = QLineEdit()
         self.edit5.setText('300')
         hLayout5.addWidget(label5)
@@ -52,12 +52,20 @@ class BasicParmSetDlg(QDialog):
         hLayout6.addWidget(label6)
         hLayout6.addWidget(self.edit6)
 
+        hLayout7 = QHBoxLayout()
+        label7 = QLabel(u'动态速度')
+        self.edit7 = QLineEdit()
+        self.edit7.setText('200')
+        hLayout7.addWidget(label7)
+        hLayout7.addWidget(self.edit7)
+
         verticalLayout.addLayout(hLayout1,0)
         verticalLayout.addLayout(hLayout2, 1)
         verticalLayout.addLayout(hLayout3, 2)
         verticalLayout.addLayout(hLayout4, 3)
         verticalLayout.addLayout(hLayout5, 4)
         verticalLayout.addLayout(hLayout6, 5)
+        verticalLayout.addLayout(hLayout7, 6)
 
         buttons = QDialogButtonBox(
             QDialogButtonBox.Ok | QDialogButtonBox.Cancel,
@@ -87,4 +95,5 @@ def getParmValue(parent=None):
     negBounder = float(dialog.edit4.text())
     timeSize=float(dialog.edit5.text())
     messageNum=int(dialog.edit6.text())
-    return windowSize,sentBounder,posBounder,negBounder,timeSize,messageNum,result == QDialog.Accepted
+    drawSpeed=int(dialog.edit7.text())
+    return windowSize,sentBounder,posBounder,negBounder,timeSize,messageNum,drawSpeed,result == QDialog.Accepted

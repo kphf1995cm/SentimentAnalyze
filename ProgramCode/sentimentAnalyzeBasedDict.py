@@ -460,6 +460,44 @@ def saveStrangeWordsToTxt(finalStrangeWordPos,rawReview,savePath):
             f.write(rawReview[pos].encode('utf-8')+'\n')
     f.close()
     return 1
+''' 添加异常话语到txt中'''
+'''保存路径格式：特定目录+直播房间（ID或NAME）+指定时间'''
+def appendStrangeWordsToTxt(curTime,finalStrangeWordPos,rawReview,savePath):
+    if len(finalStrangeWordPos)==0:
+        return 0
+    f = open(savePath, 'a')
+    f.write(str(curTime)+'\n')
+    f.write(str(len(finalStrangeWordPos))+'\n')
+    for x in finalStrangeWordPos:
+        f.write('...........................................................................\n')
+        for pos in range(x[0],x[1]+1):
+            f.write(rawReview[pos].encode('utf-8')+'\n')
+    f.close()
+    return 1
+def getStrangeWords(finalStrangeWordPos,rawReview):
+    if len(finalStrangeWordPos)==0:
+        return ''
+    strangeWords=''
+    for x in finalStrangeWordPos:
+        strangeWords+='.................................................................................\n'.decode('utf-8')
+        for pos in range(x[0],x[1]+1):
+            strangeWords+=(rawReview[pos]+'\n'.decode('utf-8'))
+    return strangeWords
+
+
+'''保存异常话语到txt中'''
+'''保存路径格式：特定目录+直播房间（ID或NAME）+指定时间'''
+def saveStrangeWordsToTxt(finalStrangeWordPos,rawReview,savePath):
+    if len(finalStrangeWordPos)==0:
+        return 0
+    f = open(savePath, 'w')
+    f.write(str(len(finalStrangeWordPos))+'\n')
+    for x in finalStrangeWordPos:
+        f.write('...........................................................................\n')
+        for pos in range(x[0],x[1]+1):
+            f.write(rawReview[pos].encode('utf-8')+'\n')
+    f.close()
+    return 1
 '''得到基于词典情感分析精度'''
 def getAccuracy(sentimentValueList,labelClass):
     diffNum=0
@@ -547,7 +585,6 @@ def sentiAnalyzeBaseDict(reviewDataSetName,reviewDataSetFileType,windowSize,posB
     #drawSentimentChangeLine(sentimentValueList, timeInterval, windowSize, -30, 30)
     end=time.clock()
     print 'sentiment Analyze based dict running time:',end-begin,'handle review num:',len(review)
-
 '''从指定位置读取txt文件'''
 def sentiAnalyzeBaseDictFromPos(lastPos,childDir,reviewDataSetName,reviewDataSetFileType,windowSize,posBounder,negBounder,sentScoreBounder,timeInterval=20):
     begin=time.clock()
@@ -595,6 +632,134 @@ def sentiAnalyzeBaseDictFromPos(lastPos,childDir,reviewDataSetName,reviewDataSet
     end=time.clock()
     print 'sentiment Analyze based dict running time:',end-begin,'handle review num:',len(review)
     return curPos
+
+
+def sentiAnalyzeBaseDictUI(reviewDataSetDir,reviewDataSetName,reviewDataSetFileType,windowSize,posBounder,negBounder,sentScoreBounder,timeInterval=20):
+    begin=time.clock()
+
+    desDir='D:/ReviewHelpfulnessPrediction/PredictClassRes'
+    figDir = 'D:/ReviewHelpfulnessPrediction\SentimentLineFig'
+    strangeWordDir = 'D:/ReviewHelpfulnessPrediction\StrangeWords'
+
+    rawDataSetPath = reviewDataSetDir + '/' + reviewDataSetName + reviewDataSetFileType
+    strangeWordPath = strangeWordDir + '/' + reviewDataSetName + 'DA.txt'
+    classifyResPath = desDir + '/' + reviewDataSetName + 'DA.txt'
+    sentimentLinePath = figDir + '/' + reviewDataSetName + 'SCDA.png'
+    posNegRatioPath = figDir + '/' + reviewDataSetName + 'PNRDA.png'
+
+    review = tp.get_txt_data(rawDataSetPath, "lines")
+    '''得到每句评论[[PosSum, NegSum],[],]'''
+    sentiment_score_list = get_review_set_sentiement_score(review)
+    '''得到每句评论的整体得分'''
+    sentiment_overall_score = get_sentiment_overall_score_to_txt(sentiment_score_list, review, classifyResPath)
+    '''分析评论情感得分数据 按照窗口迭代 获得 情感值 积极比率 消极比率 异常话语位置'''
+    sentimentValueList, posRatioList, negRatioList, strangeWordPos = analyzeSentimentProList(sentiment_overall_score,
+                                                                                             windowSize, posBounder, negBounder, sentScoreBounder)
+    finalStrangeWordPos = unionStrangeWordPos(strangeWordPos)
+
+    #meanSentPosPro = getMeanSentimentValue(sentiment_overall_score)
+    overallPosRatio=getOverallPosRatio(sentiment_overall_score,posBounder)
+    overallNegRatio=getOverallNegRatio(sentiment_overall_score,negBounder)
+
+    drawSentimentLine(sentimentValueList,sentimentLinePath)
+    drawPosNegRatioPie(overallPosRatio,overallNegRatio,posNegRatioPath)
+    saveStrangeWordsToTxt(finalStrangeWordPos,review,strangeWordPath)
+
+    end=time.clock()
+    print 'sentiment Analyze based dict running time:',end-begin,'handle review num:',len(review)
+    return strangeWordPath, sentimentLinePath, classifyResPath
+
+def sentiAnalyzeBaseDictFromLastPosUI(oldPosProbility,oldRawReview,lastPos,reviewDataSetDir,reviewDataSetName,reviewDataSetFileType,windowSize,posBounder,negBounder,sentScoreBounder,timeInterval=20):
+    begin=time.clock()
+
+    desDir='D:/ReviewHelpfulnessPrediction/PredictClassRes'
+    figDir = 'D:/ReviewHelpfulnessPrediction\SentimentLineFig'
+    strangeWordDir = 'D:/ReviewHelpfulnessPrediction\StrangeWords'
+
+    curTime = time.strftime('%Y.%m.%d.%H.%M.%S', time.localtime(time.time()))
+
+    rawDataSetPath = reviewDataSetDir + '/' + reviewDataSetName + reviewDataSetFileType
+    strangeWordPath = strangeWordDir + '/' + reviewDataSetName + 'DA.txt'
+    classifyResPath = desDir + '/' + reviewDataSetName +'-'+str(curTime)+'-'+ 'DA.txt'
+    sentimentLinePath = figDir + '/' + reviewDataSetName +'-'+str(curTime)+'-'+ 'SCDA.png'
+    posNegRatioPath = figDir + '/' + reviewDataSetName +'-'+str(curTime)+'-'+ 'PNRDA.png'
+
+    review, curPos = tp.get_txt_data_from_pos(rawDataSetPath, "lines", lastPos)
+    '''得到每句评论[[PosSum, NegSum],[],]'''
+    sentiment_score_list = get_review_set_sentiement_score(review)
+    '''得到每句评论的整体得分'''
+    newPosProbility = get_sentiment_overall_score_to_txt(sentiment_score_list, review, classifyResPath)
+    posProbility = oldPosProbility + newPosProbility
+    rawReview = oldRawReview + review
+    strangeFlag = False
+    strangeWords = ''
+    if len(posProbility)!=0:
+        '''分析评论情感得分数据 按照窗口迭代 获得 情感值 积极比率 消极比率 异常话语位置'''
+        sentimentValueList, posRatioList, negRatioList, strangeWordPos = analyzeSentimentProList(posProbility,
+                                                                                                 windowSize, posBounder,
+                                                                                                 negBounder,
+                                                                                                 sentScoreBounder)
+        finalStrangeWordPos = unionStrangeWordPos(strangeWordPos)
+
+        # meanSentPosPro = getMeanSentimentValue(sentiment_overall_score)
+        overallPosRatio = getOverallPosRatio(posProbility, posBounder)
+        overallNegRatio = getOverallNegRatio(posProbility, negBounder)
+        if len(posProbility)>=windowSize:
+            drawSentimentLine(sentimentValueList, sentimentLinePath)
+            drawPosNegRatioPie(overallPosRatio, overallNegRatio, posNegRatioPath)
+        if len(strangeWordPos)>0:
+            appendStrangeWordsToTxt(curTime,finalStrangeWordPos,rawReview,strangeWordPath)
+            strangeWords=getStrangeWords(finalStrangeWordPos,rawReview)
+            strangeFlag=True
+        if len(posProbility) > windowSize - 1:
+            posProbility = posProbility[len(posProbility) - windowSize + 1:len(posProbility)]
+            rawReview = rawReview[len(rawReview) - windowSize + 1:len(rawReview)]
+    end=time.clock()
+    print 'sentiment Analyze based dict running time:',end-begin,'handle review num:',len(review)
+    return curPos,posProbility,rawReview,curTime,strangeFlag,strangeWords,sentimentLinePath,classifyResPath
+
+def sentiAnalyzeBaseDictFromPosALLUI(oldPosProbility,oldRawReview,lastPos,reviewDataSetDir,reviewDataSetName,reviewDataSetFileType,windowSize,posBounder,negBounder,sentScoreBounder,timeInterval=20):
+    begin=time.clock()
+
+    desDir='D:/ReviewHelpfulnessPrediction/PredictClassRes'
+    figDir = 'D:/ReviewHelpfulnessPrediction\SentimentLineFig'
+    strangeWordDir = 'D:/ReviewHelpfulnessPrediction\StrangeWords'
+
+    curTime = time.strftime('%Y.%m.%d.%H.%M.%S', time.localtime(time.time()))
+
+    rawDataSetPath = reviewDataSetDir + '/' + reviewDataSetName + reviewDataSetFileType
+    strangeWordPath = strangeWordDir + '/' + reviewDataSetName + 'DA.txt'
+    classifyResPath = desDir + '/' + reviewDataSetName +'-'+str(curTime)+'-'+ 'DA.txt'
+    sentimentLinePath = figDir + '/' + reviewDataSetName + 'SCDA.png'
+    posNegRatioPath = figDir + '/' + reviewDataSetName + 'PNRDA.png'
+
+    review, curPos = tp.get_txt_data_from_pos(rawDataSetPath, "lines", lastPos)
+    '''得到每句评论[[PosSum, NegSum],[],]'''
+    sentiment_score_list = get_review_set_sentiement_score(review)
+    '''得到每句评论的整体得分'''
+    newPosProbility = get_sentiment_overall_score_to_txt(sentiment_score_list, review, classifyResPath)
+    posProbility = oldPosProbility + newPosProbility
+    rawReview = oldRawReview + review
+    if len(posProbility)!=0:
+        '''分析评论情感得分数据 按照窗口迭代 获得 情感值 积极比率 消极比率 异常话语位置'''
+        sentimentValueList, posRatioList, negRatioList, strangeWordPos = analyzeSentimentProList(posProbility,
+                                                                                                 windowSize, posBounder,
+                                                                                                 negBounder,
+                                                                                                 sentScoreBounder)
+        finalStrangeWordPos = unionStrangeWordPos(strangeWordPos)
+
+        # meanSentPosPro = getMeanSentimentValue(sentiment_overall_score)
+        overallPosRatio = getOverallPosRatio(posProbility, posBounder)
+        overallNegRatio = getOverallNegRatio(posProbility, negBounder)
+        if len(posProbility)>=windowSize:
+            drawSentimentLine(sentimentValueList, sentimentLinePath)
+            drawPosNegRatioPie(overallPosRatio, overallNegRatio, posNegRatioPath)
+        if len(strangeWordPos)>0:
+            saveStrangeWordsToTxt(finalStrangeWordPos, rawReview, strangeWordPath)
+    end=time.clock()
+    print 'sentiment Analyze based dict running time:',end-begin,'handle review num:',len(review)
+    return curPos,posProbility,rawReview,curTime,strangeWordPath,sentimentLinePath,classifyResPath
+
 '''每隔多长时间处理一次 timeSize/s'''
 '''产生结果数据堆积 硬盘爆 适时删除'''
 '''读取数据发生冲突'''

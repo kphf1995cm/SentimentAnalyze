@@ -39,7 +39,7 @@ class BasicParmSetDlg(QDialog):
         hLayout4.addWidget(self.edit4)
 
         hLayout5 = QHBoxLayout()
-        label5 = QLabel(u'时间间隔')
+        label5 = QLabel(u'更新时间间隔')
         self.edit5 = QLineEdit()
         self.edit5.setText('300')
         hLayout5.addWidget(label5)
