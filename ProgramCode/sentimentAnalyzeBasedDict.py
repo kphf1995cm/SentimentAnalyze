@@ -543,7 +543,9 @@ def testLabelDataAcc():
         labelClass.append(0)
     # for pos in range(len(sentiment_overall_score)):
     # 	print sentiment_score_list[pos],sentiment_overall_score[pos],labelClass[pos]
-    print 'sentiment Analyze Based Dictionary Accuracy:',getAccuracy(sentiment_overall_score,labelClass),'data item num:',len(review)
+    finalAcc=getAccuracy(sentiment_overall_score,labelClass)
+    print 'sentiment Analyze Based Dictionary Accuracy:',finalAcc,'data item num:',len(review)
+    return finalAcc,len(review)
 '''基于字典情感分析 时间性能：'''
 '''参数：原始数据名称 原始数据文件格式 窗口大小 积极边界 消极边界 情感得分边界'''
 '''sentiment Analyze based dict running time: 146.88193332 handle review num: 87642'''

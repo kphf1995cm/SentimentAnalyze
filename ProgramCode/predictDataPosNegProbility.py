@@ -724,6 +724,7 @@ def getStrangeWords(finalStrangeWordPos,rawReview):
     if len(finalStrangeWordPos)==0:
         return ''
     strangeWords=''
+    strangeWords+=(str(len(finalStrangeWordPos))+'\n').decode('utf-8')
     for x in finalStrangeWordPos:
         strangeWords+='.................................................................................\n'.decode('utf-8')
         for pos in range(x[0],x[1]+1):

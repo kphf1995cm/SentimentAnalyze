@@ -3,6 +3,7 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+import re
 
 class BasicParmSetDlg(QDialog):
     def __init__(self, format, parent=None):
@@ -68,13 +69,32 @@ class BasicParmSetDlg(QDialog):
     #     return self.edit1.text(),self.edit2.text(),self.edit3.text(),self.edit4.text()
 
 
-def checkParmValueValid():
-    pass
+def checkParmValueValid(parmStrList):
+    parmValue=[]
+    successFlag=True
+    for parm in parmStrList:
+        m=re.match('-?\d+\.?\d+', str(parm))
+        if m:
+            parmValue.append(m.group())
+        else:
+            successFlag=False
+            break
+    print parmValue
+    return successFlag,parmValue
 def getParmValue(parent=None):
     dialog=BasicParmSetDlg(parent)
     result=dialog.exec_()
-    windowSize = int(dialog.edit1.text())
-    sentBounder = float(dialog.edit2.text())
-    posBounder = float(dialog.edit3.text())
-    negBounder = float(dialog.edit4.text())
-    return (windowSize,sentBounder,posBounder,negBounder,result == QDialog.Accepted)
+    successFlag, parmValue=checkParmValueValid([dialog.edit1.text(),dialog.edit2.text(),dialog.edit3.text(),dialog.edit4.text()])
+    # windowSize = int(dialog.edit1.text())
+    # sentBounder = float(dialog.edit2.text())
+    # posBounder = float(dialog.edit3.text())
+    # negBounder = float(dialog.edit4.text())
+    print successFlag
+    if successFlag:
+        windowSize = int(parmValue[0])
+        sentBounder = float(parmValue[1])
+        posBounder = float(parmValue[2])
+        negBounder = float(parmValue[3])
+        return (windowSize,sentBounder,posBounder,negBounder,result == QDialog.Accepted)
+    else:
+        return 0,0,0,0,False

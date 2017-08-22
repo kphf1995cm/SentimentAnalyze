@@ -27,6 +27,7 @@ import dyLineParmSetDialog
 import time
 import random
 import xlrd
+import math
 
 class SA(QtGui.QMainWindow):
 
@@ -255,7 +256,7 @@ class SA(QtGui.QMainWindow):
             sentLinePng = QtGui.QPixmap(sentLinePath)
             self.pngOutput.setPixmap(sentLinePng)
         else:
-            self.pngOutput.setText(u'窗口设置过大或抓取消息数过少')
+            self.pngOutput.setText(u'没有新的弹幕消息')
         strangeTimeStr = ''
         f=open(strangeTimePath,'w')
         for x in strangeTimeSet:
@@ -304,13 +305,21 @@ class SA(QtGui.QMainWindow):
 
     '''可能会出现所画的点超出图形界面范围，如何处理'''
     '''框架设计 坐标轴、单位、刻度标记'''
-    def drawLine(self,qp,sw,sh,w,h,showData):
+    def drawLine2(self,qp,sw,sh,w,h,showData):
         middleW=sw+w/2
         middleH=sh+h/2
-        qp.drawLine(sw,sh+h,sw+w,sh+h)#x
-        qp.drawLine(sw,middleH,sw+5,middleH)
-        qp.drawLine(sw,sh,sw,sh+h)
-        qp.drawLine(middleW,sh+h-5,middleW,sh+h)
+        qp.drawLine(sw, sh + h, sw + w, sh + h)  # x
+        qp.drawLine(sw, sh, sw, sh + h)
+        qp.drawLine(sw, sh, sw + w, sh)
+        qp.drawLine(sw + w, sh, sw + w, sh + h)
+
+        qp.drawLine(sw, middleH, sw + 5, middleH)
+        qp.drawLine(sw, sh + h / 4, sw + 5, sh + h / 4)
+        qp.drawLine(sw, sh + 3 * h / 4, sw + 5, sh + 3 * h / 4)
+
+        qp.drawLine(middleW, sh + h - 5, middleW, sh + h)
+        qp.drawLine(sw + w / 4, sh + h - 5, sw + w / 4, sh + h)
+        qp.drawLine(sw + 3 * w / 4, sh + h - 5, sw + 3 * w / 4, sh + h)
         qp.setPen(QtCore.Qt.blue)
         x=range(1,len(showData)+1)
         if self.sentBounder<0:
@@ -353,6 +362,65 @@ class SA(QtGui.QMainWindow):
             qp.drawText(rect,0,QString(str(yTextValue)))
             yTextValue+=yValueInterval
             yTextPos-=yPosInterval
+
+        xStd=[]
+        yStd=[]
+        for pos in range(len(showData)):
+            xStd.append(sw+x[pos]*w/widthRange)
+            yStd.append(middleH-showData[pos]*h/heightRange)
+        for pos in range(1,len(x)):
+            qp.drawLine(xStd[pos-1],yStd[pos-1],xStd[pos],yStd[pos])
+            #qp.drawPoint(sw+x[pos]*w/widthRange,middleH-showData[pos]*h/heightRange)
+    def drawLine(self,qp,sw,sh,w,h,showData):
+        middleW=sw+w/2
+        middleH=sh+h/2
+        qp.drawLine(sw,sh+h,sw+w,sh+h)#x
+        qp.drawLine(sw,sh,sw,sh+h)
+        qp.drawLine(sw,sh,sw+w,sh)
+        qp.drawLine(sw+w,sh,sw+w,sh+h)
+
+        qp.drawLine(sw,middleH,sw+5,middleH)
+        # qp.drawLine(sw, sh+h/4, sw + 5, sh+h/4)
+        # qp.drawLine(sw, sh+3*h/4, sw + 5, sh+3*h/4)
+
+        qp.drawLine(middleW,sh+h-5,middleW,sh+h)
+        # qp.drawLine(sw+w/4, sh + h - 5, sw+w/4, sh + h)
+        # qp.drawLine(sw+3*w/4, sh + h - 5, sw+3*w/4, sh + h)
+
+        qp.setPen(QtCore.Qt.blue)
+        x=range(1,len(showData)+1)
+        if self.sentBounder<0:
+            minSent=-self.sentBounder
+        else:
+            minSent=self.sentBounder
+        heightRange=int((minSent+10)*2)
+        widthRange=int(self.dyLineShowWidth)
+        print heightRange,widthRange,
+        textWidth = 6
+        textHeight =8
+
+        fiveHeight=5*h/float(heightRange)
+        fiveHeightStartValue=-math.floor(heightRange/2/5)
+        print fiveHeightStartValue,
+        fiveHeightStartPos=middleH-fiveHeightStartValue*fiveHeight
+        while fiveHeightStartPos>sh:
+            rect=QtCore.QRect(sw-textWidth-12,fiveHeightStartPos-textHeight/2,sw,fiveHeightStartPos+textHeight/2)
+            qp.drawText(rect,0,QString(str(int(fiveHeightStartValue*5))))
+            fiveHeightStartPos-=fiveHeight
+            fiveHeightStartValue+=1
+            #qp.drawLine(sw-5,fiveHeightStartPos,sw,fiveHeightStartPos)
+
+        twentyWidth = 20 * w / float(widthRange)
+        twentyWidthStartValue=math.floor(widthRange/2/20)
+        print twentyWidthStartValue
+        twentyWidthStartPos=middleW-twentyWidthStartValue*twentyWidth
+        twentyWidthStartValue=(widthRange/2-twentyWidthStartValue*20)/float(20)
+        while twentyWidthStartPos<sw+w:
+            rect=QtCore.QRect(twentyWidthStartPos-textWidth/2,sh+h,twentyWidthStartPos+textWidth/2,sh+h+textHeight)
+            qp.drawText(rect,0,QString(str(int(twentyWidthStartValue*20))))
+            twentyWidthStartPos+=twentyWidth
+            twentyWidthStartValue+=1
+            #qp.drawLine(twentyWidthStartPos,sh+h,twentyWidthStartPos,sh+h+5)
 
         xStd=[]
         yStd=[]
@@ -604,7 +672,10 @@ class SA(QtGui.QMainWindow):
                 self.timer.start(ms,self)
 
 
-
+    def getBasedDictAccuracy(self):
+        self.clearScreenInfo()
+        accuracy,dataNum=sabd.testLabelDataAcc()
+        self.statusMessage.setText(u'精度:'+(str(accuracy)+'\n').decode('utf-8')+u'测试数据数量:'+str(dataNum).decode('utf-8'))
     def showCurCrabStaticPngDA(self):
         self.lastPos, self.oldPosProbility, self.oldRawReview, curTime, strangeFlag, strangeWords, sentLinePath, clfResPath = sabd.sentiAnalyzeBaseDictFromLastPosUI(
             self.oldPosProbility, self.oldRawReview, self.lastPos, self.fileDir, self.fileName, self.fileType,
@@ -624,7 +695,7 @@ class SA(QtGui.QMainWindow):
             sentLinePng = QtGui.QPixmap(sentLinePath)
             self.pngOutput.setPixmap(sentLinePng)
         else:
-            self.pngOutput.setText(u'窗口设置过大或抓取消息数过少')
+            self.pngOutput.setText(u'没有新的弹幕消息')
         strangeTimeStr = ''
         f = open(strangeTimePath, 'w')
         for x in strangeTimeSet:
@@ -952,6 +1023,9 @@ class SA(QtGui.QMainWindow):
 
 
 
+        getBasedDictAccAction=QtGui.QAction(QtGui.QIcon('getBasedDictAcc.png'),u'精度',self)
+        getBasedDictAccAction.triggered.connect(self.getBasedDictAccuracy)
+
         daHandleStaticTxtAction = QtGui.QAction(QtGui.QIcon('daHandleStaticTxt.png'), u'静态分类', self)
         daHandleStaticTxtAction.setShortcut('Ctrl+M+S')
         daHandleStaticTxtAction.triggered.connect(self.daHandleStaticDialog)
@@ -995,8 +1069,9 @@ class SA(QtGui.QMainWindow):
         machineLearnMenu.addAction(mlShowCurCrabStaticPngAction)
         machineLearnMenu.addAction(mlShowAllCrabStaticPngAction)
         machineLearnMenu.addAction(mlDrawDySentLineAction)
-        basedDictMenu=menubar.addMenu(u'字典')
+        basedDictMenu=menubar.addMenu(u'词典')
         basedDictMenu.addAction(changeRawDataPathAction)
+        basedDictMenu.addAction(getBasedDictAccAction)
         basedDictMenu.addAction(daHandleStaticTxtAction)
         basedDictMenu.addAction(daShowCurCrabStaticPngAction)
         basedDictMenu.addAction(daShowAllCrabStaticPngAction)
