@@ -79,21 +79,24 @@ class BasicParmSetDlg(QDialog):
     #     return self.edit1.text(),self.edit2.text(),self.edit3.text(),self.edit4.text()
 
 def checkParmValueValid(parmStrList):
+    #print parmStrList
     parmValue=[]
     successFlag=True
     for parm in parmStrList:
-        m=re.match('-?\d+\.?\d+', str(parm))
+        #print parm
+        m=re.match('-?\d+\.?\d*', str(parm))
         if m:
-            parmValue.append(m.group())
+            parmValue.append(re.sub('\.$','',m.group()))
         else:
             successFlag=False
             break
+    #print parmValue
     return successFlag,parmValue
 def getParmValue(parent=None):
     dialog=BasicParmSetDlg(parent)
     result=dialog.exec_()
     successFlag, parmValue = checkParmValueValid(
-        [dialog.edit1.text(), dialog.edit2.text(), dialog.edit3.text(), dialog.edit4.text(), dialog.edit5.text(),])
+        [dialog.edit1.text(), dialog.edit2.text(), dialog.edit3.text(), dialog.edit4.text(), dialog.edit5.text()])
     if successFlag:
         windowSize = int(parmValue[0])
         sentBounder = float(parmValue[1])

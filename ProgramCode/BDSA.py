@@ -34,7 +34,7 @@ class SA(QtGui.QMainWindow):
     def __init__(self):
         super(SA,self).__init__()
         self.initUI()
-
+    # 查看分类结果
     def viewClsResDialog(self):
         self.clearScreenInfo()
         srcPath = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
@@ -52,13 +52,14 @@ class SA(QtGui.QMainWindow):
                 #print ' '.join(sheet.row_values(rowPos)),type(' '.join(sheet.row_values(rowPos)))
                 showData+=((' '.join(sheet.row_values(rowPos)))+'\n'.decode('utf-8'))
             self.textOutput.setText(showData)
-
+    #查看含不良内容弹幕数据
     def viewStrangeWordsDialog(self):
         self.clearScreenInfo()
         srcPath = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
                                                     'D:/ReviewHelpfulnessPrediction/StrangeWords/')
         showData = tp.get_txt_str_data(srcPath, 'lines')
         self.textOutput.setText(showData)
+    #查看情感波动曲线图
     def viewFigDialog(self):
         self.clearScreenInfo()
         fname = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
@@ -66,7 +67,7 @@ class SA(QtGui.QMainWindow):
         pixmap = QtGui.QPixmap(fname)
         self.pngOutput.setPixmap(pixmap)
 
-
+    #过滤客观语句
     def filtDataDialog(self):
         srcPath = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
                                                   'D:/crambData/')
@@ -75,7 +76,7 @@ class SA(QtGui.QMainWindow):
         dstPath=dstDir+fileName+'.txt'
         udptl.filt_objective_sentence(srcPath,'lines',dstPath)
         self.statusMessage.setText(u'过滤后数据保存在：'+dstPath)
-
+    #删除重复语句
     def removeDupDataDialog(self):
         srcPath = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
                                                     'D:/ReviewHelpfulnessPrediction/BulletData/')
@@ -85,7 +86,7 @@ class SA(QtGui.QMainWindow):
         #udptl.filt_objective_sentence(srcPath, 'lines', dstPath)
         udptl.remove_duplicate_comment(srcPath,'lines',dstPath)
         self.statusMessage.setText(u'去重后数据保存在：' + dstPath)
-
+    #txt转excel 转换为规范标注形式
     def saveTxtToExcelDialog(self):
         srcPath = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
                                                     'D:/crambData/')
@@ -94,7 +95,7 @@ class SA(QtGui.QMainWindow):
         dstPath = dstDir + fileName + '.xls'
         udptl.change_txt_to_excel(srcPath,'lines',dstPath)
         self.statusMessage.setText(u'转化后数据保存在：'+dstPath)
-
+    #保存标注数据和关键字
     def saveLabelAndKeyWordToSpeNameDialog(self):
         srcPath = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
                                                     'D:/ReviewHelpfulnessPrediction/LabelingData/')
@@ -112,7 +113,7 @@ class SA(QtGui.QMainWindow):
                 errorStr+=str(y)+' '
             errorStr+='\n'
         self.textOutput.setText(errorStr)
-
+    #合并标注数据
     def unionLabelData(self):
         speNameLabelDataDir='D:/ReviewHelpfulnessPrediction/SpeNameLabeledData'
         labeledDataDir='D:/ReviewHelpfulnessPrediction/LabelReviewData'
@@ -132,7 +133,7 @@ class SA(QtGui.QMainWindow):
         udptl.unionKeyWords(keyWordDir,nameSet)
         self.textOutput.setText(nameStr)
         self.statusMessage.setText(u'关键词所在目录：'+keyWordDir+'\n'+u'合并后标记数据所在目录：'+labeledDataDir)
-
+    #解析文件路径 提取文件目录 文件名 文件类型
     def parseFilePath(self,path):
         strs=path.split('/')
         nameType=strs[len(strs)-1].split('.')
@@ -141,13 +142,15 @@ class SA(QtGui.QMainWindow):
         fileName=nameType[0]
         fileType='.'+nameType[1]
         return fileDir,fileName,fileType
-
+    #更改原始数据路径
     def changeRawPathDialog(self):
         fname = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
                                                   'D:/crambData/')
+        rawData=tp.get_txt_str_data(fname,'lines')
         self.rawDataPath=fname
         self.statusMessage.setText(u'原始数据路径更改为：'+fname)
-
+        self.textOutput.setText(rawData)
+    #更改标记（训练）数据路径
     def changeLabelDataPathDialog(self):
         fname = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
                                                   'D:/ReviewHelpfulnessPrediction/LabelReviewData')
@@ -155,14 +158,14 @@ class SA(QtGui.QMainWindow):
         f.write(str(fname))
         f.close()
         self.statusMessage.setText(u'标记数据路径更改为：'+fname)
-
+    #提取文件名中时间
     def extractFileNameTime(self,fileName):
         name=fileName.split('-')
         if len(name)>2:
             return name[1]
         else:
             return ''
-
+    #清空屏幕信息
     def clearScreenInfo(self):
         self.textOutput.setText('')
         self.pngOutput.setText('')
@@ -172,11 +175,11 @@ class SA(QtGui.QMainWindow):
         self.workMode=-1
         if self.timer.isActive():
             self.timer.stop()
-
+    #删除文件
     def removeFile(self,filePath):
         if os.path.exists(filePath):
             os.remove(filePath)
-
+    #删除过去带有时间的结果数据
     def removePastDataDialog(self):
         curTime = time.strftime('%Y.%m.%d.%H.%M.%S', time.localtime(time.time()))
         clfResDir = 'D:/ReviewHelpfulnessPrediction\PredictClassRes'
@@ -193,7 +196,21 @@ class SA(QtGui.QMainWindow):
                     removedFileName+=(fileDirPath+'/'+file+'\n').decode('utf-8')
         self.clearScreenInfo()
         self.textOutput.setText(removedFileName)
-
+    #删除过去所有结果数据
+    def clearPastAllDataDialog(self):
+        clfResDir = 'D:/ReviewHelpfulnessPrediction\PredictClassRes'
+        figDir = 'D:/ReviewHelpfulnessPrediction\SentimentLineFig'
+        strangeWordDir = 'D:/ReviewHelpfulnessPrediction\StrangeWords'
+        fileDirPathList = [clfResDir, figDir, strangeWordDir]
+        removedFileName = ''
+        for fileDirPath in fileDirPathList:
+            fileDir = os.listdir(fileDirPath)
+            for file in fileDir:
+                self.removeFile(fileDirPath + '/' + file)
+                removedFileName += (fileDirPath + '/' + file + '\n').decode('utf-8')
+        self.clearScreenInfo()
+        self.textOutput.setText(removedFileName)
+    #每隔一定时间激发一次
     def timerEvent(self,e):
         if self.timeRun>=self.timeSize:
             self.timeRun=0
@@ -203,12 +220,16 @@ class SA(QtGui.QMainWindow):
                 self.showAllCrabStaticPngML()
             elif self.workMode==3:
                 self.analyzeRawDataML()
+            elif self.workMode==8:
+                self.analyzeCurShowAllStaticPngML()
             elif self.workMode==5:
                 self.showCurCrabStaticPngDA()
             elif self.workMode==6:
                 self.showAllCrabStaticPngDA()
             elif self.workMode==7:
                 self.analyzeRawDataDA()
+            elif self.workMode==9:
+                self.analyzeCurShowAllStaticPngDA()
             return
         if self.workMode==-1 or self.workMode==0 or self.workMode==4:
             self.progressBar.setValue(0)
@@ -219,14 +240,159 @@ class SA(QtGui.QMainWindow):
                 # self.showDySentLineML()
                 self.update()
             self.progressBar.setValue(self.timeRun * 100 / self.timeSize)
-
+    #窗口更新时候激发
     def paintEvent(self, e):
         qp = QtGui.QPainter()
         qp.begin(self)
         if self.workMode==3 or self.workMode==7:
             self.showDySentLineML(qp)
         qp.end()
+    # 相邻刻度值之间距离确定 刻度数量动态适应屏幕大小 可能刻度值位置不准确
+    def drawLine2(self, qp, sw, sh, w, h, showData):
+        middleW = sw + w / 2
+        middleH = sh + h / 2
+        qp.drawLine(sw, sh + h, sw + w, sh + h)  # x
+        qp.drawLine(sw, sh, sw, sh + h)
+        qp.drawLine(sw, sh, sw + w, sh)
+        qp.drawLine(sw + w, sh, sw + w, sh + h)
 
+        qp.drawLine(sw, middleH, sw + 5, middleH)
+        qp.drawLine(sw, sh + h / 4, sw + 5, sh + h / 4)
+        qp.drawLine(sw, sh + 3 * h / 4, sw + 5, sh + 3 * h / 4)
+
+        qp.drawLine(middleW, sh + h - 5, middleW, sh + h)
+        qp.drawLine(sw + w / 4, sh + h - 5, sw + w / 4, sh + h)
+        qp.drawLine(sw + 3 * w / 4, sh + h - 5, sw + 3 * w / 4, sh + h)
+        qp.setPen(QtCore.Qt.blue)
+        x = range(1, len(showData) + 1)
+        if self.sentBounder < 0:
+            minSent = -self.sentBounder
+        else:
+            minSent = self.sentBounder
+        heightRange = int((minSent + 10) * 2)
+        widthRange = int(self.dyLineShowWidth)
+        showAxisWidth = 50
+        xAxisNum = w / showAxisWidth
+        yAxisNum = h / showAxisWidth
+        if xAxisNum != 0 and yAxisNum != 0:
+            xValueInterval = widthRange / xAxisNum
+            yValueInterval = heightRange / yAxisNum
+            xPosInterval = w / xAxisNum
+            yPosInterval = h / yAxisNum
+        else:
+            xValueInterval = widthRange
+            yValueInterval = heightRange
+            xPosInterval = w
+            yPosInterval = h
+        xTextWidth = 5
+        xTextHeight = 8
+        xTextPos = sw
+        xTextValue = 0
+        # QPainter.drawText(QRect, int, QString) -> QRect
+        # 绘制x轴刻度
+        while xTextPos <= sw + w:
+            rect = QtCore.QRect(xTextPos, sh + h + 2, xTextPos + xTextWidth, sh + h + 2 + xTextHeight)
+            qp.drawText(rect, 0, QString(str(xTextValue)))
+            xTextValue += xValueInterval
+            xTextPos += xPosInterval
+        yTextWidth = 5
+        yTextHeight = 8
+        yTextPos = sh + h
+        yTextValue = -heightRange / 2
+        # 绘制y轴刻度
+        while yTextPos >= sh:
+            rect = QtCore.QRect(sw - yTextWidth - 12, yTextPos - yTextHeight, sw - 12, yTextPos)
+            qp.drawText(rect, 0, QString(str(yTextValue)))
+            yTextValue += yValueInterval
+            yTextPos -= yPosInterval
+
+        xStd = []
+        yStd = []
+        for pos in range(len(showData)):
+            xStd.append(sw + x[pos] * w / widthRange)
+            yStd.append(middleH - showData[pos] * h / heightRange)
+        for pos in range(1, len(x)):
+            qp.drawLine(xStd[pos - 1], yStd[pos - 1], xStd[pos], yStd[pos])
+            # qp.drawPoint(sw+x[pos]*w/widthRange,middleH-showData[pos]*h/heightRange)
+    # 相邻刻度值大小确定
+    def drawLine(self, qp, sw, sh, w, h, showData):
+        middleW = sw + w / 2
+        middleH = sh + h / 2
+        qp.drawLine(sw, sh + h, sw + w, sh + h)  # x
+        qp.drawLine(sw, sh, sw, sh + h)
+        qp.drawLine(sw, sh, sw + w, sh)
+        qp.drawLine(sw + w, sh, sw + w, sh + h)
+
+        qp.drawLine(sw, middleH, sw + 5, middleH)
+        # qp.drawLine(sw, sh+h/4, sw + 5, sh+h/4)
+        # qp.drawLine(sw, sh+3*h/4, sw + 5, sh+3*h/4)
+
+        qp.drawLine(middleW, sh + h - 5, middleW, sh + h)
+        # qp.drawLine(sw+w/4, sh + h - 5, sw+w/4, sh + h)
+        # qp.drawLine(sw+3*w/4, sh + h - 5, sw+3*w/4, sh + h)
+
+        qp.setPen(QtCore.Qt.blue)
+        x = range(1, len(showData) + 1)
+        if self.sentBounder < 0:
+            minSent = -self.sentBounder
+        else:
+            minSent = self.sentBounder
+        heightRange = int((minSent + 10) * 2)
+        widthRange = int(self.dyLineShowWidth)
+        #print heightRange, widthRange,
+        textWidth = 6
+        textHeight = 8
+
+        fiveHeight = 5 * h / float(heightRange)
+        fiveHeightStartValue = -math.floor(heightRange / 2 / 5)
+        #print fiveHeightStartValue,
+        fiveHeightStartPos = middleH - fiveHeightStartValue * fiveHeight
+        while fiveHeightStartPos > sh:
+            rect = QtCore.QRect(sw - textWidth - 12, fiveHeightStartPos - textHeight / 2, sw,
+                                fiveHeightStartPos + textHeight / 2)
+            qp.drawText(rect, 0, QString(str(int(fiveHeightStartValue * 5))))
+            fiveHeightStartPos -= fiveHeight
+            fiveHeightStartValue += 1
+            # qp.drawLine(sw-5,fiveHeightStartPos,sw,fiveHeightStartPos)
+
+        twentyWidth = 20 * w / float(widthRange)
+        twentyWidthStartValue = math.floor(widthRange / 2 / 20)
+        #print twentyWidthStartValue
+        twentyWidthStartPos = middleW - twentyWidthStartValue * twentyWidth
+        twentyWidthStartValue = (widthRange / 2 - twentyWidthStartValue * 20) / float(20)
+        while twentyWidthStartPos < sw + w:
+            rect = QtCore.QRect(twentyWidthStartPos - textWidth / 2, sh + h, twentyWidthStartPos + textWidth / 2,
+                                sh + h + textHeight)
+            qp.drawText(rect, 0, QString(str(int(twentyWidthStartValue * 20))))
+            twentyWidthStartPos += twentyWidth
+            twentyWidthStartValue += 1
+            # qp.drawLine(twentyWidthStartPos,sh+h,twentyWidthStartPos,sh+h+5)
+
+        xStd = []
+        yStd = []
+        for pos in range(len(showData)):
+            xStd.append(sw + x[pos] * w / widthRange)
+            yStd.append(middleH - showData[pos] * h / heightRange)
+        for pos in range(1, len(x)):
+            qp.drawLine(xStd[pos - 1], yStd[pos - 1], xStd[pos], yStd[pos])
+            # qp.drawPoint(sw+x[pos]*w/widthRange,middleH-showData[pos]*h/heightRange)
+    # 绘制情感波动曲线 应用于绘制动图
+    def showDySentLineML(self, qp):
+        if self.dataEndPos - self.lastDrawPos <= self.dyLineShowWidth:
+            showData = self.sentValueList[self.lastDrawPos:self.dataEndPos]
+        else:
+            showData = self.sentValueList[self.lastDrawPos:self.lastDrawPos + self.dyLineShowWidth]
+            self.lastDrawPos += 1
+        # print showData
+        qp.setPen(QtCore.Qt.black)
+        textRect = self.textOutput.rect()
+        pngRect = self.pngOutput.rect()
+        sw = textRect.width()
+        showRect = pngRect
+        self.drawLine(qp, sw + 35, 0 + 40, showRect.width() - 30, showRect.height() - 25, showData)
+
+    # workMode 0-3 8机器学习方法
+    #选择效果最佳分类器
     def selectBestClfDialog(self):
         message,clfNameAcc=sbc.handleSelectClfWork()
         processResStr=''
@@ -235,8 +401,7 @@ class SA(QtGui.QMainWindow):
         self.textOutput.setText(processResStr)
         self.statusMessage.setText(message)
 
-    '''返回新的strangeWords 显示采用append函数'''
-    '''将之前得到的posProbility选出最后windowSize-1返回到当前来使用'''
+    #显示当前抓取数据的情感曲线、append新的不良内容（需要使用到上次得到的posProbility的最后面windowSize-1个）
     def showCurCrabStaticPngML(self):
         self.lastPos, self.oldPosProbility, self.oldRawReview, curTime, strangeFlag,strangeWords, sentLinePath, clfResPath = pdpnp.sentiAnalyzeBaseUIMLFromLastPos(
             self.oldPosProbility, self.oldRawReview, self.lastPos, self.fileDir, self.fileName, self.fileType,
@@ -265,9 +430,7 @@ class SA(QtGui.QMainWindow):
         f.close()
         self.statusMessage.setText(
             u'主播房间号:' + self.fileName + '\n' + u'时间段:\n' + strangeTimeStr + '\n' + u'分类结果所在路径:' + clfResPath)
-    '''怎么显示出当前异常内容'''
-    '''需不需要删除前面文本内容'''
-    '''将之前得到的posProbility全部返回到当前来使用'''
+    #预测当前抓取数据情感倾向 计算全部数据的情感得分 显示全部数据的情感曲线（需要使用到之前得到的posProbility）
     def showAllCrabStaticPngML(self):
         self.lastPos, self.oldPosProbility, self.oldRawReview, curTime, strangeWordPath, sentLinePath, clfResPath = pdpnp.sentiAnalyzeBaseUIMLFromPosAll(
             self.oldPosProbility, self.oldRawReview, self.lastPos, self.fileDir, self.fileName, self.fileType,
@@ -302,151 +465,36 @@ class SA(QtGui.QMainWindow):
         f.close()
         self.statusMessage.setText(
             u'主播房间号:' + self.fileName + '\n' + u'时间段:\n' + strangeTimeStr + '\n' + u'分类结果所在路径:' + clfResPath)
-
-    '''可能会出现所画的点超出图形界面范围，如何处理'''
-    '''框架设计 坐标轴、单位、刻度标记'''
-    def drawLine2(self,qp,sw,sh,w,h,showData):
-        middleW=sw+w/2
-        middleH=sh+h/2
-        qp.drawLine(sw, sh + h, sw + w, sh + h)  # x
-        qp.drawLine(sw, sh, sw, sh + h)
-        qp.drawLine(sw, sh, sw + w, sh)
-        qp.drawLine(sw + w, sh, sw + w, sh + h)
-
-        qp.drawLine(sw, middleH, sw + 5, middleH)
-        qp.drawLine(sw, sh + h / 4, sw + 5, sh + h / 4)
-        qp.drawLine(sw, sh + 3 * h / 4, sw + 5, sh + 3 * h / 4)
-
-        qp.drawLine(middleW, sh + h - 5, middleW, sh + h)
-        qp.drawLine(sw + w / 4, sh + h - 5, sw + w / 4, sh + h)
-        qp.drawLine(sw + 3 * w / 4, sh + h - 5, sw + 3 * w / 4, sh + h)
-        qp.setPen(QtCore.Qt.blue)
-        x=range(1,len(showData)+1)
-        if self.sentBounder<0:
-            minSent=-self.sentBounder
+    #预测分析当前展示全部静态图（需要使用到上次得到的posProbility的最后面windowSize-1个、需要之前全部的sentValueList）
+    def analyzeCurShowAllStaticPngML(self):
+        self.lastPos, self.sentValueList,self.oldPosProbility, self.oldRawReview, curTime, strangeFlag,strangeWords, sentLinePath, clfResPath = pdpnp.sentiAnalyzeBaseUIMLFromLastPosShowALl(
+            self.sentValueList,self.oldPosProbility, self.oldRawReview, self.lastPos, self.fileDir, self.fileName, self.fileType,
+            self.windowSize, self.posBounder, self.negBounder,
+            self.sentBounder)
+        strangeTimeDir='D:/ReviewHelpfulnessPrediction/StrangeTimes/'
+        strangeTimePath=strangeTimeDir+self.fileName+'.txt'
+        if os.path.exists(strangeTimePath)==True:
+            strangeTimeSet=tp.get_txt_data(strangeTimePath,'lines')
         else:
-            minSent=self.sentBounder
-        heightRange=int((minSent+10)*2)
-        widthRange=int(self.dyLineShowWidth)
-        showAxisWidth=50
-        xAxisNum=w/showAxisWidth
-        yAxisNum=h/showAxisWidth
-        if xAxisNum!=0 and yAxisNum!=0:
-            xValueInterval = widthRange / xAxisNum
-            yValueInterval = heightRange / yAxisNum
-            xPosInterval = w / xAxisNum
-            yPosInterval = h / yAxisNum
+            strangeTimeSet=[]
+        if strangeWords:
+            # self.textOutput.setText(strangeWords)
+            # self.textOutput.moveCursor(QTextCursor.End,QTextCursor.MoveAnchor)
+            self.textOutput.append(str(curTime).decode('utf-8')+'\n'.decode('utf-8')+strangeWords)
+        if os.path.exists(sentLinePath) == True:
+            sentLinePng = QtGui.QPixmap(sentLinePath)
+            self.pngOutput.setPixmap(sentLinePng)
         else:
-            xValueInterval = widthRange
-            yValueInterval = heightRange
-            xPosInterval = w
-            yPosInterval = h
-        xTextWidth=5
-        xTextHeight=8
-        xTextPos=sw
-        xTextValue=0
-        #QPainter.drawText(QRect, int, QString) -> QRect
-        # 绘制x轴刻度
-        while xTextPos<=sw+w:
-            rect=QtCore.QRect(xTextPos,sh+h+2,xTextPos+xTextWidth,sh+h+2+xTextHeight)
-            qp.drawText(rect,0,QString(str(xTextValue)))
-            xTextValue+=xValueInterval
-            xTextPos+=xPosInterval
-        yTextWidth=5
-        yTextHeight=8
-        yTextPos=sh+h
-        yTextValue=-heightRange/2
-        # 绘制y轴刻度
-        while yTextPos>=sh:
-            rect=QtCore.QRect(sw-yTextWidth-12,yTextPos-yTextHeight,sw-12,yTextPos)
-            qp.drawText(rect,0,QString(str(yTextValue)))
-            yTextValue+=yValueInterval
-            yTextPos-=yPosInterval
-
-        xStd=[]
-        yStd=[]
-        for pos in range(len(showData)):
-            xStd.append(sw+x[pos]*w/widthRange)
-            yStd.append(middleH-showData[pos]*h/heightRange)
-        for pos in range(1,len(x)):
-            qp.drawLine(xStd[pos-1],yStd[pos-1],xStd[pos],yStd[pos])
-            #qp.drawPoint(sw+x[pos]*w/widthRange,middleH-showData[pos]*h/heightRange)
-    def drawLine(self,qp,sw,sh,w,h,showData):
-        middleW=sw+w/2
-        middleH=sh+h/2
-        qp.drawLine(sw,sh+h,sw+w,sh+h)#x
-        qp.drawLine(sw,sh,sw,sh+h)
-        qp.drawLine(sw,sh,sw+w,sh)
-        qp.drawLine(sw+w,sh,sw+w,sh+h)
-
-        qp.drawLine(sw,middleH,sw+5,middleH)
-        # qp.drawLine(sw, sh+h/4, sw + 5, sh+h/4)
-        # qp.drawLine(sw, sh+3*h/4, sw + 5, sh+3*h/4)
-
-        qp.drawLine(middleW,sh+h-5,middleW,sh+h)
-        # qp.drawLine(sw+w/4, sh + h - 5, sw+w/4, sh + h)
-        # qp.drawLine(sw+3*w/4, sh + h - 5, sw+3*w/4, sh + h)
-
-        qp.setPen(QtCore.Qt.blue)
-        x=range(1,len(showData)+1)
-        if self.sentBounder<0:
-            minSent=-self.sentBounder
-        else:
-            minSent=self.sentBounder
-        heightRange=int((minSent+10)*2)
-        widthRange=int(self.dyLineShowWidth)
-        print heightRange,widthRange,
-        textWidth = 6
-        textHeight =8
-
-        fiveHeight=5*h/float(heightRange)
-        fiveHeightStartValue=-math.floor(heightRange/2/5)
-        print fiveHeightStartValue,
-        fiveHeightStartPos=middleH-fiveHeightStartValue*fiveHeight
-        while fiveHeightStartPos>sh:
-            rect=QtCore.QRect(sw-textWidth-12,fiveHeightStartPos-textHeight/2,sw,fiveHeightStartPos+textHeight/2)
-            qp.drawText(rect,0,QString(str(int(fiveHeightStartValue*5))))
-            fiveHeightStartPos-=fiveHeight
-            fiveHeightStartValue+=1
-            #qp.drawLine(sw-5,fiveHeightStartPos,sw,fiveHeightStartPos)
-
-        twentyWidth = 20 * w / float(widthRange)
-        twentyWidthStartValue=math.floor(widthRange/2/20)
-        print twentyWidthStartValue
-        twentyWidthStartPos=middleW-twentyWidthStartValue*twentyWidth
-        twentyWidthStartValue=(widthRange/2-twentyWidthStartValue*20)/float(20)
-        while twentyWidthStartPos<sw+w:
-            rect=QtCore.QRect(twentyWidthStartPos-textWidth/2,sh+h,twentyWidthStartPos+textWidth/2,sh+h+textHeight)
-            qp.drawText(rect,0,QString(str(int(twentyWidthStartValue*20))))
-            twentyWidthStartPos+=twentyWidth
-            twentyWidthStartValue+=1
-            #qp.drawLine(twentyWidthStartPos,sh+h,twentyWidthStartPos,sh+h+5)
-
-        xStd=[]
-        yStd=[]
-        for pos in range(len(showData)):
-            xStd.append(sw+x[pos]*w/widthRange)
-            yStd.append(middleH-showData[pos]*h/heightRange)
-        for pos in range(1,len(x)):
-            qp.drawLine(xStd[pos-1],yStd[pos-1],xStd[pos],yStd[pos])
-            #qp.drawPoint(sw+x[pos]*w/widthRange,middleH-showData[pos]*h/heightRange)
-
-    def showDySentLineML(self,qp):
-        if self.dataEndPos-self.lastDrawPos<=self.dyLineShowWidth:
-            showData=self.sentValueList[self.lastDrawPos:self.dataEndPos]
-        else:
-            showData=self.sentValueList[self.lastDrawPos:self.lastDrawPos+self.dyLineShowWidth]
-            self.lastDrawPos+=1
-        #print showData
-        qp.setPen(QtCore.Qt.black)
-        textRect=self.textOutput.rect()
-        pngRect=self.pngOutput.rect()
-        sw=textRect.width()
-        showRect=pngRect
-        self.drawLine(qp,sw+35,0+40,showRect.width()-30,showRect.height()-25,showData)
-
-    '''预测当前产生数据的情感得分  分析前windowSize-1个和当前数据的情感趋势'''
-    '''时间 异常话语 主播房间号尚未输出'''
+            self.pngOutput.setText(u'没有新的弹幕消息')
+        strangeTimeStr = ''
+        f=open(strangeTimePath,'w')
+        for x in strangeTimeSet:
+            strangeTimeStr += (x + '\n')
+            f.write(x+'\n')
+        f.close()
+        self.statusMessage.setText(
+            u'主播房间号:' + self.fileName + '\n' + u'时间段:\n' + strangeTimeStr + '\n' + u'分类结果所在路径:' + clfResPath)
+    #预测当前抓取数据情感倾向（需要使用到上次得到的posProbility的最后面windowSize-1个、需要之前全部的sentValueList）
     def analyzeRawDataML(self):
         desDir = 'D:/ReviewHelpfulnessPrediction/PredictClassRes'
         figDir = 'D:/ReviewHelpfulnessPrediction/SentimentLineFig'
@@ -509,8 +557,8 @@ class SA(QtGui.QMainWindow):
             u'主播房间号:' + self.fileName + '\n' + u'时间段:\n' + strangeTimeStr + '\n' + u'分类结果所在路径:' + classifyResPath)
         print sentValueList
 
-    '''workMode 0-3 机器学习方法'''
-    '''显示静态图像 用于综合分析整天数据 workMode=0'''
+
+    #显示静态图像 用于综合分析整天数据 workMode=0
     def mlHandleStaticDialog(self):
         #windowSize,posBounder,negBounder,sentScoreBounder
         windowSize, sentBounder, posBounder, negBounder, ok = basicParmSetDialog.getParmValue()
@@ -536,66 +584,7 @@ class SA(QtGui.QMainWindow):
                 self.pngOutput.setText(u'窗口设置过大或抓取消息数过少')
 
             self.statusMessage.setText(u'主播房间号:'+fileName+'\n'+u'分类结果所在路径:'+clfResPath)
-    # def mlHandleOneDynamicDialog(self):
-    #     windowSize, sentBounder, posBounder, negBounder,timeSize,ok = dynamicParmSetDialog.getParmValue()
-    #     if ok:
-    #         self.timer.start(1000,self)
-    #         self.windowSize = windowSize
-    #         self.sentBounder = sentBounder
-    #         self.posBounder = posBounder
-    #         self.negBounder = negBounder
-    #         fileDir, fileName, fileType = self.parseFilePath(str(self.rawDataPath))
-    #         lastPos=0
-    #         oldPosProbility=[]
-    #         oldRawReview=[]
-    #         lastStrangeWordNum=0
-    #         strangeTimeSet=[]
-    #         while True:
-    #             if self.timer.isActive()==False:
-    #                 self.timer.start(1000,self)
-    #             lastPos,oldPosProbility,oldRawReview,curTime,strangeWordPath,sentLinePath,clfResPath=pdpnp.sentiAnalyzeBaseUIMLFromPos(oldPosProbility,oldRawReview,lastPos,fileDir,fileName,fileType,windowSize,posBounder,negBounder,sentBounder)
-    #             if os.path.exists(strangeWordPath) == True:
-    #                 curStrangeWordNum=int(tp.get_txt_data(strangeWordPath,'line'))
-    #                 if curStrangeWordNum>lastStrangeWordNum:
-    #                     strangeTimeSet.append(curTime)
-    #                     lastStrangeWordNum=curStrangeWordNum
-    #                 strangeWords = tp.get_txt_str_data(strangeWordPath, 'lines')
-    #                 self.textOutput.setText(strangeWords)
-    #             else:
-    #                 self.textOutput.setText(u'未发现不良内容')
-    #             if os.path.exists(sentLinePath) == True:
-    #                 sentLinePng = QtGui.QPixmap(sentLinePath)
-    #                 self.pngOutput.setPixmap(sentLinePng)
-    #             else:
-    #                 self.pngOutput.setText(u'窗口设置过大或抓取消息数过少')
-    #             strangeTimeStr=''
-    #             for x in strangeTimeSet:
-    #                 strangeTimeStr+=(x+'\n')
-    #             self.statusMessage.setText(u'主播房间号:' + fileName + '\n'+u'时间段:\n'+strangeTimeStr+'\n'+ u'分类结果所在路径:' + clfResPath)
-    # '''返回上次处理的windowSize-1个数据 以便于绘制连续曲线'''
-    # '''存在问题：窗口长时间得不到响应 需要多线程编程'''
-    # def mlSaveStrangeFromDynamicTxtDialog(self):
-    #     windowSize, sentBounder, posBounder, negBounder,timeSize,ok = dynamicParmSetDialog.getParmValue()
-    #     if ok:
-    #         self.windowSize = windowSize
-    #         self.sentBounder = sentBounder
-    #         self.posBounder = posBounder
-    #         self.negBounder = negBounder
-    #         fileDir, fileName, fileType = self.parseFilePath(str(self.rawDataPath))
-    #         lastPos=0
-    #         oldPosProbility=[]
-    #         oldRawReview=[]
-    #         lastStrangeWordNum=0
-    #         strangeTimeSet=[]
-    #         while True:
-    #             begin = time.clock()
-    #             lastPos,oldPosProbility,oldRawReview,curTime,strangeFlag,strangeWordPath,sentLinePath,clfResPath=pdpnp.sentiAnalyzeBaseUIMLFromLastPos(oldPosProbility,oldRawReview,lastPos,fileDir,fileName,fileType,windowSize,posBounder,negBounder,sentBounder)
-    #             # if len(oldPosProbility)>windowSize-1:
-    #             #     oldPosProbility=oldPosProbility[len(oldPosProbility)-windowSize+1:len(oldPosProbility)]
-    #             #     oldRawReview=oldRawReview[len(oldRawReview)-windowSize+1:len(oldRawReview)]
-    #             while time.clock()-begin<timeSize:
-    #                 pass
-    '''适时预测并分析刚产生弹幕数据，绘制当前数据静态图像 异常话语后续添加 workMode=1'''
+    #适时预测并分析刚产生弹幕数据，绘制当前数据静态图像 异常话语后续添加 workMode=1
     def mlShowCurCrabStaticPngDialog(self):
         windowSize, sentBounder, posBounder, negBounder,timeSize,ok = dynamicParmSetDialog.getParmValue()
         if ok:
@@ -610,13 +599,16 @@ class SA(QtGui.QMainWindow):
             self.posBounder = posBounder
             self.negBounder = negBounder
             self.timeSize=timeSize
+            print self.timeSize
             self.fileDir, self.fileName, self.fileType = self.parseFilePath(str(self.rawDataPath))
             self.removeFile('D:/ReviewHelpfulnessPrediction/StrangeTimes/' + self.fileName + '.txt')
             self.timeRun=0
             self.lastPos=0
+            self.oldPosProbility = []
+            self.oldRawReview = []
             self.textOutput.setText('')
             self.showCurCrabStaticPngML()
-    '''适时预测刚产生弹幕数据，分析所有数据，绘制所有数据静态图像 异常话语覆盖 workMode=2'''
+    #适时预测刚产生弹幕数据，分析所有数据，绘制所有数据静态图像 异常话语覆盖 workMode=2
     def mlShowAllCrabStaticPngDialog(self):
         windowSize, sentBounder, posBounder, negBounder, timeSize, ok = dynamicParmSetDialog.getParmValue()
         if ok:
@@ -635,8 +627,11 @@ class SA(QtGui.QMainWindow):
             self.removeFile('D:/ReviewHelpfulnessPrediction/StrangeTimes/' + self.fileName + '.txt')
             self.timeRun = 0
             self.lastPos=0
+            self.oldPosProbility = []
+            self.oldRawReview = []
+            self.textOutput.setText('')
             self.showAllCrabStaticPngML()
-    '''workMode=3'''
+    # 绘制动图 workMode=3
     def mlDrawDynamicLineDialog(self):
         windowSize, sentBounder, posBounder, negBounder, timeSize,messageNum,drawSpeed,ok = dyLineParmSetDialog.getParmValue()
         print timeSize,drawSpeed
@@ -658,6 +653,8 @@ class SA(QtGui.QMainWindow):
             self.timeRun = 0
             self.lastPos = 0
             self.lastDrawPos = 0
+            self.oldPosProbility = []
+            self.oldRawReview = []
             self.sentValueList = []
             # clear past content
             self.textOutput.setText("")
@@ -670,8 +667,34 @@ class SA(QtGui.QMainWindow):
             else:
                 self.timer.stop()
                 self.timer.start(ms,self)
+    # 预测分析当前展示全部静态图 workMode=8
+    def mlPreAnaCurDataShowAllStaticPngDialog(self):
+        windowSize, sentBounder, posBounder, negBounder, timeSize, ok = dynamicParmSetDialog.getParmValue()
+        if ok:
+            self.workMode = 8
+            if self.timer.isActive() == False:
+                self.timer.start(1000, self)
+            else:
+                self.timer.stop()
+                self.timer.start(1000, self)
+            self.windowSize = windowSize
+            self.sentBounder = sentBounder
+            self.posBounder = posBounder
+            self.negBounder = negBounder
+            self.timeSize = timeSize
+            self.fileDir, self.fileName, self.fileType = self.parseFilePath(str(self.rawDataPath))
+            self.removeFile('D:/ReviewHelpfulnessPrediction/StrangeTimes/' + self.fileName + '.txt')
+            self.timeRun = 0
+            self.lastPos = 0
+            self.oldPosProbility = []
+            self.oldRawReview = []
+            self.sentValueList=[]
+            self.textOutput.setText('')
+            self.analyzeCurShowAllStaticPngML()
 
 
+    #基于字典方法 workMode 4-7 9
+    # 得到字典精度
     def getBasedDictAccuracy(self):
         self.clearScreenInfo()
         accuracy,dataNum=sabd.testLabelDataAcc()
@@ -799,8 +822,35 @@ class SA(QtGui.QMainWindow):
         self.statusMessage.setText(
             u'主播房间号:' + self.fileName + '\n' + u'时间段:\n' + strangeTimeStr + '\n' + u'分类结果所在路径:' + classifyResPath)
         print sentValueList
+    def analyzeCurShowAllStaticPngDA(self):
+        self.lastPos, self.sentValueList,self.oldPosProbility, self.oldRawReview, curTime, strangeFlag,strangeWords, sentLinePath, clfResPath = sabd.sentiAnalyzeBaseDictFromLastPosShowAllUI(
+            self.sentValueList,self.oldPosProbility, self.oldRawReview, self.lastPos, self.fileDir, self.fileName, self.fileType,
+            self.windowSize, self.posBounder, self.negBounder,
+            self.sentBounder)
+        strangeTimeDir='D:/ReviewHelpfulnessPrediction/StrangeTimes/'
+        strangeTimePath=strangeTimeDir+self.fileName+'.txt'
+        if os.path.exists(strangeTimePath)==True:
+            strangeTimeSet=tp.get_txt_data(strangeTimePath,'lines')
+        else:
+            strangeTimeSet=[]
+        if strangeWords:
+            # self.textOutput.setText(strangeWords)
+            # self.textOutput.moveCursor(QTextCursor.End,QTextCursor.MoveAnchor)
+            self.textOutput.append(str(curTime).decode('utf-8')+'\n'.decode('utf-8')+strangeWords)
+        if os.path.exists(sentLinePath) == True:
+            sentLinePng = QtGui.QPixmap(sentLinePath)
+            self.pngOutput.setPixmap(sentLinePng)
+        else:
+            self.pngOutput.setText(u'没有新的弹幕消息')
+        strangeTimeStr = ''
+        f=open(strangeTimePath,'w')
+        for x in strangeTimeSet:
+            strangeTimeStr += (x + '\n')
+            f.write(x+'\n')
+        f.close()
+        self.statusMessage.setText(
+            u'主播房间号:' + self.fileName + '\n' + u'时间段:\n' + strangeTimeStr + '\n' + u'分类结果所在路径:' + clfResPath)
 
-    '''基于字典方法 workMode 4-7'''
     def daHandleStaticDialog(self):
         windowSize, sentBounder, posBounder, negBounder, ok = basicParmSetDialog.getParmValue()
         if ok:
@@ -843,6 +893,8 @@ class SA(QtGui.QMainWindow):
             self.removeFile('D:/ReviewHelpfulnessPrediction/StrangeTimes/' + self.fileName + '.txt')
             self.timeRun=0
             self.lastPos=0
+            self.oldPosProbility=[]
+            self.oldRawReview=[]
             self.textOutput.setText('')
             self.showCurCrabStaticPngDA()
     def daShowAllCrabStaticPngDialog(self):
@@ -863,6 +915,9 @@ class SA(QtGui.QMainWindow):
             self.removeFile('D:/ReviewHelpfulnessPrediction/StrangeTimes/' + self.fileName + '.txt')
             self.timeRun = 0
             self.lastPos=0
+            self.oldPosProbility = []
+            self.oldRawReview = []
+            self.textOutput.setText('')
             self.showAllCrabStaticPngDA()
     def daDrawDynamicLineDialog(self):
         windowSize, sentBounder, posBounder, negBounder, timeSize,messageNum,drawSpeed,ok = dyLineParmSetDialog.getParmValue()
@@ -883,6 +938,8 @@ class SA(QtGui.QMainWindow):
             self.timeRun = 0
             self.lastPos = 0
             self.lastDrawPos = 0
+            self.oldPosProbility = []
+            self.oldRawReview = []
             self.sentValueList = []
             # clear past content
             self.textOutput.setText("")
@@ -895,7 +952,30 @@ class SA(QtGui.QMainWindow):
             else:
                 self.timer.stop()
                 self.timer.start(ms,self)
-
+    def daPreAnaCurDataShowAllStaticPngDialog(self):
+        windowSize, sentBounder, posBounder, negBounder, timeSize, ok = dynamicParmSetDialog.getParmValue()
+        if ok:
+            self.workMode = 9
+            if self.timer.isActive() == False:
+                self.timer.start(1000, self)
+            else:
+                self.timer.stop()
+                self.timer.start(1000, self)
+            self.windowSize = windowSize
+            self.sentBounder = sentBounder
+            self.posBounder = posBounder
+            self.negBounder = negBounder
+            self.timeSize = timeSize
+            self.fileDir, self.fileName, self.fileType = self.parseFilePath(str(self.rawDataPath))
+            self.removeFile('D:/ReviewHelpfulnessPrediction/StrangeTimes/' + self.fileName + '.txt')
+            self.timeRun = 0
+            self.lastPos = 0
+            self.oldPosProbility = []
+            self.oldRawReview = []
+            self.sentValueList=[]
+            self.textOutput.setText('')
+            self.analyzeCurShowAllStaticPngDA()
+    #初始化图形界面
     def initUI(self):
         self.dyLineShowWidth=100#画动态图时显示消息数
         self.sentValueList=[]
@@ -962,26 +1042,26 @@ class SA(QtGui.QMainWindow):
 
         exitAction = QtGui.QAction(QtGui.QIcon('exit.png'), u'退出', self)
         exitAction.setShortcut('Ctrl+Q')
-        #exitAction.setStatusTip('Exit application')
         exitAction.triggered.connect(self.close)
 
         changeRawDataPathAction=QtGui.QAction(QtGui.QIcon('changeRawDataPath.png'), u'更改原始数据路径', self)
-        changeRawDataPathAction.setShortcut('Ctrl+R')
-        #exitAction.setStatusTip('Exit application')
+        #changeRawDataPathAction.setShortcut('Ctrl+R')
         changeRawDataPathAction.triggered.connect(self.changeRawPathDialog)
 
         changeLabelDataPathAction = QtGui.QAction(QtGui.QIcon('changeLabelDataPath.png'), u'更改标记数据路径', self)
-        changeLabelDataPathAction.setShortcut('Ctrl+L')
-        # exitAction.setStatusTip('Exit application')
+        #changeLabelDataPathAction.setShortcut('Ctrl+L')
         changeLabelDataPathAction.triggered.connect(self.changeLabelDataPathDialog)
 
         removePastDataAction=QtGui.QAction(QtGui.QIcon('removePastData.png'),u'删除之前数据',self)
-        removePastDataAction.setShortcut('Ctrl+R+P')
+        #removePastDataAction.setShortcut('Ctrl+R+P')
         removePastDataAction.triggered.connect(self.removePastDataDialog)
 
+        clearPastAllDataAction = QtGui.QAction(QtGui.QIcon('clearPastAllData.png'), u'删除所有结果数据', self)
+        # removePastDataAction.setShortcut('Ctrl+R+P')
+        clearPastAllDataAction.triggered.connect(self.clearPastAllDataDialog)
+
         selectBestClfAction=QtGui.QAction(QtGui.QIcon('selectBestClfAction.png'), u'训练分类器', self)
-        selectBestClfAction.setShortcut('Ctrl+B')
-        #exitAction.setStatusTip('Exit application')
+        #selectBestClfAction.setShortcut('Ctrl+B')
         selectBestClfAction.triggered.connect(self.selectBestClfDialog)
 
         filtObjDataAction=QtGui.QAction(QtGui.QIcon('filtObjData.png'),u'过滤',self)
@@ -990,35 +1070,39 @@ class SA(QtGui.QMainWindow):
         filtObjDataAction.triggered.connect(self.filtDataDialog)
 
         removeDupDataAction=QtGui.QAction(QtGui.QIcon('removeDupData.png'),u'删重',self)
-        removeDupDataAction.setShortcut('Ctrl+D')
+        #removeDupDataAction.setShortcut('Ctrl+D')
         removeDupDataAction.triggered.connect(self.removeDupDataDialog)
 
         changeTxtToExcelAction=QtGui.QAction(QtGui.QIcon('changeTxtToExcel.png'),u'格式转化',self)
-        changeTxtToExcelAction.setShortcut('Ctrl+E')
+        #changeTxtToExcelAction.setShortcut('Ctrl+E')
         changeTxtToExcelAction.triggered.connect(self.saveTxtToExcelDialog)
 
         saveLabelToSpeNameAction=QtGui.QAction(QtGui.QIcon('saveLabelToSpeName.png'),u'保存标记数据',self)
-        saveLabelToSpeNameAction.setShortcut('Ctrl+T')
+        #saveLabelToSpeNameAction.setShortcut('Ctrl+T')
         saveLabelToSpeNameAction.triggered.connect(self.saveLabelAndKeyWordToSpeNameDialog)
 
         unoinLabelKeyWordAction=QtGui.QAction(QtGui.QIcon('unoinLabelKeyWord.png'),u'合并标记数据',self)
-        unoinLabelKeyWordAction.setShortcut('Ctrl+U')
+        #unoinLabelKeyWordAction.setShortcut('Ctrl+U')
         unoinLabelKeyWordAction.triggered.connect(self.unionLabelData)
 
-        mlHandleStaticTxtAction=QtGui.QAction(QtGui.QIcon('mlHandleStaticTxt.png'),u'静态分类',self)
-        mlHandleStaticTxtAction.setShortcut('Ctrl+M+S')
+        mlHandleStaticTxtAction=QtGui.QAction(QtGui.QIcon('mlHandleStaticTxt.png'),u'预测分析展示全部静态图',self)
+        #mlHandleStaticTxtAction.setShortcut('Ctrl+M+S')
         mlHandleStaticTxtAction.triggered.connect(self.mlHandleStaticDialog)
 
-        mlShowCurCrabStaticPngAction=QtGui.QAction(QtGui.QIcon('mlShowCurCrabStatic.png'),u'实时抓取之当前静态图',self)
-        mlShowCurCrabStaticPngAction.setShortcut('Ctrl+M+D')
+        mlShowCurCrabStaticPngAction=QtGui.QAction(QtGui.QIcon('mlShowCurCrabStatic.png'),u'预测分析当前展示当前静态图',self)
+        #mlShowCurCrabStaticPngAction.setShortcut('Ctrl+M+D')
         mlShowCurCrabStaticPngAction.triggered.connect(self.mlShowCurCrabStaticPngDialog)
 
-        mlShowAllCrabStaticPngAction=QtGui.QAction(QtGui.QIcon('mlShowAllCrabStatic.png'),u'实时抓取之全部静态图',self)
-        mlShowAllCrabStaticPngAction.setShortcut('Ctrl+P')
+        mlShowAllCrabStaticPngAction=QtGui.QAction(QtGui.QIcon('mlShowAllCrabStatic.png'),u'预测当前分析展示全部静态图',self)
+        #mlShowAllCrabStaticPngAction.setShortcut('Ctrl+P')
         mlShowAllCrabStaticPngAction.triggered.connect(self.mlShowAllCrabStaticPngDialog)
 
-        mlDrawDySentLineAction=QtGui.QAction(QtGui.QIcon('mlDrawDySentLine'),u'绘制动图',self)
-        mlDrawDySentLineAction.setShortcut('Ctrl+L+D')
+        mlPreAnaCurShowAllStaticPngAction = QtGui.QAction(QtGui.QIcon('mlPreAnaCurShowAllStatic.png'), u'预测分析当前展示全部静态图', self)
+        #mlPreAnaCurShowAllStaticPngAction.setShortcut('Ctrl+P')
+        mlPreAnaCurShowAllStaticPngAction.triggered.connect(self.mlPreAnaCurDataShowAllStaticPngDialog)
+
+        mlDrawDySentLineAction=QtGui.QAction(QtGui.QIcon('mlDrawDySentLine'),u'预测分析当前展示当前动图',self)
+        #mlDrawDySentLineAction.setShortcut('Ctrl+L+D')
         mlDrawDySentLineAction.triggered.connect(self.mlDrawDynamicLineDialog)
 
 
@@ -1026,20 +1110,24 @@ class SA(QtGui.QMainWindow):
         getBasedDictAccAction=QtGui.QAction(QtGui.QIcon('getBasedDictAcc.png'),u'精度',self)
         getBasedDictAccAction.triggered.connect(self.getBasedDictAccuracy)
 
-        daHandleStaticTxtAction = QtGui.QAction(QtGui.QIcon('daHandleStaticTxt.png'), u'静态分类', self)
-        daHandleStaticTxtAction.setShortcut('Ctrl+M+S')
+        daHandleStaticTxtAction = QtGui.QAction(QtGui.QIcon('daHandleStaticTxt.png'), u'预测分析展示全部静态图', self)
+        #daHandleStaticTxtAction.setShortcut('Ctrl+M+S')
         daHandleStaticTxtAction.triggered.connect(self.daHandleStaticDialog)
 
-        daShowCurCrabStaticPngAction = QtGui.QAction(QtGui.QIcon('daShowCurCrabStatic.png'), u'实时抓取之当前静态图', self)
-        daShowCurCrabStaticPngAction.setShortcut('Ctrl+M+D')
+        daShowCurCrabStaticPngAction = QtGui.QAction(QtGui.QIcon('daShowCurCrabStatic.png'), u'预测分析当前展示当前静态图', self)
+        #daShowCurCrabStaticPngAction.setShortcut('Ctrl+M+D')
         daShowCurCrabStaticPngAction.triggered.connect(self.daShowCurCrabStaticPngDialog)
 
-        daShowAllCrabStaticPngAction = QtGui.QAction(QtGui.QIcon('daShowAllCrabStatic.png'), u'实时抓取之全部静态图', self)
-        daShowAllCrabStaticPngAction.setShortcut('Ctrl+P')
+        daShowAllCrabStaticPngAction = QtGui.QAction(QtGui.QIcon('daShowAllCrabStatic.png'), u'预测当前分析展示全部静态图', self)
+        #daShowAllCrabStaticPngAction.setShortcut('Ctrl+P')
         daShowAllCrabStaticPngAction.triggered.connect(self.daShowAllCrabStaticPngDialog)
 
-        daDrawDySentLineAction = QtGui.QAction(QtGui.QIcon('mlDrawDySentLine'), u'绘制动图', self)
-        daDrawDySentLineAction.setShortcut('Ctrl+L+D')
+        daPreAnaCurShowAllStaticPngAction = QtGui.QAction(QtGui.QIcon('daPreAnaCurShowAllStatic.png'), u'预测分析当前展示全部静态图', self)
+        #daShowAllCrabStaticPngAction.setShortcut('Ctrl+P')
+        daPreAnaCurShowAllStaticPngAction.triggered.connect(self.daPreAnaCurDataShowAllStaticPngDialog)
+
+        daDrawDySentLineAction = QtGui.QAction(QtGui.QIcon('mlDrawDySentLine'), u'预测分析当前展示当前动图', self)
+        #daDrawDySentLineAction.setShortcut('Ctrl+L+D')
         daDrawDySentLineAction.triggered.connect(self.daDrawDynamicLineDialog)
 
         #self.statusBar()
@@ -1050,6 +1138,7 @@ class SA(QtGui.QMainWindow):
         fileMenu.addAction(changeRawDataPathAction)
         fileMenu.addAction(changeLabelDataPathAction)
         fileMenu.addAction(removePastDataAction)
+        fileMenu.addAction(clearPastAllDataAction)
         fileMenu.addAction(viewClfResAction)
         fileMenu.addAction(viewFigAction)
         fileMenu.addAction(viewStrangeWordsAction)
@@ -1068,6 +1157,7 @@ class SA(QtGui.QMainWindow):
         machineLearnMenu.addAction(mlHandleStaticTxtAction)
         machineLearnMenu.addAction(mlShowCurCrabStaticPngAction)
         machineLearnMenu.addAction(mlShowAllCrabStaticPngAction)
+        machineLearnMenu.addAction(mlPreAnaCurShowAllStaticPngAction)
         machineLearnMenu.addAction(mlDrawDySentLineAction)
         basedDictMenu=menubar.addMenu(u'词典')
         basedDictMenu.addAction(changeRawDataPathAction)
@@ -1075,6 +1165,7 @@ class SA(QtGui.QMainWindow):
         basedDictMenu.addAction(daHandleStaticTxtAction)
         basedDictMenu.addAction(daShowCurCrabStaticPngAction)
         basedDictMenu.addAction(daShowAllCrabStaticPngAction)
+        basedDictMenu.addAction(daPreAnaCurShowAllStaticPngAction)
         basedDictMenu.addAction(daDrawDySentLineAction)
 
         # toolbar = self.addToolBar('Exit')

@@ -73,13 +73,13 @@ def checkParmValueValid(parmStrList):
     parmValue=[]
     successFlag=True
     for parm in parmStrList:
-        m=re.match('-?\d+\.?\d+', str(parm))
+        m=re.match('-?\d+\.?\d*', str(parm))
         if m:
-            parmValue.append(m.group())
+            parmValue.append(re.sub('\.$','',m.group()))
         else:
             successFlag=False
             break
-    print parmValue
+    #print parmValue
     return successFlag,parmValue
 def getParmValue(parent=None):
     dialog=BasicParmSetDlg(parent)
