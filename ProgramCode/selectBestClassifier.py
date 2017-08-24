@@ -31,7 +31,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neighbors import RadiusNeighborsClassifier
 from sklearn.neighbors import KNeighborsRegressor, RadiusNeighborsRegressor
 from sklearn.neural_network import MLPClassifier
-
+from sklearn import cross_validation
+from sklearn.metrics import f1_score, precision_score, recall_score
+import numpy as np
 
 '''1 导入数据模块'''
 
@@ -286,6 +288,19 @@ def get_dev_train_test_data(train_set_pos,train_set_neg):
     test_set=train_set_pos[train_pos:] + train_set_neg[train_neg:]
     test_fea,test_tag=zip(*test_set) # 将特征和类标签分离开
     return train_set,test_fea,test_tag
+# 得到全部训练数据，用于十折交叉验证
+def get_all_trainset(dimension):
+    best_words=find_best_words(dimension)
+    #增加标注的关键词
+    select_key_words = tp.get_txt_data('D:/ReviewHelpfulnessPrediction\KeyWords/PosNegKeyWords.txt', 'lines')
+    for x in select_key_words:
+        best_words.add(x)
+    posFeatures = pos_features(best_word_features_com,best_words) #提取积极文本里面的数据
+    negFeatures = neg_features(best_word_features_com,best_words) #提取消极文本里面的数据
+    shuffle(posFeatures)  # 将序列的所有元素随机排列
+    shuffle(negFeatures)
+    train_set=posFeatures+negFeatures
+    return train_set
 
 
 '''
@@ -310,14 +325,32 @@ def get_trainset(dimension):
 
 '''4 训练分类器，并且评估分类效果'''
 
-
+#test_fea,test_tag=zip(*test_set)
 '''获取分类器精度'''
 def get_accuracy_score(classifier,train_set,test,tag_test):
     classifier = SklearnClassifier(classifier)
     classifier.train(train_set)
     pred = classifier.batch_classify(test)
     return accuracy_score(tag_test, pred,'macro')#积极类 消极类精度加权平均值
-    #return accuracy_score(tag_test, pred)#只考虑积极类精度
+# 采取十折交叉验证
+def get_ten_fold_accuracy_score(classifier, train_set):
+    classifier = SklearnClassifier(classifier)
+    k_fold=cross_validation.KFold(len(train_set),n_folds=10)
+    metric=[]
+    for train_range,test_range in k_fold:
+        train_data=[]
+        test_data=[]
+        for i in train_range:
+            train_data.append(train_set[i])
+        for i in test_range:
+            test_data.append(train_set[i])
+        classifier.train(train_data)
+        test_fea,test_tag=zip(*test_data)
+        tag_pred=classifier.batch_classify(test_fea)
+        metric.append(accuracy_score(test_tag,tag_pred,'macro'))
+    metric_array=np.array(metric)
+    return np.mean(metric_array[0:])
+
 '''
   挑选出最佳分类器以及最优特征维度
   返回分类器 维度 精度
@@ -420,7 +453,7 @@ def get_best_classfier_and_dimention_2():
     curAccuracy = 0.0
     dimention = range(500,3100,200)
     classifierMethodList=[BernoulliNB(alpha=0.1),MultinomialNB(alpha=0.1),LogisticRegression(intercept_scaling=0.1),NuSVC(probability=True)]#,KNeighborsClassifier(n_neighbors=6,p=1),MLPClassifier()
-    #clfNameAcc=[]
+    clfNameAcc=[]
     for d in dimention:
         train_set_pos, train_set_neg, test_fea, test_tag=get_trainset_testset_testtag(int(d))
         trainset,test,tag_test=get_dev_train_test_data(train_set_pos,train_set_neg)
@@ -439,7 +472,35 @@ def get_best_classfier_and_dimention_2():
         # f.close()
         print 'dimension is',int(d)
         for pos in range(len(classifierNameList)):
-            #clfNameAcc.append(classifierNameList[pos]+' '+str(classifierAccList[pos]))
+            clfNameAcc.append(classifierNameList[pos]+' '+str(classifierAccList[pos]))
+            print classifierNameList[pos],'accuracy is:',classifierAccList[pos]
+    return bestClassfier,bestDimention,curAccuracy,clfNameAcc
+
+def get_best_classfier_and_dimention_ten_fold():
+    bestClassfier = ''
+    bestDimention = '0'
+    curAccuracy = 0.0
+    dimention = range(500,3100,200)
+    classifierMethodList=[BernoulliNB(alpha=0.1),MultinomialNB(alpha=0.1),LogisticRegression(intercept_scaling=0.1),NuSVC(probability=True)]#,KNeighborsClassifier(n_neighbors=6,p=1),MLPClassifier()
+    clfNameAcc=[]
+    for d in dimention:
+        trainset=get_all_trainset(int(d))
+        classifierAccList=[]
+        for classifierMethod in classifierMethodList:
+            accuracyScore=get_ten_fold_accuracy_score(classifierMethod,trainset)
+            classifierAccList.append(accuracyScore)
+            if accuracyScore>curAccuracy:
+                curAccuracy=accuracyScore
+                bestClassfier=classifierMethod
+                bestDimention=d
+        classifierNameList=['BernoulliNB()','MultinomialNB()','LogisticRegression()','NuSVC()']#,,'KNeighborsClassifier()''MLPClassifier()
+        # f = open('D:/ReviewHelpfulnessPrediction\BuildedClassifier/' + 'classifierDimenAcc.txt', 'a')
+        # for pos in range(len(classifierAccList)):
+        #     f.write(str(classifierNameList[pos])+'\t'+str(d)+'\t'+str(classifierAccList[pos])+'\n')
+        # f.close()
+        print 'dimension is',int(d)
+        for pos in range(len(classifierNameList)):
+            clfNameAcc.append(classifierNameList[pos]+' '+str(classifierAccList[pos]))
             print classifierNameList[pos],'accuracy is:',classifierAccList[pos]
     return bestClassfier,bestDimention,curAccuracy,clfNameAcc
 
@@ -500,6 +561,18 @@ def getFinalClassifyAccuration(classifier,dimension):
 '''完成 挑选分类器 存储分类器'''
 def handleSelectClfWork():
     bestClassfier, bestDimention, bestAccuracy,clfNameAcc = get_best_classfier_and_dimention_ui()
+    print str(bestClassfier), bestDimention, bestAccuracy
+    storeClassifierDimenAcc(str(bestClassfier).decode('utf-8'), str(bestDimention).decode('utf-8'),
+                            str(bestAccuracy).decode('utf-8'))
+    trainSet = get_trainset(int(bestDimention))  # 将所有数据作为训练数据
+    store_classifier(bestClassfier, trainSet,
+                     'D:/ReviewHelpfulnessPrediction\BuildedClassifier/' + str(bestClassfier)[0:15] + '.pkl')
+    getFinalClassifyAccuration(bestClassfier, bestDimention)
+    return str(bestClassfier)+' '+str(bestDimention)+' '+str(bestAccuracy),clfNameAcc
+
+'''完成 挑选分类器 存储分类器  不含开发训练集情况 采用十折交叉验证'''
+def handleSelectClfWorkTenFold():
+    bestClassfier, bestDimention, bestAccuracy,clfNameAcc = get_best_classfier_and_dimention_ten_fold()
     print str(bestClassfier), bestDimention, bestAccuracy
     storeClassifierDimenAcc(str(bestClassfier).decode('utf-8'), str(bestDimention).decode('utf-8'),
                             str(bestAccuracy).decode('utf-8'))

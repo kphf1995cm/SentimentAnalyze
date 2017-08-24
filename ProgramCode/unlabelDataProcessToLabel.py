@@ -466,6 +466,7 @@ def unionFewLabelData(labelDataDir,speNameList,dstDataDir):
 	begin=time.clock()
 	dataTypeList=['subObjLabelData.xls','posNegLabelData.xls','eroNorLabelData.xls']
 	sheetNameList=[['subjective_data','objective_data'],['postive_data','negtive_data'],['erotic_data','normal_data']]
+	posNegDataNum=[]
 	for dataTypePos in range(len(dataTypeList)):
 		posDataList=[]
 		negDataList=[]
@@ -483,6 +484,8 @@ def unionFewLabelData(labelDataDir,speNameList,dstDataDir):
 		sheetNameOne=workbook.add_sheet(sheetNameList[dataTypePos][0])
 		sheetNameTwo=workbook.add_sheet(sheetNameList[dataTypePos][1])
 		print len(posDataList),len(negDataList)
+		posNegDataNum.append(len(posDataList))
+		posNegDataNum.append(len(negDataList))
 		for rowPos in range(len(posDataList)):
 			sheetNameOne.write(rowPos,0,posDataList[rowPos])
 		for rowPos in range(len(negDataList)):
@@ -490,6 +493,7 @@ def unionFewLabelData(labelDataDir,speNameList,dstDataDir):
 		workbook.save(dstDataDir+'/'+dataTypeList[dataTypePos])
 	end=time.clock()
 	print 'union label data time is:',end-begin
+	return posNegDataNum
 
 '''合并所有关键字'''
 def unionKeyWords(keyWordDir,speNameList):

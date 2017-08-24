@@ -84,8 +84,11 @@ class SA(QtGui.QMainWindow):
         dstDir = 'D:/ReviewHelpfulnessPrediction/LabelingData/'
         dstPath = dstDir + fileName + '.xls'
         #udptl.filt_objective_sentence(srcPath, 'lines', dstPath)
-        udptl.remove_duplicate_comment(srcPath,'lines',dstPath)
-        self.statusMessage.setText(u'去重后数据保存在：' + dstPath)
+        if os.path.exists(dstPath)==False:
+            udptl.remove_duplicate_comment(srcPath,'lines',dstPath)
+            self.statusMessage.setText(u'去重后数据保存在：' + dstPath)
+        else:
+            self.statusMessage.setText(dstPath+u'该文件已存在')
     #txt转excel 转换为规范标注形式
     def saveTxtToExcelDialog(self):
         srcPath = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
@@ -93,8 +96,11 @@ class SA(QtGui.QMainWindow):
         fileDir, fileName, fileType = self.parseFilePath(str(srcPath))
         dstDir = 'D:/ReviewHelpfulnessPrediction/LabelingData/'
         dstPath = dstDir + fileName + '.xls'
-        udptl.change_txt_to_excel(srcPath,'lines',dstPath)
-        self.statusMessage.setText(u'转化后数据保存在：'+dstPath)
+        if os.path.exists(dstPath) == False:
+            udptl.change_txt_to_excel(srcPath,'lines',dstPath)
+            self.statusMessage.setText(u'转化后数据保存在：'+dstPath)
+        else:
+            self.statusMessage.setText(dstPath+u'该文件已存在')
     #保存标注数据和关键字
     def saveLabelAndKeyWordToSpeNameDialog(self):
         srcPath = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
@@ -115,6 +121,8 @@ class SA(QtGui.QMainWindow):
         self.textOutput.setText(errorStr)
     #合并标注数据
     def unionLabelData(self):
+        sheetNameList = [['subjective_data', 'objective_data'], ['postive_data', 'negtive_data'],
+                         ['erotic_data', 'normal_data']]
         speNameLabelDataDir='D:/ReviewHelpfulnessPrediction/SpeNameLabeledData'
         labeledDataDir='D:/ReviewHelpfulnessPrediction/LabelReviewData'
         keyWordDir='D:/ReviewHelpfulnessPrediction/KeyWords'
@@ -129,10 +137,13 @@ class SA(QtGui.QMainWindow):
             nameStr+=str(x)
             nameStr+='\n'
         f.close()
-        udptl.unionFewLabelData(speNameLabelDataDir,nameSet,labeledDataDir)
+        posNegDataNum=udptl.unionFewLabelData(speNameLabelDataDir,nameSet,labeledDataDir)
         udptl.unionKeyWords(keyWordDir,nameSet)
         self.textOutput.setText(nameStr)
-        self.statusMessage.setText(u'关键词所在目录：'+keyWordDir+'\n'+u'合并后标记数据所在目录：'+labeledDataDir)
+        self.statusMessage.setText(u'主观数据个数：'+str(posNegDataNum[0]).decode('utf-8')+u' 客观数据个数：'+str(posNegDataNum[1]).decode('utf-8')+'\n'.decode('utf-8')+
+                                   u'积极数据个数：' + str(posNegDataNum[2]).decode('utf-8') + u' 消极数据个数：' + str(
+            posNegDataNum[3]).decode('utf-8') + '\n'.decode('utf-8') +u'不良数据个数：'+str(posNegDataNum[4]).decode('utf-8')+u' 正常数据个数：'+str(posNegDataNum[5]).decode('utf-8')+'\n'.decode('utf-8')+
+            u'关键词所在目录：'+keyWordDir+'\n'+u'合并后标记数据所在目录：'+labeledDataDir)
     #解析文件路径 提取文件目录 文件名 文件类型
     def parseFilePath(self,path):
         strs=path.split('/')
@@ -210,6 +221,28 @@ class SA(QtGui.QMainWindow):
                 removedFileName += (fileDirPath + '/' + file + '\n').decode('utf-8')
         self.clearScreenInfo()
         self.textOutput.setText(removedFileName)
+    #运行过程中修改参数
+    def modifyParmDialog(self):
+        windowSize, sentBounder, posBounder, negBounder, timeSize, messageNum, drawSpeed, ok = dyLineParmSetDialog.getParmValue()
+        if ok:
+            #self.workMode = 3
+            ms = drawSpeed  # 隔多少ms画一次图
+            if ms > 1000:
+                ms = 1000
+            # if self.timer.isActive() == False:
+            #     self.timer.start(ms, self)
+            self.windowSize = windowSize
+            self.sentBounder = sentBounder
+            self.posBounder = posBounder
+            self.negBounder = negBounder
+            self.timeSize = timeSize * 1000 / ms
+            #print self.timeSize,self.timeRun
+            self.dyLineShowWidth = messageNum
+            if self.timer.isActive() == False:
+                self.timer.start(ms, self)
+            else:
+                self.timer.stop()
+                self.timer.start(ms, self)
     #每隔一定时间激发一次
     def timerEvent(self,e):
         if self.timeRun>=self.timeSize:
@@ -337,7 +370,11 @@ class SA(QtGui.QMainWindow):
             minSent = -self.sentBounder
         else:
             minSent = self.sentBounder
-        heightRange = int((minSent + 10) * 2)
+        if self.windowSize>minSent+10:
+            minHeight=minSent+10
+        else:
+            minHeight=self.windowSize
+        heightRange = int(minHeight * 2)
         widthRange = int(self.dyLineShowWidth)
         #print heightRange, widthRange,
         textWidth = 6
@@ -398,6 +435,15 @@ class SA(QtGui.QMainWindow):
         processResStr=''
         for x in clfNameAcc:
             processResStr+=(x+'\n')
+        self.clearScreenInfo()
+        self.textOutput.setText(processResStr)
+        self.statusMessage.setText(message)
+    def selectBestClfTenFoldDialog(self):
+        message,clfNameAcc=sbc.handleSelectClfWorkTenFold()
+        processResStr=''
+        for x in clfNameAcc:
+            processResStr+=(x+'\n')
+        self.clearScreenInfo()
         self.textOutput.setText(processResStr)
         self.statusMessage.setText(message)
 
@@ -1064,6 +1110,10 @@ class SA(QtGui.QMainWindow):
         #selectBestClfAction.setShortcut('Ctrl+B')
         selectBestClfAction.triggered.connect(self.selectBestClfDialog)
 
+        selectBestClfTenFoldAction = QtGui.QAction(QtGui.QIcon('selectBestClfTenFoldAction.png'), u'训练分类器之十折交叉验证', self)
+        # selectBestClfAction.setShortcut('Ctrl+B')
+        selectBestClfTenFoldAction.triggered.connect(self.selectBestClfTenFoldDialog)
+
         filtObjDataAction=QtGui.QAction(QtGui.QIcon('filtObjData.png'),u'过滤',self)
         filtObjDataAction.setShortcut('Ctrl+F')
         #filtObjDataAction.setStatusTip(u'过滤数据')
@@ -1084,6 +1134,9 @@ class SA(QtGui.QMainWindow):
         unoinLabelKeyWordAction=QtGui.QAction(QtGui.QIcon('unoinLabelKeyWord.png'),u'合并标记数据',self)
         #unoinLabelKeyWordAction.setShortcut('Ctrl+U')
         unoinLabelKeyWordAction.triggered.connect(self.unionLabelData)
+
+        modifyParmAction=QtGui.QAction(QtGui.QIcon('modifyParm.png'),u'修改参数',self)
+        modifyParmAction.triggered.connect(self.modifyParmDialog)
 
         mlHandleStaticTxtAction=QtGui.QAction(QtGui.QIcon('mlHandleStaticTxt.png'),u'预测分析展示全部静态图',self)
         #mlHandleStaticTxtAction.setShortcut('Ctrl+M+S')
@@ -1137,6 +1190,7 @@ class SA(QtGui.QMainWindow):
         fileMenu = menubar.addMenu(u'设置')
         fileMenu.addAction(changeRawDataPathAction)
         fileMenu.addAction(changeLabelDataPathAction)
+        fileMenu.addAction(modifyParmAction)
         fileMenu.addAction(removePastDataAction)
         fileMenu.addAction(clearPastAllDataAction)
         fileMenu.addAction(viewClfResAction)
@@ -1154,6 +1208,7 @@ class SA(QtGui.QMainWindow):
         machineLearnMenu=menubar.addMenu(u'机器学习')
         machineLearnMenu.addAction(changeRawDataPathAction)
         machineLearnMenu.addAction(selectBestClfAction)
+        machineLearnMenu.addAction(selectBestClfTenFoldAction)
         machineLearnMenu.addAction(mlHandleStaticTxtAction)
         machineLearnMenu.addAction(mlShowCurCrabStaticPngAction)
         machineLearnMenu.addAction(mlShowAllCrabStaticPngAction)

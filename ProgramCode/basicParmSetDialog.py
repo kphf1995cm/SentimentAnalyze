@@ -13,7 +13,7 @@ class BasicParmSetDlg(QDialog):
         hLayout1=QHBoxLayout()
         label1=QLabel(u'窗口大小')
         self.edit1=QLineEdit()
-        windowSize=30
+        windowSize=5
         self.edit1.setText(str(windowSize))
         hLayout1.addWidget(label1)
         hLayout1.addWidget(self.edit1)
@@ -21,7 +21,7 @@ class BasicParmSetDlg(QDialog):
         hLayout2 = QHBoxLayout()
         label2 = QLabel(u'情感得分边界')
         self.edit2 = QLineEdit()
-        self.edit2.setText(str(-0.4*windowSize))
+        self.edit2.setText(str(-0.8*windowSize))
         hLayout2.addWidget(label2)
         hLayout2.addWidget(self.edit2)
 
