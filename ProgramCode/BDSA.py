@@ -75,6 +75,7 @@ class SA(QtGui.QMainWindow):
         dstDir='D:/ReviewHelpfulnessPrediction/BulletData/'
         dstPath=dstDir+fileName+'.txt'
         udptl.filt_objective_sentence(srcPath,'lines',dstPath)
+        self.clearScreenInfo()
         self.statusMessage.setText(u'过滤后数据保存在：'+dstPath)
     #删除重复语句
     def removeDupDataDialog(self):
@@ -84,6 +85,7 @@ class SA(QtGui.QMainWindow):
         dstDir = 'D:/ReviewHelpfulnessPrediction/LabelingData/'
         dstPath = dstDir + fileName + '.xls'
         #udptl.filt_objective_sentence(srcPath, 'lines', dstPath)
+        self.clearScreenInfo()
         if os.path.exists(dstPath)==False:
             udptl.remove_duplicate_comment(srcPath,'lines',dstPath)
             self.statusMessage.setText(u'去重后数据保存在：' + dstPath)
@@ -96,6 +98,7 @@ class SA(QtGui.QMainWindow):
         fileDir, fileName, fileType = self.parseFilePath(str(srcPath))
         dstDir = 'D:/ReviewHelpfulnessPrediction/LabelingData/'
         dstPath = dstDir + fileName + '.xls'
+        self.clearScreenInfo()
         if os.path.exists(dstPath) == False:
             udptl.change_txt_to_excel(srcPath,'lines',dstPath)
             self.statusMessage.setText(u'转化后数据保存在：'+dstPath)
@@ -112,6 +115,7 @@ class SA(QtGui.QMainWindow):
         f=open('D:/ReviewHelpfulnessPrediction/LabelDataID.txt','a')
         f.write(fileName+'\n')
         f.close()
+        self.clearScreenInfo()
         self.statusMessage.setText(u'标记数据保存目录：' + dstDir+' '+fileName)
         errorStr=''
         for x in errorRow:
@@ -139,6 +143,7 @@ class SA(QtGui.QMainWindow):
         f.close()
         posNegDataNum=udptl.unionFewLabelData(speNameLabelDataDir,nameSet,labeledDataDir)
         udptl.unionKeyWords(keyWordDir,nameSet)
+        self.clearScreenInfo()
         self.textOutput.setText(nameStr)
         self.statusMessage.setText(u'主观数据个数：'+str(posNegDataNum[0]).decode('utf-8')+u' 客观数据个数：'+str(posNegDataNum[1]).decode('utf-8')+'\n'.decode('utf-8')+
                                    u'积极数据个数：' + str(posNegDataNum[2]).decode('utf-8') + u' 消极数据个数：' + str(
